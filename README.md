@@ -3,7 +3,14 @@ paradoxReader
 
 Paradox Database File Reader
 
-Using the paradoxReader
+Using the paradoxReader from the command line
+-------------
+
+The command-line interface produces CSV from .DB files.  An example invocation of the command-line interface which produces CSV from "CONTACTS.DB" is:
+
+`java -jar target/paradoxReader-1.0-jar-with-dependencies.jar --file=src/test/resources/CONTACTS.DB`
+
+Using the paradoxReader in code
 --------------
 
 To use the paradoxReader in code, supply an InputStream to a .DB file, and an implementation of PDXReaderListener to the class DBTableFile.  An example from the unit tests:
