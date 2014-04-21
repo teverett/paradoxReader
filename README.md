@@ -1,7 +1,7 @@
 paradoxReader
 =============
 
-Paradox DB File Reader
+Paradox Database File Reader
 
 Using the paradoxReader
 --------------
