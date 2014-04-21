@@ -1,3 +1,11 @@
 /src/.DS_Store
 
 /src/test/.DS_Store
+
+/target/
+
+/.classpath
+
+/.settings/
+
+/.project

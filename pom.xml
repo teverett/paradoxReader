@@ -2,7 +2,6 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.khubla.pdxreader</groupId>
-	<artifactId>pdxreader</artifactId>
 	<packaging>jar</packaging>
 	<name>khubla.com paradox db file reader</name>
 	<version>1.0</version>
@@ -52,4 +51,5 @@
 			</plugin>
 		</plugins>
 	</build>
+	<artifactId>paradoxReader</artifactId>
 </project>
