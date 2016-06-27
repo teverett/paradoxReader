@@ -5,11 +5,10 @@ import java.io.FileInputStream;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
-import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.Options;
-import org.apache.commons.cli.PosixParser;
 
 import com.khubla.pdxreader.api.PDXReaderListener;
 import com.khubla.pdxreader.db.DBTableFile;
@@ -30,17 +29,12 @@ public class PDXReader {
           * options
           */
          final Options options = new Options();
-         OptionBuilder.withArgName(FILE_OPTION);
-         OptionBuilder.isRequired();
-         OptionBuilder.withType(String.class);
-         OptionBuilder.hasArg();
-         OptionBuilder.withDescription("file to compile");
-         final Option fo = OptionBuilder.create(FILE_OPTION);
-         options.addOption(fo);
+         final Option oo = Option.builder().argName(FILE_OPTION).longOpt(FILE_OPTION).type(String.class).hasArg().required(true).desc("file to read").build();
+         options.addOption(oo);
          /*
           * parse
           */
-         final CommandLineParser parser = new PosixParser();
+         final CommandLineParser parser = new DefaultParser();
          CommandLine cmd = null;
          try {
             cmd = parser.parse(options, args);
