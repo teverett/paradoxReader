@@ -1,7 +1,8 @@
 package com.khubla.pdxreader.db;
 
 import java.io.BufferedInputStream;
-import java.io.InputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.Hashtable;
 
 import com.google.common.io.LittleEndianDataInputStream;
@@ -45,7 +46,7 @@ public class DBTableFile {
    /**
     * read
     */
-   public void read(InputStream inputStream, PDXReaderListener pdxReaderListener) throws Exception {
+   public void read(File file, PDXReaderListener pdxReaderListener) throws Exception {
       try {
          /*
           * start
@@ -54,7 +55,7 @@ public class DBTableFile {
          /*
           * set up streams
           */
-         final BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
+         final BufferedInputStream bufferedInputStream = new BufferedInputStream(new FileInputStream(file));
          final LittleEndianDataInputStream littleEndianDataInputStream = new LittleEndianDataInputStream(bufferedInputStream);
          /*
           * mark and read the headers

@@ -1,43 +1,27 @@
 package test.com.khubla.pdxreader;
 
-import java.io.InputStream;
+import java.io.File;
+import java.util.List;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import com.khubla.pdxreader.mb.MBTableFile;
+import com.khubla.pdxreader.util.TestUtil;
 
 /**
  * @author tom
  */
 @Test
 public class TestMBFile {
-   private void testRead(String filename) {
+   public void testRead() {
       try {
-         final InputStream inputStream = TestDBFile.class.getResourceAsStream(filename);
-         Assert.assertNotNull(inputStream);
-         final MBTableFile mbTableFile = new MBTableFile();
-         mbTableFile.read(inputStream);
-      } catch (final Exception e) {
-         e.printStackTrace();
-         Assert.fail();
-      }
-   }
-
-   @Test(enabled = false)
-   public void testReadCUSTOMER() {
-      try {
-         testRead("/CUSTOMER.MB");
-      } catch (final Exception e) {
-         e.printStackTrace();
-         Assert.fail();
-      }
-   }
-
-   @Test(enabled = false)
-   public void testReadHURCULES() {
-      try {
-         testRead("/HERCULES.MB");
+         final List<String> files = TestUtil.getTestFiles("src/test/resources/", ".MB");
+         for (final String filename : files) {
+            final File inputFile = new File(filename);
+            final MBTableFile mbTableFile = new MBTableFile();
+            mbTableFile.read(inputFile);
+         }
       } catch (final Exception e) {
          e.printStackTrace();
          Assert.fail();

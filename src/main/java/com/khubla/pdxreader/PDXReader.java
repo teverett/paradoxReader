@@ -1,7 +1,6 @@
 package com.khubla.pdxreader;
 
 import java.io.File;
-import java.io.FileInputStream;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -52,7 +51,7 @@ public class PDXReader {
          if (inputFile.exists()) {
             final DBTableFile pdxFile = new DBTableFile();
             final PDXReaderListener pdxReaderListener = new PDXReaderCSVListenerImpl();
-            pdxFile.read(new FileInputStream(inputFile), pdxReaderListener);
+            pdxFile.read(inputFile, pdxReaderListener);
             System.out.println("done");
          }
       } catch (final Exception e) {
