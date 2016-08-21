@@ -10,7 +10,13 @@ public class MBSuballocatedBlock extends MBTableBlock {
 
    @Override
    public void read(LittleEndianDataInputStream littleEndianDataInputStream) throws Exception {
-      // sizeofBlock = littleEndianDataInputStream.readUnsignedShort();
-      // modificationCount = littleEndianDataInputStream.readUnsignedShort();
+      final int blockType = littleEndianDataInputStream.readByte();
+      if (blockType != super.recordType.getValue()) {
+         throw new Exception("Block type mismatch");
+      }
+      final int sizeofBlock = littleEndianDataInputStream.readUnsignedShort();
+      if ((sizeofBlock * BLOCK_SIZE_MULTIPLIER) != super.sizeofBlock) {
+         throw new Exception("Block type mismatch");
+      }
    }
 }
