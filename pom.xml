@@ -4,6 +4,21 @@
 	<packaging>jar</packaging>
 	<name>khubla.com paradox db file reader</name>
 	<version>1.1</version>
+	<url>https://github.com/teverett/paradoxReader</url>
+	<licenses>
+		<license>
+			<name>BSD 3-Clause License</name>
+			<url>https://opensource.org/licenses/BSD-3-Clause</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+	<scm>
+		<url>https://github.com/teverett/paradoxReader.git</url>
+	</scm>
+	<organization>
+		<name>khubla.com</name>
+		<url>http://www.khubla.com</url>
+	</organization>
 	<dependencies>
 		<dependency>
 			<groupId>commons-cli</groupId>
@@ -51,7 +66,28 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+				<groupId>org.sonatype.plugins</groupId>
+				<artifactId>nexus-staging-maven-plugin</artifactId>
+				<version>1.6.7</version>
+				<extensions>true</extensions>
+				<configuration>
+					<serverId>ossrh</serverId>
+					<nexusUrl>https://oss.sonatype.org/</nexusUrl>
+					<autoReleaseAfterClose>true</autoReleaseAfterClose>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
+	<distributionManagement>
+		<snapshotRepository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</snapshotRepository>
+		<repository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
+	</distributionManagement>
 	<artifactId>paradoxReader</artifactId>
 </project>
