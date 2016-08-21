@@ -25,7 +25,7 @@ public abstract class MBTableBlock {
       }
    }
 
-   private static final int BLOCK_SIZE_MULTIPLIER = 4096;
+   protected static final int BLOCK_SIZE_MULTIPLIER = 4096;
 
    public static RecordType getRecordType(int type) throws Exception {
       switch (type) {
@@ -76,7 +76,7 @@ public abstract class MBTableBlock {
       return 2;
    }
 
-   public abstract void read(LittleEndianDataInputStream littleEndianDataInputStream) throws IOException;
+   public abstract void read(LittleEndianDataInputStream littleEndianDataInputStream) throws Exception;
 
    public void setFileOffset(int fileOffset) {
       this.fileOffset = fileOffset;

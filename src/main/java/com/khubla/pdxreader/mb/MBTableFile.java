@@ -18,9 +18,9 @@ public class MBTableFile {
    private final List<MBTableBlock> blocks = new ArrayList<MBTableBlock>();
 
    /**
-    * read blobs data
+    * This method finds all the blocks with their types and offsets
     */
-   private void preReadBlobs(File file) throws Exception {
+   private void preReadBlocks(File file) throws Exception {
       try {
          /*
           * set up streams
@@ -75,7 +75,39 @@ public class MBTableFile {
     */
    public void read(File file) throws Exception {
       try {
-         preReadBlobs(file);
+         /*
+          * pre-read
+          */
+         preReadBlocks(file);
+         /*
+          * read
+          */
+         readBlocks(file);
+      } catch (final Exception e) {
+         throw new Exception("Exception in read", e);
+      }
+   }
+
+   /**
+    * Read all blocks
+    */
+   private void readBlocks(File file) throws Exception {
+      try {
+         for (final MBTableBlock mbTableBlock : blocks) {
+            /*
+             * set up streams
+             */
+            final BufferedInputStream bufferedInputStream = new BufferedInputStream(new FileInputStream(file));
+            final LittleEndianDataInputStream littleEndianDataInputStream = new LittleEndianDataInputStream(bufferedInputStream);
+            /*
+             * ffd
+             */
+            littleEndianDataInputStream.skip(mbTableBlock.getFileOffset());
+            /*
+             * read
+             */
+            mbTableBlock.read(littleEndianDataInputStream);
+         }
       } catch (final Exception e) {
          throw new Exception("Exception in read", e);
       }
