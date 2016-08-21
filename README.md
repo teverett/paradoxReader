@@ -1,7 +1,7 @@
 paradoxReader
 =============
 
-[Paradox](https://en.wikipedia.org/wiki/Paradox_(database) Database File Reader
+[Paradox](https://en.wikipedia.org/wiki/Paradox_(database)) Database File Reader
 
 Using the paradoxReader from the command line
 -------------
