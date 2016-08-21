@@ -71,13 +71,14 @@ public class DBTableValue {
                value = Double.toString(dollars);
                break;
             case M:
-               throw new Exception("M Not yet supported");
+               value = StringUtil.ByteArrayToString(data);
             case N:
                final long n = ByteBuffer.wrap(data).order(ByteOrder.LITTLE_ENDIAN).getLong();
                value = Double.toString(n);
                break;
             case B:
-               throw new Exception("B Not yet supported");
+               value = StringUtil.ByteArrayToString(data);
+               break;
             case Auto:
                final short auto = ByteBuffer.wrap(data).order(ByteOrder.LITTLE_ENDIAN).getShort();
                value = Short.toString(auto);

@@ -33,7 +33,6 @@ public class TestDBFile {
       }
    }
 
-   @Test(enabled = false)
    public void testReadCUSTOMER() {
       try {
          testRead("/CUSTOMER.DB");
@@ -43,7 +42,6 @@ public class TestDBFile {
       }
    }
 
-   @Test(enabled = false)
    public void testReadHURCULES() {
       try {
          testRead("/HERCULES.DB");
