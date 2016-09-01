@@ -5,6 +5,14 @@
 	<packaging>jar</packaging>
 	<name>khubla.com paradox db file reader</name>
 	<version>1.1-SNAPSHOT</version>
+	<description>A readers for Paradox database files</description>
+	<developers>
+		<developer>
+			<id>teverett</id>
+			<name>Tom Everett</name>
+			<email>tom@khubla.com</email>
+		</developer>
+	</developers>
 	<url>https://github.com/teverett/paradoxReader</url>
 	<licenses>
 		<license>
