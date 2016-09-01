@@ -3,6 +3,16 @@ paradoxReader
 
 [Paradox](https://en.wikipedia.org/wiki/Paradox_(database)) Database File Reader
 
+Maven Coordinates
+-------------
+
+```
+<groupId>com.khubla.pdxreader</groupId>
+<artifactId>pdxreader</artifactId>
+<version>1.1-SNAPSHOT</version>
+<packaging>jar</packaging>
+```
+
 Using the paradoxReader from the command line
 -------------
 
