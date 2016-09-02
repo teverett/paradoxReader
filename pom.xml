@@ -4,7 +4,7 @@
 	<artifactId>pdxreader</artifactId>
 	<packaging>jar</packaging>
 	<name>khubla.com Paradox DB file reader</name>
-	<version>1.1</version>
+	<version>1.2-SNAPSHOT</version>
 	<description>A readers for Paradox database files</description>
 	<developers>
 		<developer>
