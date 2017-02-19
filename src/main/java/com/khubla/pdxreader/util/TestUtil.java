@@ -14,7 +14,7 @@ public class TestUtil {
             final File f2 = new File(fileName);
             if (f2.isDirectory()) {
                getTestFiles(fileName + "/", files, extension);
-            } else if (fileName.endsWith(extension)) {
+            } else if (fileName.toLowerCase().endsWith(extension.toLowerCase())) {
                files.add(fileName);
             }
          }

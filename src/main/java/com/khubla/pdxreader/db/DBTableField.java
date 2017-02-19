@@ -11,7 +11,28 @@ public class DBTableField {
     * field type
     */
    public static enum FieldType {
-      A(1), D(2), S(3), $(5), N(6), M(0x0c), B(0x0d), Auto(22);
+      /**
+       * <pre>
+       * A - Alpha, length 255
+       * D - Date, length 4
+       * S - Short Integer, length 2
+       * I - Long Integer, length 4
+       * $ - Current, length 8
+       * N - Number, length 8
+       * L - Logical, length 1
+       * M - Memo, variable length
+       * B - Binary, variable length
+       * E - Formatting memo, variable length
+       * O - OLE, variable length
+       * G - Graphic Blob, variable length
+       * T - Time, length 4
+       * TS - TimeStamp, length 8
+       * Auto - AutoIncrement
+       * BCD - BCD, length 17
+       * Bytes - Bytes, variable length
+       * </pre>
+       */
+      A(1), D(2), S(3), I(4), $(5), N(6), L(9), M(0x0c), B(0x0d), E(0x0e), O(0x0f), G(0x10), T(0x14), TS(0x15), Auto(0x16), BCD(0x17), Bytes(0x18);
       private int value;
 
       private FieldType(int value) {
