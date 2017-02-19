@@ -66,6 +66,11 @@ public class DBTableValue {
                final long s = ByteBuffer.wrap(data).order(ByteOrder.LITTLE_ENDIAN).getShort();
                value = Long.toString(s);
                break;
+            case I:
+               data[0] = (byte) (data[0] & 0x7f); // handle unsigned integers
+               final long i = ByteBuffer.wrap(data).order(ByteOrder.BIG_ENDIAN).getInt();
+               value = Long.toString(i);
+               break;
             case $:
                final double dollars = ByteBuffer.wrap(data).order(ByteOrder.BIG_ENDIAN).getDouble();
                value = Double.toString(dollars);
@@ -78,6 +83,19 @@ public class DBTableValue {
                break;
             case B:
                value = StringUtil.ByteArrayToString(data);
+               break;
+            case TS:
+               // milliseconds since Jan 1, 1 AD, convert to UTC time
+               data[0] = (byte) (data[0] & 0x7f); // handle unsigned number
+               double dt = ByteBuffer.wrap(data).order(ByteOrder.BIG_ENDIAN).getDouble();
+               long dateTime = (long) dt;
+               if (dateTime == 0) {
+                  value = null;
+               } else {
+                  dateTime -= 86400000; // millis in 1 day
+                  dateTime -= 62135607600000l; // millis from 01.01.1970
+                  value = Long.toString(dateTime);
+               }
                break;
             case Auto:
                final short auto = ByteBuffer.wrap(data).order(ByteOrder.LITTLE_ENDIAN).getShort();
