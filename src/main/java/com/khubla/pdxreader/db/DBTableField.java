@@ -115,6 +115,12 @@ public class DBTableField {
                   throw new Exception("Invalid field length '" + length + "' for type '" + type + "'");
                }
                break;
+            case 04:
+               fieldType = FieldType.I;
+               if (length != 4) {
+                  throw new Exception("Invalid field length '" + length + "' for type '" + type + "'");
+               }
+               break;
             case 05:
                fieldType = FieldType.$;
                if (length != 8) {
@@ -132,6 +138,12 @@ public class DBTableField {
                break;
             case 0Xd:
                fieldType = FieldType.B;
+               break;
+            case 0X15:
+               fieldType = FieldType.TS;
+               if (length != 8) {
+                  throw new Exception("Invalid field length '" + length + "' for type '" + type + "'");
+               }
                break;
             case 22:
                fieldType = FieldType.Auto;
