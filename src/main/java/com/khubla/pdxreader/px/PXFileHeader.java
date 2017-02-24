@@ -51,6 +51,9 @@ public class PXFileHeader {
    private int totalBlocksInFile;
    private int firstDataBlock;
    private int lastDataBlock;
+   private int indexRootBlock;
+   private int numberIndexLevels;
+   private int numberIndexFields;
 
    public int getBlocksInUse() {
       return blocksInUse;
@@ -116,9 +119,36 @@ public class PXFileHeader {
          totalBlocksInFile = littleEndianDataInputStream.readUnsignedShort();
          firstDataBlock = littleEndianDataInputStream.readUnsignedShort();
          lastDataBlock = littleEndianDataInputStream.readUnsignedShort();
+         indexRootBlock = littleEndianDataInputStream.readUnsignedShort();
+         numberIndexLevels = littleEndianDataInputStream.readUnsignedShort();
+         numberIndexFields = littleEndianDataInputStream.readUnsignedShort();
       } catch (final Exception e) {
          throw new PDXReaderException("Exception in read", e);
       }
+   }
+
+   public int getIndexRootBlock() {
+      return indexRootBlock;
+   }
+
+   public void setIndexRootBlock(int indexRootBlock) {
+      this.indexRootBlock = indexRootBlock;
+   }
+
+   public int getNumberIndexLevels() {
+      return numberIndexLevels;
+   }
+
+   public void setNumberIndexLevels(int numberIndexLevels) {
+      this.numberIndexLevels = numberIndexLevels;
+   }
+
+   public int getNumberIndexFields() {
+      return numberIndexFields;
+   }
+
+   public void setNumberIndexFields(int numberIndexFields) {
+      this.numberIndexFields = numberIndexFields;
    }
 
    public void setBlocksInUse(int blocksInUse) {
