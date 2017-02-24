@@ -1,4 +1,4 @@
-package com.khubla.pdxreader.px;
+package com.khubla.pdxreader.px.block;
 
 import com.google.common.io.LittleEndianDataInputStream;
 import com.khubla.pdxreader.api.PDXReaderException;
@@ -6,7 +6,7 @@ import com.khubla.pdxreader.api.PDXReaderException;
 /**
  * @author tom
  */
-public class PXFileBlockHeader {
+public class PXIndexBlockHeader {
    private int nextBlockNumber;
    private int previousBlockNumber;
    private int offsetLastRecord;

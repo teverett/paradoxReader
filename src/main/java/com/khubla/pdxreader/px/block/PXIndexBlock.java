@@ -1,4 +1,4 @@
-package com.khubla.pdxreader.px;
+package com.khubla.pdxreader.px.block;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -10,28 +10,18 @@ import com.khubla.pdxreader.api.PDXReaderException;
 /**
  * @author tom
  */
-public class PXFileBlock {
+public class PXIndexBlock {
    /**
     * header
     */
-   private PXFileBlockHeader pxFileBlockHeader;
-   /**
-    * block number
-    */
-   private final int blockNumber;
-
-   public PXFileBlock(int blockNumber) {
-      this.blockNumber = blockNumber;
-   }
-
-   public int getBlockNumber() {
-      return blockNumber;
-   }
-
+   private PXIndexBlockHeader pxFileBlockHeader;
    /**
     * Index Records
     */
-   private List<PXFileIndexRecord> indexRecords;
+   private List<PXIndexBlockRecord> indexRecords;
+
+   public PXIndexBlock() {
+   }
 
    /**
     * read data. This assumes that the inputStream is on byte 0 from the start of the block
@@ -46,8 +36,8 @@ public class PXFileBlock {
          /*
           * read the records
           */
-         indexRecords = new ArrayList<PXFileIndexRecord>();
-         PXFileIndexRecord pxFileIndexRecord = new PXFileIndexRecord();
+         indexRecords = new ArrayList<PXIndexBlockRecord>();
+         final PXIndexBlockRecord pxFileIndexRecord = new PXIndexBlockRecord();
          pxFileIndexRecord.read(littleEndianDataInputStream);
          indexRecords.add(pxFileIndexRecord);
       } catch (final Exception e) {
@@ -60,7 +50,7 @@ public class PXFileBlock {
     */
    private void readHeader(LittleEndianDataInputStream littleEndianDataInputStream) throws PDXReaderException {
       try {
-         pxFileBlockHeader = new PXFileBlockHeader();
+         pxFileBlockHeader = new PXIndexBlockHeader();
          pxFileBlockHeader.read(littleEndianDataInputStream);
       } catch (final Exception e) {
          throw new PDXReaderException("Exception in readHeader", e);

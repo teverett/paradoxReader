@@ -79,8 +79,20 @@ public class PXFileHeader {
       return indexRecordLength;
    }
 
+   public int getIndexRootBlock() {
+      return indexRootBlock;
+   }
+
    public int getLastDataBlock() {
       return lastDataBlock;
+   }
+
+   public int getNumberIndexFields() {
+      return numberIndexFields;
+   }
+
+   public int getNumberIndexLevels() {
+      return numberIndexLevels;
    }
 
    public long getNumberRecords() {
@@ -96,8 +108,14 @@ public class PXFileHeader {
     */
    public void read(LittleEndianDataInputStream littleEndianDataInputStream) throws PDXReaderException {
       try {
+         /*
+          * The index record length is six greater than the sum of the lengths of the key fields.
+          */
          indexRecordLength = littleEndianDataInputStream.readUnsignedShort();
          headerBlockSize = littleEndianDataInputStream.readUnsignedShort();
+         if (2048 != headerBlockSize) {
+            throw new Exception("headerBlockSize was expected to be 2048, but '" + headerBlockSize + "' was found");
+         }
          final int fileType = littleEndianDataInputStream.readUnsignedByte();
          if (1 != fileType) {
             throw new Exception("PX file type was expected to be 1, but '" + fileType + "' was found");
@@ -118,37 +136,19 @@ public class PXFileHeader {
          blocksInUse = littleEndianDataInputStream.readUnsignedShort();
          totalBlocksInFile = littleEndianDataInputStream.readUnsignedShort();
          firstDataBlock = littleEndianDataInputStream.readUnsignedShort();
+         if (1 != firstDataBlock) {
+            throw new Exception("firstDataBlock was expected to be 1, but '" + firstDataBlock + "' was found");
+         }
          lastDataBlock = littleEndianDataInputStream.readUnsignedShort();
          indexRootBlock = littleEndianDataInputStream.readUnsignedShort();
-         numberIndexLevels = littleEndianDataInputStream.readUnsignedShort();
-         numberIndexFields = littleEndianDataInputStream.readUnsignedShort();
+         numberIndexLevels = littleEndianDataInputStream.readUnsignedByte();
+         /*
+          * The number of fields in the index is the same as the number of key fields for the table.
+          */
+         numberIndexFields = littleEndianDataInputStream.readUnsignedByte();
       } catch (final Exception e) {
          throw new PDXReaderException("Exception in read", e);
       }
-   }
-
-   public int getIndexRootBlock() {
-      return indexRootBlock;
-   }
-
-   public void setIndexRootBlock(int indexRootBlock) {
-      this.indexRootBlock = indexRootBlock;
-   }
-
-   public int getNumberIndexLevels() {
-      return numberIndexLevels;
-   }
-
-   public void setNumberIndexLevels(int numberIndexLevels) {
-      this.numberIndexLevels = numberIndexLevels;
-   }
-
-   public int getNumberIndexFields() {
-      return numberIndexFields;
-   }
-
-   public void setNumberIndexFields(int numberIndexFields) {
-      this.numberIndexFields = numberIndexFields;
    }
 
    public void setBlocksInUse(int blocksInUse) {
@@ -175,8 +175,20 @@ public class PXFileHeader {
       this.indexRecordLength = indexRecordLength;
    }
 
+   public void setIndexRootBlock(int indexRootBlock) {
+      this.indexRootBlock = indexRootBlock;
+   }
+
    public void setLastDataBlock(int lastDataBlock) {
       this.lastDataBlock = lastDataBlock;
+   }
+
+   public void setNumberIndexFields(int numberIndexFields) {
+      this.numberIndexFields = numberIndexFields;
+   }
+
+   public void setNumberIndexLevels(int numberIndexLevels) {
+      this.numberIndexLevels = numberIndexLevels;
    }
 
    public void setNumberRecords(long numberRecords) {

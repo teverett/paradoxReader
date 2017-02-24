@@ -3,10 +3,12 @@ package com.khubla.pdxreader.px;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.util.Hashtable;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.google.common.io.LittleEndianDataInputStream;
 import com.khubla.pdxreader.api.PDXReaderException;
+import com.khubla.pdxreader.px.block.PXIndexBlock;
 
 /**
  * @author tom
@@ -27,7 +29,7 @@ public class PXFile {
    /**
     * blocks
     */
-   private Hashtable<Integer, PXFileBlock> blocks;
+   private List<PXIndexBlock> blocks;
 
    /**
     * ctor
@@ -68,20 +70,20 @@ public class PXFile {
          /*
           * init the array
           */
-         blocks = new Hashtable<Integer, PXFileBlock>();
+         blocks = new ArrayList<PXIndexBlock>();
          /*
-          * skip to the first block
+          * skip to the first index block
           */
          bufferedInputStream.skip(pxFileHeader.getBlockSize().getValue() * 1024);
          /*
-          * walk blocks
+          * walk index blocks
           */
          final int blocksInUse = pxFileHeader.getBlocksInUse();
          for (int i = 0; i < blocksInUse; i++) {
             /*
              * block
              */
-            final PXFileBlock pxFileBlock = new PXFileBlock(i + 1);
+            final PXIndexBlock pxIndexBlock = new PXIndexBlock();
             /*
              * mark at the start of the block
              */
@@ -89,11 +91,11 @@ public class PXFile {
             /*
              * read the block data
              */
-            // pxFileBlock.read(bufferedInputStream);
+            pxIndexBlock.read(bufferedInputStream);
             /*
              * store it. blocks are numbered from 1, not from 0.
              */
-            blocks.put(pxFileBlock.getBlockNumber(), pxFileBlock);
+            blocks.add(pxIndexBlock);
             /*
              * reset to the start of the block
              */
