@@ -6,8 +6,6 @@ import java.util.List;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import com.khubla.pdxreader.PDXReaderCSVListenerImpl;
-import com.khubla.pdxreader.api.PDXReaderListener;
 import com.khubla.pdxreader.px.PXFile;
 import com.khubla.pdxreader.util.TestUtil;
 
@@ -21,8 +19,7 @@ public class TestPXFile {
             Assert.assertTrue(inputFile.exists());
             System.out.println(filename);
             final PXFile pxFile = new PXFile();
-            final PDXReaderListener pdxReaderListener = new PDXReaderCSVListenerImpl();
-            pxFile.read(inputFile, pdxReaderListener);
+            pxFile.read(inputFile);
          }
       } catch (final Exception e) {
          e.printStackTrace();

@@ -3,10 +3,10 @@ package com.khubla.pdxreader.px;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.Hashtable;
 
 import com.google.common.io.LittleEndianDataInputStream;
 import com.khubla.pdxreader.api.PDXReaderException;
-import com.khubla.pdxreader.api.PDXReaderListener;
 
 /**
  * @author tom
@@ -17,9 +17,17 @@ public class PXFile {
     */
    private final static int MAX_HEADER_SIZE = 10240;
    /**
+    * max block size
+    */
+   private final static int MAX_BLOCK_SIZE = 10240;
+   /**
     * header
     */
    private PXFileHeader pxFileHeader;
+   /**
+    * blocks
+    */
+   private Hashtable<Integer, PXFileBlock> blocks;
 
    /**
     * ctor
@@ -30,12 +38,8 @@ public class PXFile {
    /**
     * read
     */
-   public void read(File file, PDXReaderListener pdxReaderListener) throws PDXReaderException {
+   public void read(File file) throws PDXReaderException {
       try {
-         /*
-          * start
-          */
-         pdxReaderListener.start();
          /*
           * set up streams
           */
@@ -47,70 +51,63 @@ public class PXFile {
          bufferedInputStream.mark(MAX_HEADER_SIZE);
          readHeaders(littleEndianDataInputStream);
          /*
-          * call the api
-          */
-         // pdxReaderListener.header(dbTableHeader);
-         /*
           * read the block data
           */
          bufferedInputStream.reset();
-         // readBlocks(bufferedInputStream, pdxReaderListener);
-         /*
-          * done
-          */
-         pdxReaderListener.finish();
+         readBlocks(bufferedInputStream);
       } catch (final Exception e) {
          throw new PDXReaderException("Exception in read", e);
       }
    }
+
    /**
     * read block data
     */
+   private void readBlocks(BufferedInputStream bufferedInputStream) throws PDXReaderException {
+      try {
+         /*
+          * init the array
+          */
+         blocks = new Hashtable<Integer, PXFileBlock>();
+         /*
+          * skip to the first block
+          */
+         bufferedInputStream.skip(pxFileHeader.getBlockSize().getValue() * 1024);
+         /*
+          * walk blocks
+          */
+         final int blocksInUse = pxFileHeader.getBlocksInUse();
+         for (int i = 0; i < blocksInUse; i++) {
+            /*
+             * block
+             */
+            final PXFileBlock pxFileBlock = new PXFileBlock(i + 1);
+            /*
+             * mark at the start of the block
+             */
+            bufferedInputStream.mark(MAX_BLOCK_SIZE);
+            /*
+             * read the block data
+             */
+            // pxFileBlock.read(bufferedInputStream);
+            /*
+             * store it. blocks are numbered from 1, not from 0.
+             */
+            blocks.put(pxFileBlock.getBlockNumber(), pxFileBlock);
+            /*
+             * reset to the start of the block
+             */
+            bufferedInputStream.reset();
+            /*
+             * skip ahead to next block
+             */
+            bufferedInputStream.skip(pxFileHeader.getBlockSize().getValue() * 1024);
+         }
+      } catch (final Exception e) {
+         throw new PDXReaderException("Exception in readBlocks", e);
+      }
+   }
 
-   // private void readBlocks(BufferedInputStream bufferedInputStream, PDXReaderListener pdxReaderListener) throws PDXReaderException {
-   // try {
-   // /*
-   // * init the array
-   // */
-   // blocks = new Hashtable<Integer, DBTableBlock>();
-   // /*
-   // * skip to the first block
-   // */
-   // bufferedInputStream.skip(dbTableHeader.getBlockSize().getValue() * 1024);
-   // /*
-   // * walk blocks
-   // */
-   // final int blocksInUse = dbTableHeader.getBlocksInUse();
-   // for (int i = 0; i < blocksInUse; i++) {
-   // /*
-   // * block
-   // */
-   // final DBTableBlock pdxTableBlock = new DBTableBlock(i + 1, dbTableHeader.calculateRecordsPerBlock(), dbTableHeader.getFields());
-   // /*
-   // * mark at the start of the block
-   // */
-   // bufferedInputStream.mark(MAX_BLOCK_SIZE);
-   // /*
-   // * read the block data
-   // */
-   // pdxTableBlock.read(pdxReaderListener, bufferedInputStream);
-   // /*
-   // * store it. blocks are numbered from 1, not from 0.
-   // */
-   // blocks.put(pdxTableBlock.getBlockNumber(), pdxTableBlock);
-   // /*
-   // * reset to the start of the block
-   // */
-   // bufferedInputStream.reset();
-   // /*
-   // * skip ahead to next block
-   // */
-   // bufferedInputStream.skip(dbTableHeader.getBlockSize().getValue() * 1024);
-   // }
-   // } catch (final Exception e) {
-   // throw new PDXReaderException("Exception in readBlocks", e);
-   // }
-   // }
    /**
     * read
     */
