@@ -1,6 +1,7 @@
 package com.khubla.pdxreader.db;
 
 import com.google.common.io.LittleEndianDataInputStream;
+import com.khubla.pdxreader.api.PDXReaderException;
 import com.khubla.pdxreader.util.StringUtil;
 
 /**
@@ -84,18 +85,18 @@ public class DBTableField {
    /**
     * names
     */
-   public void readFieldName(LittleEndianDataInputStream littleEndianDataInputStream) throws Exception {
+   public void readFieldName(LittleEndianDataInputStream littleEndianDataInputStream) throws PDXReaderException {
       try {
          name = StringUtil.readString(littleEndianDataInputStream);
       } catch (final Exception e) {
-         throw new Exception("Exception in read", e);
+         throw new PDXReaderException("Exception in read", e);
       }
    }
 
    /**
     * types and sizes, 2 bytes per field
     */
-   public void readFieldTypeAndSize(LittleEndianDataInputStream littleEndianDataInputStream) throws Exception {
+   public void readFieldTypeAndSize(LittleEndianDataInputStream littleEndianDataInputStream) throws PDXReaderException {
       try {
          type = littleEndianDataInputStream.readUnsignedByte();
          length = littleEndianDataInputStream.readUnsignedByte();
@@ -179,10 +180,10 @@ public class DBTableField {
                fieldType = FieldType.Bytes;
                break;
             default:
-               throw new Exception("Unknown field type '" + type + "'");
+               throw new PDXReaderException("Unknown field type '" + type + "'");
          }
       } catch (final Exception e) {
-         throw new Exception("Exception in read", e);
+         throw new PDXReaderException("Exception in read", e);
       }
    }
 

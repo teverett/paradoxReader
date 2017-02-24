@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.io.LittleEndianDataInputStream;
+import com.khubla.pdxreader.api.PDXReaderException;
 import com.khubla.pdxreader.mb.MBTableBlock.RecordType;
 
 /**
@@ -21,7 +22,7 @@ public class MBTableFile {
    /**
     * This method finds all the blocks with their types and offsets
     */
-   private void preReadBlocks(File file) throws Exception {
+   private void preReadBlocks(File file) throws PDXReaderException {
       try {
          /*
           * set up streams
@@ -43,7 +44,7 @@ public class MBTableFile {
             /*
              * get an appropriate Block type
              */
-            RecordType recordType = MBTableBlock.getRecordType(type);
+            final RecordType recordType = MBTableBlock.getRecordType(type);
             /*
              * ok?
              */
@@ -73,14 +74,14 @@ public class MBTableFile {
             }
          }
       } catch (final Exception e) {
-         throw new Exception("Exception in read", e);
+         throw new PDXReaderException("Exception in read", e);
       }
    }
 
    /**
     * read
     */
-   public void read(File file) throws Exception {
+   public void read(File file) throws PDXReaderException {
       try {
          /*
           * pre-read
@@ -91,14 +92,14 @@ public class MBTableFile {
           */
          readBlocks(file);
       } catch (final Exception e) {
-         throw new Exception("Exception in read", e);
+         throw new PDXReaderException("Exception in read", e);
       }
    }
 
    /**
     * Read all blocks
     */
-   private void readBlocks(File file) throws Exception {
+   private void readBlocks(File file) throws PDXReaderException {
       try {
          for (final MBTableBlock mbTableBlock : blocks) {
             /*
@@ -116,7 +117,7 @@ public class MBTableFile {
             mbTableBlock.read(littleEndianDataInputStream);
          }
       } catch (final Exception e) {
-         throw new Exception("Exception in read", e);
+         throw new PDXReaderException("Exception in read", e);
       }
    }
 }

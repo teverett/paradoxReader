@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
+import com.khubla.pdxreader.api.PDXReaderException;
 import com.khubla.pdxreader.db.DBTableField.FieldType;
 import com.khubla.pdxreader.util.StringUtil;
 
@@ -31,7 +32,7 @@ public class DBTableValue {
    /**
     * Read a table field
     */
-   public void read(DBTableField pdxTableField, InputStream inputStream) throws Exception {
+   public void read(DBTableField pdxTableField, InputStream inputStream) throws PDXReaderException {
       try {
          /*
           * get the data
@@ -41,7 +42,7 @@ public class DBTableValue {
          /*
           * convert to type
           */
-         FieldType fieldType = pdxTableField.getFieldType();
+         final FieldType fieldType = pdxTableField.getFieldType();
          switch (fieldType) {
             case A:
                value = StringUtil.readString(data);
@@ -102,7 +103,7 @@ public class DBTableValue {
             case TS:
                // milliseconds since Jan 1, 1 AD, convert to UTC time
                data[0] = (byte) (data[0] & 0x7f); // handle unsigned number
-               double dt = ByteBuffer.wrap(data).order(ByteOrder.BIG_ENDIAN).getDouble();
+               final double dt = ByteBuffer.wrap(data).order(ByteOrder.BIG_ENDIAN).getDouble();
                long dateTime = (long) dt;
                if (dateTime == 0) {
                   value = null;
@@ -120,7 +121,7 @@ public class DBTableValue {
                throw new Exception("Unknown field type '" + fieldType.name() + "'");
          }
       } catch (final Exception e) {
-         throw new Exception("Exception in read", e);
+         throw new PDXReaderException("Exception in read", e);
       }
    }
 

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.io.LittleEndianDataInputStream;
+import com.khubla.pdxreader.api.PDXReaderException;
 import com.khubla.pdxreader.util.StringUtil;
 
 /**
@@ -223,20 +224,20 @@ public class DBTableHeader {
    /**
     * read the field descriptions
     */
-   private void readFieldNames(LittleEndianDataInputStream littleEndianDataInputStream) throws Exception {
+   private void readFieldNames(LittleEndianDataInputStream littleEndianDataInputStream) throws PDXReaderException {
       try {
          for (final DBTableField pdxTableField : fields) {
             pdxTableField.readFieldName(littleEndianDataInputStream);
          }
       } catch (final Exception e) {
-         throw new Exception("Exception in readFields", e);
+         throw new PDXReaderException("Exception in readFields", e);
       }
    }
 
    /**
     * read the field descriptions
     */
-   private void readFieldTypesAndSizes(LittleEndianDataInputStream littleEndianDataInputStream) throws Exception {
+   private void readFieldTypesAndSizes(LittleEndianDataInputStream littleEndianDataInputStream) throws PDXReaderException {
       try {
          fields = new ArrayList<DBTableField>();
          for (int i = 0; i < numberFields; i++) {
@@ -245,7 +246,7 @@ public class DBTableHeader {
             fields.add(pdxTableField);
          }
       } catch (final Exception e) {
-         throw new Exception("Exception in readFields", e);
+         throw new PDXReaderException("Exception in readFields", e);
       }
    }
 

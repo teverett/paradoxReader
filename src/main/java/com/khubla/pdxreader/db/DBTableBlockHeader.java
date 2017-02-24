@@ -1,6 +1,7 @@
 package com.khubla.pdxreader.db;
 
 import com.google.common.io.LittleEndianDataInputStream;
+import com.khubla.pdxreader.api.PDXReaderException;
 
 /**
  * @author tom
@@ -25,13 +26,13 @@ public class DBTableBlockHeader {
    /**
     * block header, 6 bytes
     */
-   public void read(LittleEndianDataInputStream littleEndianDataInputStream) throws Exception {
+   public void read(LittleEndianDataInputStream littleEndianDataInputStream) throws PDXReaderException {
       try {
          nextBlockNumber = littleEndianDataInputStream.readUnsignedShort();
          previousBlockNumber = littleEndianDataInputStream.readUnsignedShort();
          offsetLastRecord = littleEndianDataInputStream.readUnsignedShort();
       } catch (final Exception e) {
-         throw new Exception("Exception in read", e);
+         throw new PDXReaderException("Exception in read", e);
       }
    }
 

@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.util.Hashtable;
 
 import com.google.common.io.LittleEndianDataInputStream;
+import com.khubla.pdxreader.api.PDXReaderException;
 import com.khubla.pdxreader.api.PDXReaderListener;
 
 /**
@@ -83,7 +84,7 @@ public class DBTableFile {
    /**
     * read block data
     */
-   private void readBlocks(BufferedInputStream bufferedInputStream, PDXReaderListener pdxReaderListener) throws Exception {
+   private void readBlocks(BufferedInputStream bufferedInputStream, PDXReaderListener pdxReaderListener) throws PDXReaderException {
       try {
          /*
           * init the array
@@ -124,14 +125,14 @@ public class DBTableFile {
             bufferedInputStream.skip(dbTableHeader.getBlockSize().getValue() * 1024);
          }
       } catch (final Exception e) {
-         throw new Exception("Exception in readBlocks", e);
+         throw new PDXReaderException("Exception in readBlocks", e);
       }
    }
 
    /**
     * read
     */
-   private void readHeaders(LittleEndianDataInputStream littleEndianDataInputStream) throws Exception {
+   private void readHeaders(LittleEndianDataInputStream littleEndianDataInputStream) throws PDXReaderException {
       try {
          /*
           * read header
@@ -139,7 +140,7 @@ public class DBTableFile {
          dbTableHeader = new DBTableHeader();
          dbTableHeader.read(littleEndianDataInputStream);
       } catch (final Exception e) {
-         throw new Exception("Exception in readHeaders", e);
+         throw new PDXReaderException("Exception in readHeaders", e);
       }
    }
 

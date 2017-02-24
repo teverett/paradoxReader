@@ -1,6 +1,7 @@
 package com.khubla.pdxreader.mb.block;
 
 import com.google.common.io.LittleEndianDataInputStream;
+import com.khubla.pdxreader.api.PDXReaderException;
 import com.khubla.pdxreader.mb.MBTableBlock;
 
 public class MBSingleBlock extends MBTableBlock {
@@ -9,7 +10,7 @@ public class MBSingleBlock extends MBTableBlock {
    }
 
    @Override
-   public void read(LittleEndianDataInputStream littleEndianDataInputStream) throws Exception {
+   public void read(LittleEndianDataInputStream littleEndianDataInputStream) throws PDXReaderException {
       // sizeofBlock = littleEndianDataInputStream.readUnsignedShort();
       // modificationCount = littleEndianDataInputStream.readUnsignedShort();
    }

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.io.LittleEndianDataInputStream;
+import com.khubla.pdxreader.api.PDXReaderException;
 import com.khubla.pdxreader.api.PDXReaderListener;
 
 /**
@@ -65,7 +66,7 @@ public class DBTableBlock {
    /**
     * read data. This assumes that the inputStream is on byte 0 from the start of the block
     */
-   public void read(PDXReaderListener pdxReaderListener, InputStream inputStream) throws Exception {
+   public void read(PDXReaderListener pdxReaderListener, InputStream inputStream) throws PDXReaderException {
       try {
          records = new ArrayList<DBTableRecord>();
          /*
@@ -82,19 +83,19 @@ public class DBTableBlock {
             records.add(pdxTableRecord);
          }
       } catch (final Exception e) {
-         throw new Exception("Exception in read", e);
+         throw new PDXReaderException("Exception in read", e);
       }
    }
 
    /**
     * read header
     */
-   private void readHeader(LittleEndianDataInputStream littleEndianDataInputStream) throws Exception {
+   private void readHeader(LittleEndianDataInputStream littleEndianDataInputStream) throws PDXReaderException {
       try {
          dbTableBlockHeader = new DBTableBlockHeader();
          dbTableBlockHeader.read(littleEndianDataInputStream);
       } catch (final Exception e) {
-         throw new Exception("Exception in readHeader", e);
+         throw new PDXReaderException("Exception in readHeader", e);
       }
    }
 

@@ -3,6 +3,7 @@ package com.khubla.pdxreader.mb;
 import java.io.IOException;
 
 import com.google.common.io.LittleEndianDataInputStream;
+import com.khubla.pdxreader.api.PDXReaderException;
 
 public abstract class MBTableBlock {
    /**
@@ -79,7 +80,7 @@ public abstract class MBTableBlock {
       return 2;
    }
 
-   public abstract void read(LittleEndianDataInputStream littleEndianDataInputStream) throws Exception;
+   public abstract void read(LittleEndianDataInputStream littleEndianDataInputStream) throws PDXReaderException;
 
    public void setFileOffset(int fileOffset) {
       this.fileOffset = fileOffset;
