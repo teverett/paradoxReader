@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
+import com.khubla.pdxreader.db.DBTableField.FieldType;
 import com.khubla.pdxreader.util.StringUtil;
 
 /**
@@ -28,21 +29,7 @@ public class DBTableValue {
    }
 
    /**
-    * <p>
-    * $ and N are double precision floating point numbers
-    * </p>
-    * <p>
-    * D are signed long ints (they are dates). Number of days since January 1, 1 AD.
-    * </p>
-    * <p>
-    * S are signed shorts
-    * </p>
-    * <p>
-    * M, B and U are BLOBS.
-    * </p>
-    * <p>
-    * A are null terminated, fixed length strings
-    * </p>
+    * Read a table field
     */
    public void read(DBTableField pdxTableField, InputStream inputStream) throws Exception {
       try {
@@ -54,7 +41,8 @@ public class DBTableValue {
          /*
           * convert to type
           */
-         switch (pdxTableField.getFieldType()) {
+         FieldType fieldType = pdxTableField.getFieldType();
+         switch (fieldType) {
             case A:
                value = StringUtil.readString(data);
                break;
@@ -71,17 +59,44 @@ public class DBTableValue {
                final long i = ByteBuffer.wrap(data).order(ByteOrder.BIG_ENDIAN).getInt();
                value = Long.toString(i);
                break;
-            case $:
+            case C:
+               // currency
                final double dollars = ByteBuffer.wrap(data).order(ByteOrder.BIG_ENDIAN).getDouble();
                value = Double.toString(dollars);
                break;
             case M:
+               // Memo
                value = StringUtil.ByteArrayToString(data);
             case N:
                final long n = ByteBuffer.wrap(data).order(ByteOrder.LITTLE_ENDIAN).getLong();
                value = Double.toString(n);
                break;
+            case L:
+               // Logical
+               value = StringUtil.ByteArrayToString(data);
+               break;
             case B:
+               // Binary
+               value = StringUtil.ByteArrayToString(data);
+               break;
+            case O:
+               // OLE
+               value = StringUtil.ByteArrayToString(data);
+               break;
+            case E:
+               // formatted memo
+               value = StringUtil.ByteArrayToString(data);
+               break;
+            case G:
+               // Graphic
+               value = StringUtil.ByteArrayToString(data);
+               break;
+            case BCD:
+               // BCD
+               value = StringUtil.ByteArrayToString(data);
+               break;
+            case Bytes:
+               // Bytes
                value = StringUtil.ByteArrayToString(data);
                break;
             case TS:
@@ -100,6 +115,9 @@ public class DBTableValue {
             case Auto:
                final short auto = ByteBuffer.wrap(data).order(ByteOrder.LITTLE_ENDIAN).getShort();
                value = Short.toString(auto);
+               break;
+            default:
+               throw new Exception("Unknown field type '" + fieldType.name() + "'");
          }
       } catch (final Exception e) {
          throw new Exception("Exception in read", e);

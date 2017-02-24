@@ -19,6 +19,7 @@ public class TestDBFile {
          for (final String filename : files) {
             final File inputFile = new File(filename);
             Assert.assertTrue(inputFile.exists());
+            System.out.println(filename);
             final DBTableFile pdxFile = new DBTableFile();
             final PDXReaderListener pdxReaderListener = new PDXReaderCSVListenerImpl();
             pdxFile.read(inputFile, pdxReaderListener);

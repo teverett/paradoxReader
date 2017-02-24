@@ -19,6 +19,8 @@ public class TestMBFile {
          final List<String> files = TestUtil.getTestFiles("src/test/resources/", new String[] { ".MB" });
          for (final String filename : files) {
             final File inputFile = new File(filename);
+            Assert.assertTrue(inputFile.exists());
+            System.out.println(filename);
             final MBTableFile mbTableFile = new MBTableFile();
             mbTableFile.read(inputFile);
          }

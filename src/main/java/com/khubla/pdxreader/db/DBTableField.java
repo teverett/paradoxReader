@@ -17,7 +17,7 @@ public class DBTableField {
        * D - Date, length 4
        * S - Short Integer, length 2
        * I - Long Integer, length 4
-       * $ - Current, length 8
+       * C - Currency, length 8
        * N - Number, length 8
        * L - Logical, length 1
        * M - Memo, variable length
@@ -32,7 +32,7 @@ public class DBTableField {
        * Bytes - Bytes, variable length
        * </pre>
        */
-      A(1), D(2), S(3), I(4), $(5), N(6), L(9), M(0x0c), B(0x0d), E(0x0e), O(0x0f), G(0x10), T(0x14), TS(0x15), Auto(0x16), BCD(0x17), Bytes(0x18);
+      A(1), D(2), S(3), I(4), C(5), N(6), L(9), M(0x0c), B(0x0d), E(0x0e), O(0x0f), G(0x10), T(0x14), TS(0x15), Auto(0x16), BCD(0x17), Bytes(0x18);
       private int value;
 
       private FieldType(int value) {
@@ -100,53 +100,83 @@ public class DBTableField {
          type = littleEndianDataInputStream.readUnsignedByte();
          length = littleEndianDataInputStream.readUnsignedByte();
          switch (type) {
-            case 01:
+            case 0x01:
                fieldType = FieldType.A;
                break;
-            case 02:
+            case 0x02:
                fieldType = FieldType.D;
                if (length != 4) {
                   throw new Exception("Invalid field length '" + length + "' for type '" + type + "'");
                }
                break;
-            case 03:
+            case 0x03:
                fieldType = FieldType.S;
                if (length != 2) {
                   throw new Exception("Invalid field length '" + length + "' for type '" + type + "'");
                }
                break;
-            case 04:
+            case 0x04:
                fieldType = FieldType.I;
                if (length != 4) {
                   throw new Exception("Invalid field length '" + length + "' for type '" + type + "'");
                }
                break;
-            case 05:
-               fieldType = FieldType.$;
+            case 0x05:
+               fieldType = FieldType.C;
                if (length != 8) {
                   throw new Exception("Invalid field length '" + length + "' for type '" + type + "'");
                }
                break;
-            case 06:
+            case 0x06:
                fieldType = FieldType.N;
                if (length != 8) {
                   throw new Exception("Invalid field length '" + length + "' for type '" + type + "'");
                }
                break;
-            case 0Xc:
+            case 0x09:
+               fieldType = FieldType.L;
+               if (length != 1) {
+                  throw new Exception("Invalid field length '" + length + "' for type '" + type + "'");
+               }
+               break;
+            case 0xc:
                fieldType = FieldType.M;
                break;
-            case 0Xd:
+            case 0xd:
                fieldType = FieldType.B;
                break;
-            case 0X15:
+            case 0xe:
+               fieldType = FieldType.E;
+               break;
+            case 0xf:
+               fieldType = FieldType.O;
+               break;
+            case 0x10:
+               fieldType = FieldType.G;
+               break;
+            case 0x14:
+               fieldType = FieldType.T;
+               if (length != 4) {
+                  throw new Exception("Invalid field length '" + length + "' for type '" + type + "'");
+               }
+               break;
+            case 0x15:
                fieldType = FieldType.TS;
                if (length != 8) {
                   throw new Exception("Invalid field length '" + length + "' for type '" + type + "'");
                }
                break;
-            case 22:
+            case 0x16:
                fieldType = FieldType.Auto;
+               break;
+            case 0x17:
+               fieldType = FieldType.BCD;
+               if (length != 17) {
+                  throw new Exception("Invalid field length '" + length + "' for type '" + type + "'");
+               }
+               break;
+            case 0x18:
+               fieldType = FieldType.Bytes;
                break;
             default:
                throw new Exception("Unknown field type '" + type + "'");

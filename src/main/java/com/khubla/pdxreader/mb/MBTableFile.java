@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.io.LittleEndianDataInputStream;
+import com.khubla.pdxreader.mb.MBTableBlock.RecordType;
 
 /**
  * @author tom
@@ -42,28 +43,34 @@ public class MBTableFile {
             /*
              * get an appropriate Block type
              */
-            final MBTableBlock mbTableBlock = MBTableBlockFactory.getMBTableBlock(MBTableBlock.getRecordType(type));
+            RecordType recordType = MBTableBlock.getRecordType(type);
             /*
-             * set the offset
+             * ok?
              */
-            mbTableBlock.setFileOffset(fileOffset);
-            /*
-             * pre-read
-             */
-            final int bytesPreRead = mbTableBlock.preRead(littleEndianDataInputStream);
-            /*
-             * add to list
-             */
-            blocks.add(mbTableBlock);
-            /*
-             * skip forward to next one
-             */
-            final int bytesToSkip = mbTableBlock.getSizeofBlock() - (1 + bytesPreRead);
-            littleEndianDataInputStream.skip(bytesToSkip);
-            /*
-             * update the offset
-             */
-            fileOffset += mbTableBlock.getSizeofBlock();
+            if (null != recordType) {
+               final MBTableBlock mbTableBlock = MBTableBlockFactory.getMBTableBlock(recordType);
+               /*
+                * set the offset
+                */
+               mbTableBlock.setFileOffset(fileOffset);
+               /*
+                * pre-read
+                */
+               final int bytesPreRead = mbTableBlock.preRead(littleEndianDataInputStream);
+               /*
+                * add to list
+                */
+               blocks.add(mbTableBlock);
+               /*
+                * skip forward to next one
+                */
+               final int bytesToSkip = mbTableBlock.getSizeofBlock() - (1 + bytesPreRead);
+               littleEndianDataInputStream.skip(bytesToSkip);
+               /*
+                * update the offset
+                */
+               fileOffset += mbTableBlock.getSizeofBlock();
+            }
          }
       } catch (final Exception e) {
          throw new Exception("Exception in read", e);

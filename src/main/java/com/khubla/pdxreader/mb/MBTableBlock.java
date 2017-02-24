@@ -29,6 +29,9 @@ public abstract class MBTableBlock {
 
    public static RecordType getRecordType(int type) throws Exception {
       switch (type) {
+         case -1:
+            // no idea what a -1 record type is...
+            return null;
          case 0:
             return RecordType.header;
          case 2:
