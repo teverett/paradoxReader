@@ -212,7 +212,7 @@ public class DBTableHeader {
          /*
           * skip forward 250 bytes
           */
-         final int skipBytes = 249;
+         final int skipBytes = 250;
          // dumpBytes(skipBytes, littleEndianDataInputStream);
          littleEndianDataInputStream.skipBytes(skipBytes);
          readFieldNames(littleEndianDataInputStream);
