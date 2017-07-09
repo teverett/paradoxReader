@@ -3,6 +3,11 @@ paradoxReader
 
 [Paradox](https://en.wikipedia.org/wiki/Paradox_(database)) Database File Reader
 
+Travis Status
+---------
+
+<a href="https://travis-ci.org/teverett/paradoxReader"><img src="https://api.travis-ci.org/teverett/paradoxReader.png"></a>
+
 Maven Coordinates
 -------------
 
@@ -48,8 +53,4 @@ public interface PDXReaderListener {
 
 The `record` method will be called once per record in the table file.
 
-Travis Status
----------
-
-<a href="https://travis-ci.org/teverett/paradoxReader"><img src="https://api.travis-ci.org/teverett/paradoxReader.png"></a>
 
