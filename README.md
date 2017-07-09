@@ -51,5 +51,5 @@ The `record` method will be called once per record in the table file.
 Travis Status
 ---------
 
-<a href="https://travis-ci.org/teverett/paradoxReader><img src="https://api.travis-ci.org/teverett/paradoxReader.png"></a>
+<a href="https://travis-ci.org/teverett/paradoxReader"><img src="https://api.travis-ci.org/teverett/paradoxReader.png"></a>
 
