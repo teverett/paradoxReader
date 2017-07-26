@@ -5,8 +5,12 @@ paradoxReader
 
 Travis Status
 ---------
-
 <a href="https://travis-ci.org/teverett/paradoxReader"><img src="https://api.travis-ci.org/teverett/paradoxReader.png"></a>
+
+Coverity Status
+---------
+
+<a href="https://scan.coverity.com/projects/teverett-paradoxreader"><img alt="Coverity Scan Build Status" src="https://scan.coverity.com/projects/13282/badge.svg"/></a>
 
 Maven Coordinates
 -------------
