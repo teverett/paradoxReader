@@ -2,4 +2,21 @@ sudo: false
 language: java
 jdk:
   - oraclejdk8
-  
+env:
+  global:
+   # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
+   #   via the "travis encrypt" command using the project repo's public key
+   - secure: "M3YAE0wMSUa10D4wzm0wOdWrwI91U/ZvKLY11x2Q9Tyak+Y+vH8FIwEXadQB2S4mcNOI2KL2nNzpsoUJQw4KYBKhsVagcgII7tb+dP4xCXscoqFoxhqN6ZhCWcUlFYGFvz4KMEJ9dXZ+azZLQO7QgwUkjm5wKRE/MXOBagqLpjk="
+
+before_install:
+      - echo -n | openssl s_client -connect scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
+
+addons:
+  coverity_scan:
+    project:
+      name: "teverett/paradoxReader"
+      description: "Build submitted via Travis CI"
+    notification_email: tom@khubla.com
+    build_command_prepend: "mvn clean"
+    build_command:   "mvn -DskipTests=true compile"
+    branch_pattern: coverity_scan
