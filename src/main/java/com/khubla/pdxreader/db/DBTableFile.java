@@ -58,24 +58,29 @@ public class DBTableFile {
           */
          final BufferedInputStream bufferedInputStream = new BufferedInputStream(new FileInputStream(file));
          final LittleEndianDataInputStream littleEndianDataInputStream = new LittleEndianDataInputStream(bufferedInputStream);
-         /*
-          * mark and read the headers
-          */
-         bufferedInputStream.mark(MAX_HEADER_SIZE);
-         readHeaders(littleEndianDataInputStream);
-         /*
-          * call the api
-          */
-         pdxReaderListener.header(dbTableHeader);
-         /*
-          * read the block data
-          */
-         bufferedInputStream.reset();
-         readBlocks(bufferedInputStream, pdxReaderListener);
-         /*
-          * done
-          */
-         pdxReaderListener.finish();
+         try {
+            /*
+             * mark and read the headers
+             */
+            bufferedInputStream.mark(MAX_HEADER_SIZE);
+            readHeaders(littleEndianDataInputStream);
+            /*
+             * call the api
+             */
+            pdxReaderListener.header(dbTableHeader);
+            /*
+             * read the block data
+             */
+            bufferedInputStream.reset();
+            readBlocks(bufferedInputStream, pdxReaderListener);
+            /*
+             * done
+             */
+            pdxReaderListener.finish();
+         } finally {
+            littleEndianDataInputStream.close();
+            bufferedInputStream.close();
+         }
       } catch (final Exception e) {
          throw new Exception("Exception in read", e);
       }
