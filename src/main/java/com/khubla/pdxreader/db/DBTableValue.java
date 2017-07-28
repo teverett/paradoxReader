@@ -68,6 +68,7 @@ public class DBTableValue {
             case M:
                // Memo
                value = StringUtil.ByteArrayToString(data);
+               break;
             case N:
                final long n = ByteBuffer.wrap(data).order(ByteOrder.LITTLE_ENDIAN).getLong();
                value = Double.toString(n);

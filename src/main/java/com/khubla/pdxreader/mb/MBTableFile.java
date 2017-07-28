@@ -29,49 +29,54 @@ public class MBTableFile {
           */
          final BufferedInputStream bufferedInputStream = new BufferedInputStream(new FileInputStream(file));
          final LittleEndianDataInputStream littleEndianDataInputStream = new LittleEndianDataInputStream(bufferedInputStream);
-         /*
-          * offset tracker
-          */
-         int fileOffset = 0;
-         /*
-          * loop
-          */
-         while (littleEndianDataInputStream.available() > 1) {
+         try {
             /*
-             * read type
+             * offset tracker
              */
-            final int type = littleEndianDataInputStream.readByte();
+            int fileOffset = 0;
             /*
-             * get an appropriate Block type
+             * loop
              */
-            final RecordType recordType = MBTableBlock.getRecordType(type);
-            /*
-             * ok?
-             */
-            if (null != recordType) {
-               final MBTableBlock mbTableBlock = MBTableBlockFactory.getMBTableBlock(recordType);
+            while (littleEndianDataInputStream.available() > 1) {
                /*
-                * set the offset
+                * read type
                 */
-               mbTableBlock.setFileOffset(fileOffset);
+               final int type = littleEndianDataInputStream.readByte();
                /*
-                * pre-read
+                * get an appropriate Block type
                 */
-               final int bytesPreRead = mbTableBlock.preRead(littleEndianDataInputStream);
+               final RecordType recordType = MBTableBlock.getRecordType(type);
                /*
-                * add to list
+                * ok?
                 */
-               blocks.add(mbTableBlock);
-               /*
-                * skip forward to next one
-                */
-               final int bytesToSkip = mbTableBlock.getSizeofBlock() - (1 + bytesPreRead);
-               littleEndianDataInputStream.skip(bytesToSkip);
-               /*
-                * update the offset
-                */
-               fileOffset += mbTableBlock.getSizeofBlock();
+               if (null != recordType) {
+                  final MBTableBlock mbTableBlock = MBTableBlockFactory.getMBTableBlock(recordType);
+                  /*
+                   * set the offset
+                   */
+                  mbTableBlock.setFileOffset(fileOffset);
+                  /*
+                   * pre-read
+                   */
+                  final int bytesPreRead = mbTableBlock.preRead(littleEndianDataInputStream);
+                  /*
+                   * add to list
+                   */
+                  blocks.add(mbTableBlock);
+                  /*
+                   * skip forward to next one
+                   */
+                  final int bytesToSkip = mbTableBlock.getSizeofBlock() - (1 + bytesPreRead);
+                  littleEndianDataInputStream.skip(bytesToSkip);
+                  /*
+                   * update the offset
+                   */
+                  fileOffset += mbTableBlock.getSizeofBlock();
+               }
             }
+         } finally {
+            littleEndianDataInputStream.close();
+            bufferedInputStream.close();
          }
       } catch (final Exception e) {
          throw new PDXReaderException("Exception in read", e);
@@ -107,14 +112,19 @@ public class MBTableFile {
              */
             final BufferedInputStream bufferedInputStream = new BufferedInputStream(new FileInputStream(file));
             final LittleEndianDataInputStream littleEndianDataInputStream = new LittleEndianDataInputStream(bufferedInputStream);
-            /*
-             * ffd
-             */
-            littleEndianDataInputStream.skip(mbTableBlock.getFileOffset());
-            /*
-             * read
-             */
-            mbTableBlock.read(littleEndianDataInputStream);
+            try {
+               /*
+                * ffd
+                */
+               littleEndianDataInputStream.skip(mbTableBlock.getFileOffset());
+               /*
+                * read
+                */
+               mbTableBlock.read(littleEndianDataInputStream);
+            } finally {
+               littleEndianDataInputStream.close();
+               bufferedInputStream.close();
+            }
          }
       } catch (final Exception e) {
          throw new PDXReaderException("Exception in read", e);

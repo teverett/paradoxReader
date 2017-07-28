@@ -47,12 +47,14 @@ public class PDXReader {
           * get file
           */
          final String filename = cmd.getOptionValue(FILE_OPTION);
-         final File inputFile = new File(filename);
-         if (inputFile.exists()) {
-            final DBTableFile pdxFile = new DBTableFile();
-            final PDXReaderListener pdxReaderListener = new PDXReaderCSVListenerImpl();
-            pdxFile.read(inputFile, pdxReaderListener);
-            System.out.println("done");
+         if (null != filename) {
+            final File inputFile = new File(filename);
+            if (inputFile.exists()) {
+               final DBTableFile pdxFile = new DBTableFile();
+               final PDXReaderListener pdxReaderListener = new PDXReaderCSVListenerImpl();
+               pdxFile.read(inputFile, pdxReaderListener);
+               System.out.println("done");
+            }
          }
       } catch (final Exception e) {
          e.printStackTrace();
