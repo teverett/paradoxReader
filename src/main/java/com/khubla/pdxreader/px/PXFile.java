@@ -47,16 +47,21 @@ public class PXFile {
           */
          final BufferedInputStream bufferedInputStream = new BufferedInputStream(new FileInputStream(file));
          final LittleEndianDataInputStream littleEndianDataInputStream = new LittleEndianDataInputStream(bufferedInputStream);
-         /*
-          * mark and read the headers
-          */
-         bufferedInputStream.mark(MAX_HEADER_SIZE);
-         readHeaders(littleEndianDataInputStream);
-         /*
-          * read the block data
-          */
-         bufferedInputStream.reset();
-         readBlocks(bufferedInputStream);
+         try {
+            /*
+             * mark and read the headers
+             */
+            bufferedInputStream.mark(MAX_HEADER_SIZE);
+            readHeaders(littleEndianDataInputStream);
+            /*
+             * read the block data
+             */
+            bufferedInputStream.reset();
+            readBlocks(bufferedInputStream);
+         } finally {
+            littleEndianDataInputStream.close();
+            bufferedInputStream.close();
+         }
       } catch (final Exception e) {
          throw new PDXReaderException("Exception in read", e);
       }
