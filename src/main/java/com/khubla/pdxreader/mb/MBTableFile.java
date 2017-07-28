@@ -67,11 +67,13 @@ public class MBTableFile {
                    * skip forward to next one
                    */
                   final int bytesToSkip = mbTableBlock.getSizeofBlock() - (1 + bytesPreRead);
-                  littleEndianDataInputStream.skip(bytesToSkip);
-                  /*
-                   * update the offset
-                   */
-                  fileOffset += mbTableBlock.getSizeofBlock();
+                  long skipped = littleEndianDataInputStream.skip(bytesToSkip);
+                  if (0 != skipped) {
+                     /*
+                      * update the offset
+                      */
+                     fileOffset += mbTableBlock.getSizeofBlock();
+                  }
                }
             }
          } finally {
@@ -116,11 +118,13 @@ public class MBTableFile {
                /*
                 * ffd
                 */
-               littleEndianDataInputStream.skip(mbTableBlock.getFileOffset());
-               /*
-                * read
-                */
-               mbTableBlock.read(littleEndianDataInputStream);
+               long skipped = littleEndianDataInputStream.skip(mbTableBlock.getFileOffset());
+               if (0 != skipped) {
+                  /*
+                   * read
+                   */
+                  mbTableBlock.read(littleEndianDataInputStream);
+               }
             } finally {
                littleEndianDataInputStream.close();
                bufferedInputStream.close();
