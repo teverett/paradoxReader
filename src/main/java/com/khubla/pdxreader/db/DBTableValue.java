@@ -49,6 +49,7 @@ public class DBTableValue {
                   value = StringUtil.readString(data);
                   break;
                case D:
+                  // date
                   final long d = ByteBuffer.wrap(data).order(ByteOrder.LITTLE_ENDIAN).getShort();
                   value = Long.toString(d);
                   break;
