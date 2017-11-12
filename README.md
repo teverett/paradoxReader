@@ -18,7 +18,7 @@ Maven Coordinates
 ```
 <groupId>com.khubla.pdxreader</groupId>
 <artifactId>pdxreader</artifactId>
-<version>1.1-SNAPSHOT</version>
+<version>1.2</version>
 <packaging>jar</packaging>
 ```
 
