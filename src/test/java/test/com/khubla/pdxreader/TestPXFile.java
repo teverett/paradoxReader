@@ -13,7 +13,7 @@ import com.khubla.pdxreader.util.TestUtil;
 public class TestPXFile {
    public void testRead() {
       try {
-         final List<String> files = TestUtil.getTestFiles("src/test/resources/", new String[] { ".PX" });
+         final List<String> files = TestUtil.getTestFiles("src/test/resources/examples/", new String[] { ".PX" });
          for (final String filename : files) {
             final File inputFile = new File(filename);
             Assert.assertTrue(inputFile.exists());
