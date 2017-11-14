@@ -1,6 +1,6 @@
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/0879c97ba4134bacace2e0260d8547da)](https://www.codacy.com/app/teverett/paradoxReader?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=teverett/paradoxReader&amp;utm_campaign=Badge_Grade)
 [![Travis](https://img.shields.io/travis/rust-lang/rust.svg)](https://travis-ci.org/teverett/paradoxReade)
 [![Coverity Scan](https://img.shields.io/coverity/scan/3997.svg)](https://scan.coverity.com/projects/teverett-paradoxreader)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/0879c97ba4134bacace2e0260d8547da)](https://www.codacy.com/app/teverett/paradoxReader?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=teverett/paradoxReader&amp;utm_campaign=Badge_Grade)
 
 paradoxReader
 =============
