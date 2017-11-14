@@ -1,16 +1,11 @@
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/0879c97ba4134bacace2e0260d8547da)](https://www.codacy.com/app/teverett/paradoxReader?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=teverett/paradoxReader&amp;utm_campaign=Badge_Grade)
+[![Travis](https://img.shields.io/travis/rust-lang/rust.svg)](https://travis-ci.org/teverett/paradoxReade)
+[![Coverity Scan](https://img.shields.io/coverity/scan/3997.svg)](https://scan.coverity.com/projects/teverett-paradoxreader)
+
 paradoxReader
 =============
 
 [Paradox](https://en.wikipedia.org/wiki/Paradox_(database)) Database File Reader
-
-Travis Status
----------
-<a href="https://travis-ci.org/teverett/paradoxReader"><img src="https://api.travis-ci.org/teverett/paradoxReader.png"></a>
-
-Coverity Status
----------
-
-<a href="https://scan.coverity.com/projects/teverett-paradoxreader"><img alt="Coverity Scan Build Status" src="https://scan.coverity.com/projects/13282/badge.svg"/></a>
 
 Maven Coordinates
 -------------
