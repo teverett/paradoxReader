@@ -69,7 +69,7 @@ public class DBTableValue {
                   break;
                case M:
                   // Memo
-                  value = StringUtil.ByteArrayToString(data);
+                  value = StringUtil.byteArrayToString(data);
                   break;
                case N:
                   final long n = ByteBuffer.wrap(data).order(ByteOrder.LITTLE_ENDIAN).getLong();
@@ -77,31 +77,31 @@ public class DBTableValue {
                   break;
                case L:
                   // Logical
-                  value = StringUtil.ByteArrayToString(data);
+                  value = StringUtil.byteArrayToString(data);
                   break;
                case B:
                   // Binary
-                  value = StringUtil.ByteArrayToString(data);
+                  value = StringUtil.byteArrayToString(data);
                   break;
                case O:
                   // OLE
-                  value = StringUtil.ByteArrayToString(data);
+                  value = StringUtil.byteArrayToString(data);
                   break;
                case E:
                   // formatted memo
-                  value = StringUtil.ByteArrayToString(data);
+                  value = StringUtil.byteArrayToString(data);
                   break;
                case G:
                   // Graphic
-                  value = StringUtil.ByteArrayToString(data);
+                  value = StringUtil.byteArrayToString(data);
                   break;
                case BCD:
                   // BCD
-                  value = StringUtil.ByteArrayToString(data);
+                  value = StringUtil.byteArrayToString(data);
                   break;
                case Bytes:
                   // Bytes
-                  value = StringUtil.ByteArrayToString(data);
+                  value = StringUtil.byteArrayToString(data);
                   break;
                case TS:
                   // milliseconds since Jan 1, 1 AD, convert to UTC time

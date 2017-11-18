@@ -8,7 +8,7 @@ import com.google.common.io.LittleEndianDataInputStream;
  * @author tom
  */
 public class StringUtil {
-   public static String ByteArrayToString(byte[] bytes) {
+   public static String byteArrayToString(byte[] bytes) {
       final StringBuilder builder = new StringBuilder();
       for (final byte b : bytes) {
          builder.append(String.format("%02x", b));
