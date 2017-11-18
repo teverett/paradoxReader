@@ -30,12 +30,6 @@ public class DBTableFile {
     */
    private Hashtable<Integer, DBTableBlock> blocks;
 
-   /**
-    * ctor
-    */
-   public DBTableFile() {
-   }
-
    public Hashtable<Integer, DBTableBlock> getBlocks() {
       return blocks;
    }

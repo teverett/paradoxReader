@@ -32,12 +32,6 @@ public class PXFile {
    private List<PXIndexBlock> blocks;
 
    /**
-    * ctor
-    */
-   public PXFile() {
-   }
-
-   /**
     * read
     */
    public void read(File file) throws PDXReaderException {

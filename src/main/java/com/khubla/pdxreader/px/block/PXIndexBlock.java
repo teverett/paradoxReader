@@ -20,9 +20,6 @@ public class PXIndexBlock {
     */
    private List<PXIndexBlockRecord> indexRecords;
 
-   public PXIndexBlock() {
-   }
-
    /**
     * read data. This assumes that the inputStream is on byte 0 from the start of the block
     */
