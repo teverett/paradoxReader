@@ -242,8 +242,9 @@ public class DBTableHeader {
          fields = new ArrayList<DBTableField>();
          for (int i = 0; i < numberFields; i++) {
             final DBTableField pdxTableField = new DBTableField();
-            pdxTableField.readFieldTypeAndSize(littleEndianDataInputStream);
-            fields.add(pdxTableField);
+            if (pdxTableField.readFieldTypeAndSize(littleEndianDataInputStream)) {
+               fields.add(pdxTableField);
+            }
          }
       } catch (final Exception e) {
          throw new PDXReaderException("Exception in readFields", e);

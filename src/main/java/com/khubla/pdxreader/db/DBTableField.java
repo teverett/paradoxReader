@@ -96,11 +96,13 @@ public class DBTableField {
    /**
     * types and sizes, 2 bytes per field
     */
-   public void readFieldTypeAndSize(LittleEndianDataInputStream littleEndianDataInputStream) throws PDXReaderException {
+   public boolean readFieldTypeAndSize(LittleEndianDataInputStream littleEndianDataInputStream) throws PDXReaderException {
       try {
          type = littleEndianDataInputStream.readUnsignedByte();
          length = littleEndianDataInputStream.readUnsignedByte();
          switch (type) {
+            case 0x00:
+               return false;
             case 0x01:
                fieldType = FieldType.A;
                break;
@@ -182,6 +184,7 @@ public class DBTableField {
             default:
                throw new PDXReaderException("Unknown field type '" + type + "'");
          }
+         return true;
       } catch (final Exception e) {
          throw new PDXReaderException("Exception in read", e);
       }
