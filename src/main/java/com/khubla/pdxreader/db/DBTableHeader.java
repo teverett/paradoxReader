@@ -310,6 +310,7 @@ public class DBTableHeader {
    }
 
    public void setTableType(TableType tableType) {
+      this.tableType = tableType;
    }
 
    public void setTotalBlocksInFile(int totalBlocksInFile) {

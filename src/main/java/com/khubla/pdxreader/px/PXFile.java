@@ -73,36 +73,40 @@ public class PXFile {
          /*
           * skip to the first index block
           */
-         bufferedInputStream.skip(pxFileHeader.getBlockSize().getValue() * 1024);
-         /*
-          * walk index blocks
-          */
-         final int blocksInUse = pxFileHeader.getBlocksInUse();
-         for (int i = 0; i < blocksInUse; i++) {
+         int nSkip = pxFileHeader.getBlockSize().getValue() * 1024;
+         if (nSkip == bufferedInputStream.skip(nSkip)) {
             /*
-             * block
+             * walk index blocks
              */
-            final PXIndexBlock pxIndexBlock = new PXIndexBlock();
-            /*
-             * mark at the start of the block
-             */
-            bufferedInputStream.mark(MAX_BLOCK_SIZE);
-            /*
-             * read the block data
-             */
-            pxIndexBlock.read(bufferedInputStream);
-            /*
-             * store it. blocks are numbered from 1, not from 0.
-             */
-            blocks.add(pxIndexBlock);
-            /*
-             * reset to the start of the block
-             */
-            bufferedInputStream.reset();
-            /*
-             * skip ahead to next block
-             */
-            bufferedInputStream.skip(pxFileHeader.getBlockSize().getValue() * 1024);
+            final int blocksInUse = pxFileHeader.getBlocksInUse();
+            for (int i = 0; i < blocksInUse; i++) {
+               /*
+                * block
+                */
+               final PXIndexBlock pxIndexBlock = new PXIndexBlock();
+               /*
+                * mark at the start of the block
+                */
+               bufferedInputStream.mark(MAX_BLOCK_SIZE);
+               /*
+                * read the block data
+                */
+               pxIndexBlock.read(bufferedInputStream);
+               /*
+                * store it. blocks are numbered from 1, not from 0.
+                */
+               blocks.add(pxIndexBlock);
+               /*
+                * reset to the start of the block
+                */
+               bufferedInputStream.reset();
+               /*
+                * skip ahead to next block
+                */
+               bufferedInputStream.skip(pxFileHeader.getBlockSize().getValue() * 1024);
+            }
+         } else {
+            throw new PDXReaderException("File format exception");
          }
       } catch (final Exception e) {
          throw new PDXReaderException("Exception in readBlocks", e);

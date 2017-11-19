@@ -92,36 +92,40 @@ public class DBTableFile {
          /*
           * skip to the first block
           */
-         bufferedInputStream.skip(dbTableHeader.getBlockSize().getValue() * 1024);
-         /*
-          * walk blocks
-          */
-         final int blocksInUse = dbTableHeader.getBlocksInUse();
-         for (int i = 0; i < blocksInUse; i++) {
+         int nSkip = dbTableHeader.getBlockSize().getValue() * 1024;
+         if (nSkip == bufferedInputStream.skip(nSkip)) {
             /*
-             * block
+             * walk blocks
              */
-            final DBTableBlock pdxTableBlock = new DBTableBlock(i + 1, dbTableHeader.calculateRecordsPerBlock(), dbTableHeader.getFields());
-            /*
-             * mark at the start of the block
-             */
-            bufferedInputStream.mark(MAX_BLOCK_SIZE);
-            /*
-             * read the block data
-             */
-            pdxTableBlock.read(pdxReaderListener, bufferedInputStream);
-            /*
-             * store it. blocks are numbered from 1, not from 0.
-             */
-            blocks.put(pdxTableBlock.getBlockNumber(), pdxTableBlock);
-            /*
-             * reset to the start of the block
-             */
-            bufferedInputStream.reset();
-            /*
-             * skip ahead to next block
-             */
-            bufferedInputStream.skip(dbTableHeader.getBlockSize().getValue() * 1024);
+            final int blocksInUse = dbTableHeader.getBlocksInUse();
+            for (int i = 0; i < blocksInUse; i++) {
+               /*
+                * block
+                */
+               final DBTableBlock pdxTableBlock = new DBTableBlock(i + 1, dbTableHeader.calculateRecordsPerBlock(), dbTableHeader.getFields());
+               /*
+                * mark at the start of the block
+                */
+               bufferedInputStream.mark(MAX_BLOCK_SIZE);
+               /*
+                * read the block data
+                */
+               pdxTableBlock.read(pdxReaderListener, bufferedInputStream);
+               /*
+                * store it. blocks are numbered from 1, not from 0.
+                */
+               blocks.put(pdxTableBlock.getBlockNumber(), pdxTableBlock);
+               /*
+                * reset to the start of the block
+                */
+               bufferedInputStream.reset();
+               /*
+                * skip ahead to next block
+                */
+               bufferedInputStream.skip(dbTableHeader.getBlockSize().getValue() * 1024);
+            }
+         } else {
+            throw new PDXReaderException("File format exception");
          }
       } catch (final Exception e) {
          throw new PDXReaderException("Exception in readBlocks", e);
