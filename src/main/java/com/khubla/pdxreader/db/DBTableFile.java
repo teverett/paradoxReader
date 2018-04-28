@@ -19,7 +19,7 @@ public class DBTableFile {
     */
    private final static int MAX_HEADER_SIZE = 10240;
    /**
-    * max block size
+    * max block size (64K blocks are the biggest blocks)
     */
    private final static int MAX_BLOCK_SIZE = 64 * 1024;
    /**
