@@ -119,6 +119,26 @@ public class DBTableHeader {
       this.sortOrder = sortOrder;
    }
 
+   private int modified1;
+
+   public int getModified1() {
+      return modified1;
+   }
+
+   public void setModified1(int modified1) {
+      this.modified1 = modified1;
+   }
+
+   private int indexFieldNumber;
+
+   public int getIndexFieldNumber() {
+      return indexFieldNumber;
+   }
+
+   public void setIndexFieldNumber(int indexFieldNumber) {
+      this.indexFieldNumber = indexFieldNumber;
+   }
+
    /**
     * figure out the total records in a block
     */
@@ -245,7 +265,10 @@ public class DBTableHeader {
          totalBlocksInFile = littleEndianDataInputStream.readUnsignedShort();
          firstDataBlock = littleEndianDataInputStream.readUnsignedShort();
          lastDataBlock = littleEndianDataInputStream.readUnsignedShort();
-         littleEndianDataInputStream.skipBytes(15);
+         littleEndianDataInputStream.skipBytes(2);
+         modified1 = littleEndianDataInputStream.readUnsignedByte();
+         indexFieldNumber = littleEndianDataInputStream.readUnsignedByte();
+         littleEndianDataInputStream.skipBytes(11);
          // byte 0x21
          numberFields = littleEndianDataInputStream.readUnsignedByte();
          // byte 0x22
