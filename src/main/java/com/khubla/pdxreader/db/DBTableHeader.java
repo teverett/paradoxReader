@@ -257,7 +257,10 @@ public class DBTableHeader {
          // byte 0x2c
          sortOrder = littleEndianDataInputStream.readByte();
          // byte 0x2d
-         littleEndianDataInputStream.skipBytes(0x4b);
+         // skip 6 bytes
+         littleEndianDataInputStream.skipBytes(0x06);
+         // byte 0x33
+         littleEndianDataInputStream.skipBytes(0x45);
          // byte 0x78
          readFieldTypesAndSizes(littleEndianDataInputStream);
          // name
