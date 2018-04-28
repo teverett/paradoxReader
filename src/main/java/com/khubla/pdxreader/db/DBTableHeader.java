@@ -115,22 +115,6 @@ public class DBTableHeader {
    private int fileVersionID;
    private int maxBlocks;
 
-   public int getTableNamePtrPtr() {
-      return tableNamePtrPtr;
-   }
-
-   public void setTableNamePtrPtr(int tableNamePtrPtr) {
-      this.tableNamePtrPtr = tableNamePtrPtr;
-   }
-
-   public int getFldInfoPtr() {
-      return fldInfoPtr;
-   }
-
-   public void setFldInfoPtr(int fldInfoPtr) {
-      this.fldInfoPtr = fldInfoPtr;
-   }
-
    /**
     * figure out the total records in a block
     */
@@ -170,12 +154,20 @@ public class DBTableHeader {
       return fields;
    }
 
+   public int getFileVersionID() {
+      return fileVersionID;
+   }
+
    public int getFirstDataBlock() {
       return firstDataBlock;
    }
 
    public int getFirstFreeBlock() {
       return firstFreeBlock;
+   }
+
+   public int getFldInfoPtr() {
+      return fldInfoPtr;
    }
 
    public int getHeaderBlockSize() {
@@ -192,6 +184,10 @@ public class DBTableHeader {
 
    public int getLastDataBlock() {
       return lastDataBlock;
+   }
+
+   public int getMaxBlocks() {
+      return maxBlocks;
    }
 
    public int getModified1() {
@@ -230,12 +226,20 @@ public class DBTableHeader {
       return sortOrder;
    }
 
+   public int getTableNamePtrPtr() {
+      return tableNamePtrPtr;
+   }
+
    public TableType getTableType() {
       return tableType;
    }
 
    public int getTotalBlocksInFile() {
       return totalBlocksInFile;
+   }
+
+   public int getWriteProtected() {
+      return writeProtected;
    }
 
    /**
@@ -325,7 +329,13 @@ public class DBTableHeader {
          // byte 0x37
          fldInfoPtr = littleEndianDataInputStream.readInt();
          // byte 0x3b
-         littleEndianDataInputStream.skipBytes(0x3d);
+         writeProtected = littleEndianDataInputStream.readByte();
+         // byte 0x3c
+         fileVersionID = littleEndianDataInputStream.readByte();
+         // byte 0x3d
+         maxBlocks = littleEndianDataInputStream.readUnsignedShort();
+         // byte 0x3f
+         littleEndianDataInputStream.skipBytes(0x39);
          // byte 0x78
          readFieldTypesAndSizes(littleEndianDataInputStream);
          // name
@@ -412,12 +422,20 @@ public class DBTableHeader {
       this.fields = fields;
    }
 
+   public void setFileVersionID(int fileVersionID) {
+      this.fileVersionID = fileVersionID;
+   }
+
    public void setFirstDataBlock(int firstDataBlock) {
       this.firstDataBlock = firstDataBlock;
    }
 
    public void setFirstFreeBlock(int firstFreeBlock) {
       this.firstFreeBlock = firstFreeBlock;
+   }
+
+   public void setFldInfoPtr(int fldInfoPtr) {
+      this.fldInfoPtr = fldInfoPtr;
    }
 
    public void setHeaderBlockSize(int headerBlockSize) {
@@ -434,6 +452,10 @@ public class DBTableHeader {
 
    public void setLastDataBlock(int lastDataBlock) {
       this.lastDataBlock = lastDataBlock;
+   }
+
+   public void setMaxBlocks(int maxBlocks) {
+      this.maxBlocks = maxBlocks;
    }
 
    public void setModified1(int modified1) {
@@ -472,11 +494,19 @@ public class DBTableHeader {
       this.sortOrder = sortOrder;
    }
 
+   public void setTableNamePtrPtr(int tableNamePtrPtr) {
+      this.tableNamePtrPtr = tableNamePtrPtr;
+   }
+
    public void setTableType(TableType tableType) {
       this.tableType = tableType;
    }
 
    public void setTotalBlocksInFile(int totalBlocksInFile) {
       this.totalBlocksInFile = totalBlocksInFile;
+   }
+
+   public void setWriteProtected(int writeProtected) {
+      this.writeProtected = writeProtected;
    }
 }
