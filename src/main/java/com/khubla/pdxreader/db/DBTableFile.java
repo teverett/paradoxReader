@@ -103,6 +103,10 @@ public class DBTableFile {
          int nSkip = dbTableHeader.getHeaderBlockSize();
          if (nSkip == bufferedInputStream.skip(nSkip)) {
             /*
+             * records per block
+             */
+            int recordsPerBlock = dbTableHeader.calculateRecordsPerBlock();
+            /*
              * walk blocks
              */
             final int blocksInUse = dbTableHeader.getBlocksInUse();
@@ -110,7 +114,7 @@ public class DBTableFile {
                /*
                 * block
                 */
-               final DBTableBlock pdxTableBlock = new DBTableBlock(i + 1, dbTableHeader.calculateRecordsPerBlock(), dbTableHeader.getFields());
+               final DBTableBlock pdxTableBlock = new DBTableBlock(i + 1, recordsPerBlock, dbTableHeader.getFields());
                /*
                 * mark at the start of the block
                 */

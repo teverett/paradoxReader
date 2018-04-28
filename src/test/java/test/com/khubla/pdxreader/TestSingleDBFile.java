@@ -9,7 +9,7 @@ import com.khubla.pdxreader.PDXReaderCSVListenerImpl;
 import com.khubla.pdxreader.api.PDXReaderListener;
 import com.khubla.pdxreader.db.DBTableFile;
 
-@Test(enabled = true)
+@Test(enabled = false)
 public class TestSingleDBFile {
    public void testRead() {
       try {
