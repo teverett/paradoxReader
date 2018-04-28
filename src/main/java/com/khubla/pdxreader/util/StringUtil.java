@@ -13,6 +13,7 @@ import com.google.common.io.LittleEndianDataInputStream;
  * @author tom
  */
 public class StringUtil {
+   // Windows Latin-1
    private final static String DEFAULT_ENCODING = "Cp1252";
 
    public static String byteArrayToString(byte[] bytes) {
