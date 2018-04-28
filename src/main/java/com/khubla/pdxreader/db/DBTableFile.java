@@ -3,6 +3,7 @@ package com.khubla.pdxreader.db;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.Hashtable;
 
 import com.google.common.io.LittleEndianDataInputStream;
@@ -42,41 +43,48 @@ public class DBTableFile {
     * read
     */
    public void read(File file, PDXReaderListener pdxReaderListener) throws Exception {
-      try {
-         /*
-          * start
-          */
-         pdxReaderListener.start();
-         /*
-          * set up streams
-          */
-         final BufferedInputStream bufferedInputStream = new BufferedInputStream(new FileInputStream(file));
-         final LittleEndianDataInputStream littleEndianDataInputStream = new LittleEndianDataInputStream(bufferedInputStream);
+      /*
+       * check if the file exists
+       */
+      if (file.exists()) {
          try {
             /*
-             * mark and read the headers
+             * start
              */
-            bufferedInputStream.mark(MAX_HEADER_SIZE);
-            readHeaders(littleEndianDataInputStream);
+            pdxReaderListener.start();
             /*
-             * call the api
+             * set up streams
              */
-            pdxReaderListener.header(dbTableHeader);
-            /*
-             * read the block data
-             */
-            bufferedInputStream.reset();
-            readBlocks(bufferedInputStream, pdxReaderListener);
-            /*
-             * done
-             */
-            pdxReaderListener.finish();
-         } finally {
-            littleEndianDataInputStream.close();
-            bufferedInputStream.close();
+            final BufferedInputStream bufferedInputStream = new BufferedInputStream(new FileInputStream(file));
+            final LittleEndianDataInputStream littleEndianDataInputStream = new LittleEndianDataInputStream(bufferedInputStream);
+            try {
+               /*
+                * mark and read the headers
+                */
+               bufferedInputStream.mark(MAX_HEADER_SIZE);
+               readHeaders(littleEndianDataInputStream);
+               /*
+                * call the api
+                */
+               pdxReaderListener.header(dbTableHeader);
+               /*
+                * read the block data
+                */
+               bufferedInputStream.reset();
+               readBlocks(bufferedInputStream, pdxReaderListener);
+               /*
+                * done
+                */
+               pdxReaderListener.finish();
+            } finally {
+               littleEndianDataInputStream.close();
+               bufferedInputStream.close();
+            }
+         } catch (final Exception e) {
+            throw new Exception("Exception in read", e);
          }
-      } catch (final Exception e) {
-         throw new Exception("Exception in read", e);
+      } else {
+         throw new FileNotFoundException();
       }
    }
 

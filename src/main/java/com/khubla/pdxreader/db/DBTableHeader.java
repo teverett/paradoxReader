@@ -15,7 +15,7 @@ public class DBTableHeader {
     * block size
     */
    public static enum BlockSize {
-      oneK(1), twoK(2), threeK(3), fourK(4);
+      oneK(1), twoK(2), threeK(3), fourK(4), eightK(8), sixteenK(16);
       private int value;
 
       private BlockSize(int value) {
@@ -80,7 +80,7 @@ public class DBTableHeader {
     */
    private int numberKeyFields;
    /**
-    * data block size code. 1 - 1k, 2 - 2k, 3 - 3k, 4 - 4k.
+    * data block size code. 1 - 1k, 2 - 2k, 3 - 3k, 4 - 4k, etc
     */
    private int dataBlockSizeCode;
    private int blocksInUse;
@@ -170,7 +170,13 @@ public class DBTableHeader {
    public void read(LittleEndianDataInputStream littleEndianDataInputStream) throws Exception {
       try {
          recordBufferSize = littleEndianDataInputStream.readUnsignedShort();
+         /*
+          * size of this header block
+          */
          headerBlockSize = littleEndianDataInputStream.readUnsignedShort();
+         /*
+          * type of file
+          */
          final int tableType = littleEndianDataInputStream.readUnsignedByte();
          if (0 == tableType) {
             this.tableType = TableType.keyed;
@@ -179,6 +185,9 @@ public class DBTableHeader {
          } else {
             throw new Exception("Unknown table type '" + tableType + "'");
          }
+         /*
+          * size of a data block
+          */
          dataBlockSizeCode = littleEndianDataInputStream.readUnsignedByte();
          if (1 == dataBlockSizeCode) {
             blockSize = BlockSize.oneK;
@@ -188,11 +197,24 @@ public class DBTableHeader {
             blockSize = BlockSize.threeK;
          } else if (4 == dataBlockSizeCode) {
             blockSize = BlockSize.fourK;
+         } else if (8 == dataBlockSizeCode) {
+            blockSize = BlockSize.eightK;
+         } else if (16 == dataBlockSizeCode) {
+            blockSize = BlockSize.fourK;
          } else {
             throw new Exception("Unknown block size code '" + dataBlockSizeCode + "'");
          }
+         /*
+          * total records in file
+          */
          numberRecords = littleEndianDataInputStream.readInt();
+         /*
+          * number of blocks in use
+          */
          blocksInUse = littleEndianDataInputStream.readUnsignedShort();
+         /*
+          * total blocks in file
+          */
          totalBlocksInFile = littleEndianDataInputStream.readUnsignedShort();
          firstDataBlock = littleEndianDataInputStream.readUnsignedShort();
          lastDataBlock = littleEndianDataInputStream.readUnsignedShort();

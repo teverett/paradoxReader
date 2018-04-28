@@ -9,12 +9,12 @@ import com.khubla.pdxreader.PDXReaderCSVListenerImpl;
 import com.khubla.pdxreader.api.PDXReaderListener;
 import com.khubla.pdxreader.db.DBTableFile;
 
-@Test(enabled=false)
+@Test(enabled = true)
 public class TestSingleDBFile {
    public void testRead() {
       try {
          // File inputFile = new File("src/test/resources/examples/PCLDATA/LPI.DB");
-         File inputFile = new File("src/test/resources/examples/PCLDATA/BOLDNESS.DB");
+         File inputFile = new File("src/test/resources/MEMBRE.DB");
          final DBTableFile pdxFile = new DBTableFile();
          final PDXReaderListener pdxReaderListener = new PDXReaderCSVListenerImpl();
          pdxFile.read(inputFile, pdxReaderListener);
