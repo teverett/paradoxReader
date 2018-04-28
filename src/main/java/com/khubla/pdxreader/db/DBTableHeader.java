@@ -100,44 +100,12 @@ public class DBTableHeader {
     * encryption
     */
    private byte[] encryption = new byte[8];
-
-   public byte[] getEncryption() {
-      return encryption;
-   }
-
-   public void setEncryption(byte[] encryption) {
-      this.encryption = encryption;
-   }
-
    private byte sortOrder;
-
-   public byte getSortOrder() {
-      return sortOrder;
-   }
-
-   public void setSortOrder(byte sortOrder) {
-      this.sortOrder = sortOrder;
-   }
-
    private int modified1;
-
-   public int getModified1() {
-      return modified1;
-   }
-
-   public void setModified1(int modified1) {
-      this.modified1 = modified1;
-   }
-
    private int indexFieldNumber;
-
-   public int getIndexFieldNumber() {
-      return indexFieldNumber;
-   }
-
-   public void setIndexFieldNumber(int indexFieldNumber) {
-      this.indexFieldNumber = indexFieldNumber;
-   }
+   private int primaryIndexWorkspace;
+   private int indexRoot;
+   private int numIndexLevels;
 
    /**
     * figure out the total records in a block
@@ -162,6 +130,10 @@ public class DBTableHeader {
       return embeddedFilename;
    }
 
+   public byte[] getEncryption() {
+      return encryption;
+   }
+
    public List<DBTableField> getFields() {
       return fields;
    }
@@ -178,8 +150,20 @@ public class DBTableHeader {
       return headerBlockSize;
    }
 
+   public int getIndexFieldNumber() {
+      return indexFieldNumber;
+   }
+
+   public int getIndexRoot() {
+      return indexRoot;
+   }
+
    public int getLastDataBlock() {
       return lastDataBlock;
+   }
+
+   public int getModified1() {
+      return modified1;
    }
 
    public int getNumberFields() {
@@ -194,8 +178,20 @@ public class DBTableHeader {
       return numberRecords;
    }
 
+   public int getNumIndexLevels() {
+      return numIndexLevels;
+   }
+
+   public int getPrimaryIndexWorkspace() {
+      return primaryIndexWorkspace;
+   }
+
    public int getRecordBufferSize() {
       return recordBufferSize;
+   }
+
+   public byte getSortOrder() {
+      return sortOrder;
    }
 
    public TableType getTableType() {
@@ -268,7 +264,10 @@ public class DBTableHeader {
          littleEndianDataInputStream.skipBytes(2);
          modified1 = littleEndianDataInputStream.readUnsignedByte();
          indexFieldNumber = littleEndianDataInputStream.readUnsignedByte();
-         littleEndianDataInputStream.skipBytes(11);
+         primaryIndexWorkspace = littleEndianDataInputStream.readInt();
+         littleEndianDataInputStream.skipBytes(4);
+         indexRoot = littleEndianDataInputStream.readUnsignedShort();
+         numIndexLevels = littleEndianDataInputStream.readUnsignedByte();
          // byte 0x21
          numberFields = littleEndianDataInputStream.readUnsignedByte();
          // byte 0x22
@@ -354,6 +353,10 @@ public class DBTableHeader {
       this.embeddedFilename = embeddedFilename;
    }
 
+   public void setEncryption(byte[] encryption) {
+      this.encryption = encryption;
+   }
+
    public void setFields(List<DBTableField> fields) {
       this.fields = fields;
    }
@@ -370,8 +373,20 @@ public class DBTableHeader {
       this.headerBlockSize = headerBlockSize;
    }
 
+   public void setIndexFieldNumber(int indexFieldNumber) {
+      this.indexFieldNumber = indexFieldNumber;
+   }
+
+   public void setIndexRoot(int indexRoot) {
+      this.indexRoot = indexRoot;
+   }
+
    public void setLastDataBlock(int lastDataBlock) {
       this.lastDataBlock = lastDataBlock;
+   }
+
+   public void setModified1(int modified1) {
+      this.modified1 = modified1;
    }
 
    public void setNumberFields(int numberFields) {
@@ -386,8 +401,20 @@ public class DBTableHeader {
       this.numberRecords = numberRecords;
    }
 
+   public void setNumIndexLevels(int numIndexLevels) {
+      this.numIndexLevels = numIndexLevels;
+   }
+
+   public void setPrimaryIndexWorkspace(int primaryIndexWorkspace) {
+      this.primaryIndexWorkspace = primaryIndexWorkspace;
+   }
+
    public void setRecordBufferSize(int recordBufferSize) {
       this.recordBufferSize = recordBufferSize;
+   }
+
+   public void setSortOrder(byte sortOrder) {
+      this.sortOrder = sortOrder;
    }
 
    public void setTableType(TableType tableType) {
