@@ -1,6 +1,10 @@
 package com.khubla.pdxreader.util;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.lang3.ArrayUtils;
 
 import com.google.common.io.LittleEndianDataInputStream;
 
@@ -8,6 +12,8 @@ import com.google.common.io.LittleEndianDataInputStream;
  * @author tom
  */
 public class StringUtil {
+   private final static String DEFAULT_ENCODING = "Cp1252";
+
    public static String byteArrayToString(byte[] bytes) {
       final StringBuilder builder = new StringBuilder();
       for (final byte b : bytes) {
@@ -28,16 +34,22 @@ public class StringUtil {
       return stringBuilder.toString().trim();
    }
 
+   public static String readString(LittleEndianDataInputStream littleEndianDataInputStream) throws IOException {
+      return readString(littleEndianDataInputStream, DEFAULT_ENCODING);
+   }
+
    /**
     * read a null terminated string from a LittleEndianDataInputStream
     */
-   public static String readString(LittleEndianDataInputStream littleEndianDataInputStream) throws IOException {
-      final StringBuilder stringBuilder = new StringBuilder();
-      int c = littleEndianDataInputStream.readUnsignedByte();
+   public static String readString(LittleEndianDataInputStream littleEndianDataInputStream, String encoding) throws IOException {
+      List<Byte> chars = new ArrayList<Byte>();
+      Byte c = littleEndianDataInputStream.readByte();
       while (c != 0) {
-         stringBuilder.append((char) c);
-         c = littleEndianDataInputStream.readUnsignedByte();
+         chars.add(c);
+         c = littleEndianDataInputStream.readByte();
       }
-      return stringBuilder.toString();
+      Byte[] buffer = new Byte[chars.size()];
+      chars.toArray(buffer);
+      return new String(ArrayUtils.toPrimitive(buffer), encoding);
    }
 }
