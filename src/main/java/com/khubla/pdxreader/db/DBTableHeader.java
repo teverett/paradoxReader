@@ -15,7 +15,7 @@ public class DBTableHeader {
     * block size
     */
    public static enum BlockSize {
-      oneK(1), twoK(2), threeK(3), fourK(4), eightK(8), sixteenK(16);
+      oneK(1), twoK(2), threeK(3), fourK(4), eightK(8), sixteenK(16), thirtytwoK(32);
       private int value;
 
       private BlockSize(int value) {
@@ -169,6 +169,9 @@ public class DBTableHeader {
     */
    public void read(LittleEndianDataInputStream littleEndianDataInputStream) throws Exception {
       try {
+         /*
+          * record size
+          */
          recordBufferSize = littleEndianDataInputStream.readUnsignedShort();
          /*
           * size of this header block
@@ -200,7 +203,9 @@ public class DBTableHeader {
          } else if (8 == dataBlockSizeCode) {
             blockSize = BlockSize.eightK;
          } else if (16 == dataBlockSizeCode) {
-            blockSize = BlockSize.fourK;
+            blockSize = BlockSize.sixteenK;
+         } else if (32 == dataBlockSizeCode) {
+            blockSize = BlockSize.thirtytwoK;
          } else {
             throw new Exception("Unknown block size code '" + dataBlockSizeCode + "'");
          }
@@ -252,7 +257,7 @@ public class DBTableHeader {
             pdxTableField.readFieldName(littleEndianDataInputStream);
          }
       } catch (final Exception e) {
-         throw new PDXReaderException("Exception in readFields", e);
+         throw new PDXReaderException("Exception in readFieldNames", e);
       }
    }
 
@@ -269,7 +274,7 @@ public class DBTableHeader {
             }
          }
       } catch (final Exception e) {
-         throw new PDXReaderException("Exception in readFields", e);
+         throw new PDXReaderException("Exception in readFieldTypesAndSizes", e);
       }
    }
 

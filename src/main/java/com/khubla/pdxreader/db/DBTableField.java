@@ -186,7 +186,7 @@ public class DBTableField {
          }
          return true;
       } catch (final Exception e) {
-         throw new PDXReaderException("Exception in read", e);
+         throw new PDXReaderException("Exception in readFieldTypeAndSize", e);
       }
    }
 

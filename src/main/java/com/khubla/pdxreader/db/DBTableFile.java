@@ -21,7 +21,7 @@ public class DBTableFile {
    /**
     * max block size
     */
-   private final static int MAX_BLOCK_SIZE = 10240;
+   private final static int MAX_BLOCK_SIZE = 64 * 1024;
    /**
     * header
     */
@@ -100,7 +100,7 @@ public class DBTableFile {
          /*
           * skip to the first block
           */
-         int nSkip = dbTableHeader.getBlockSize().getValue() * 1024;
+         int nSkip = dbTableHeader.getHeaderBlockSize();
          if (nSkip == bufferedInputStream.skip(nSkip)) {
             /*
              * walk blocks
