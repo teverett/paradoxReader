@@ -96,6 +96,28 @@ public class DBTableHeader {
     * fields
     */
    private List<DBTableField> fields;
+   /**
+    * encryption
+    */
+   private byte[] encryption = new byte[8];
+
+   public byte[] getEncryption() {
+      return encryption;
+   }
+
+   public void setEncryption(byte[] encryption) {
+      this.encryption = encryption;
+   }
+
+   private byte sortOrder;
+
+   public byte getSortOrder() {
+      return sortOrder;
+   }
+
+   public void setSortOrder(byte sortOrder) {
+      this.sortOrder = sortOrder;
+   }
 
    /**
     * figure out the total records in a block
@@ -230,11 +252,17 @@ public class DBTableHeader {
          littleEndianDataInputStream.skipBytes(1);
          // byte 0x23
          numberKeyFields = littleEndianDataInputStream.readUnsignedByte();
-         littleEndianDataInputStream.skipBytes(0x54);
+         // byte 0x24
+         littleEndianDataInputStream.read(encryption);
+         // byte 0x2c
+         sortOrder = littleEndianDataInputStream.readByte();
+         // byte 0x2d
+         littleEndianDataInputStream.skipBytes(0x4b);
          // byte 0x78
          readFieldTypesAndSizes(littleEndianDataInputStream);
          // name
          littleEndianDataInputStream.skipBytes(20);
+         // int ptrptr = littleEndianDataInputStream.readhort();
          embeddedFilename = StringUtil.readString(littleEndianDataInputStream);
          /*
           * skip forward 250 bytes
