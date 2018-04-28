@@ -38,7 +38,7 @@ public class DBTableValue {
           * get the data
           */
          final byte[] data = new byte[pdxTableField.getLength()];
-         int bytesRead = inputStream.read(data);
+         final int bytesRead = inputStream.read(data);
          if (bytesRead > 0) {
             /*
              * convert to type

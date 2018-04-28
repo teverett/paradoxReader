@@ -100,12 +100,12 @@ public class DBTableFile {
          /*
           * skip to the first block
           */
-         int nSkip = dbTableHeader.getHeaderBlockSize();
+         final int nSkip = dbTableHeader.getHeaderBlockSize();
          if (nSkip == bufferedInputStream.skip(nSkip)) {
             /*
              * records per block
              */
-            int recordsPerBlock = dbTableHeader.calculateRecordsPerBlock();
+            final int recordsPerBlock = dbTableHeader.calculateRecordsPerBlock();
             /*
              * walk blocks
              */

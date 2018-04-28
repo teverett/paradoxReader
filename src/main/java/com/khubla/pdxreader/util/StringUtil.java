@@ -1,6 +1,7 @@
 package com.khubla.pdxreader.util;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +21,11 @@ public class StringUtil {
          builder.append(String.format("%02x", b));
       }
       return builder.toString();
+   }
+
+   public static String bytesToString(byte[] bytes, String encoding) {
+      final Charset charset = Charset.forName(encoding);
+      return new String(bytes, charset);
    }
 
    /**
@@ -42,14 +48,14 @@ public class StringUtil {
     * read a null terminated string from a LittleEndianDataInputStream
     */
    public static String readString(LittleEndianDataInputStream littleEndianDataInputStream, String encoding) throws IOException {
-      List<Byte> chars = new ArrayList<Byte>();
+      final List<Byte> chars = new ArrayList<Byte>();
       Byte c = littleEndianDataInputStream.readByte();
       while (c != 0) {
          chars.add(c);
          c = littleEndianDataInputStream.readByte();
       }
-      Byte[] buffer = new Byte[chars.size()];
+      final Byte[] buffer = new Byte[chars.size()];
       chars.toArray(buffer);
-      return new String(ArrayUtils.toPrimitive(buffer), encoding);
+      return bytesToString(ArrayUtils.toPrimitive(buffer), encoding);
    }
 }

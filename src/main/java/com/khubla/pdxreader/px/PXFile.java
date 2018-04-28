@@ -73,7 +73,7 @@ public class PXFile {
          /*
           * skip to the first index block
           */
-         int nSkip = pxFileHeader.getBlockSize().getValue() * 1024;
+         final int nSkip = pxFileHeader.getBlockSize().getValue() * 1024;
          if (nSkip == bufferedInputStream.skip(nSkip)) {
             /*
              * walk index blocks

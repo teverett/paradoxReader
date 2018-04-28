@@ -67,7 +67,7 @@ public class MBTableFile {
                    * skip forward to next one
                    */
                   final int bytesToSkip = mbTableBlock.getSizeofBlock() - (1 + bytesPreRead);
-                  long skipped = littleEndianDataInputStream.skip(bytesToSkip);
+                  final long skipped = littleEndianDataInputStream.skip(bytesToSkip);
                   if (0 != skipped) {
                      /*
                       * update the offset
@@ -118,7 +118,7 @@ public class MBTableFile {
                /*
                 * ffd
                 */
-               long skipped = littleEndianDataInputStream.skip(mbTableBlock.getFileOffset());
+               final long skipped = littleEndianDataInputStream.skip(mbTableBlock.getFileOffset());
                if (0 != skipped) {
                   /*
                    * read

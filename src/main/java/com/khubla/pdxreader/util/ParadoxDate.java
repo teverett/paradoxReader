@@ -5,7 +5,7 @@ import java.util.Date;
 
 public class ParadoxDate {
    static public Date getDateFromParadoxDate(int d) {
-      Calendar calendar = Calendar.getInstance();
+      final Calendar calendar = Calendar.getInstance();
       /*
        * Jan 1, 1 A.D.
        */
