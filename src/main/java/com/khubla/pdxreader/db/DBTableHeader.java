@@ -102,10 +102,34 @@ public class DBTableHeader {
    private byte[] encryption = new byte[8];
    private byte sortOrder;
    private int modified1;
+   private int modified2;
    private int indexFieldNumber;
    private int primaryIndexWorkspace;
    private int indexRoot;
    private int numIndexLevels;
+   private int change1;
+   private int change2;
+   private int tableNamePtrPtr;
+   private int fldInfoPtr;
+   private int writeProtected;
+   private int fileVersionID;
+   private int maxBlocks;
+
+   public int getTableNamePtrPtr() {
+      return tableNamePtrPtr;
+   }
+
+   public void setTableNamePtrPtr(int tableNamePtrPtr) {
+      this.tableNamePtrPtr = tableNamePtrPtr;
+   }
+
+   public int getFldInfoPtr() {
+      return fldInfoPtr;
+   }
+
+   public void setFldInfoPtr(int fldInfoPtr) {
+      this.fldInfoPtr = fldInfoPtr;
+   }
 
    /**
     * figure out the total records in a block
@@ -120,6 +144,14 @@ public class DBTableHeader {
 
    public BlockSize getBlockSize() {
       return blockSize;
+   }
+
+   public int getChange1() {
+      return change1;
+   }
+
+   public int getChange2() {
+      return change2;
    }
 
    public int getDataBlockSizeCode() {
@@ -164,6 +196,10 @@ public class DBTableHeader {
 
    public int getModified1() {
       return modified1;
+   }
+
+   public int getModified2() {
+      return modified2;
    }
 
    public int getNumberFields() {
@@ -279,10 +315,17 @@ public class DBTableHeader {
          // byte 0x2c
          sortOrder = littleEndianDataInputStream.readByte();
          // byte 0x2d
-         // skip 6 bytes
-         littleEndianDataInputStream.skipBytes(0x06);
+         modified2 = littleEndianDataInputStream.readUnsignedByte();
+         littleEndianDataInputStream.skipBytes(2);
+         change1 = littleEndianDataInputStream.readUnsignedByte();
+         change2 = littleEndianDataInputStream.readUnsignedByte();
+         littleEndianDataInputStream.skipBytes(1);
          // byte 0x33
-         littleEndianDataInputStream.skipBytes(0x45);
+         tableNamePtrPtr = littleEndianDataInputStream.readInt();
+         // byte 0x37
+         fldInfoPtr = littleEndianDataInputStream.readInt();
+         // byte 0x3b
+         littleEndianDataInputStream.skipBytes(0x3d);
          // byte 0x78
          readFieldTypesAndSizes(littleEndianDataInputStream);
          // name
@@ -345,6 +388,14 @@ public class DBTableHeader {
       this.blockSize = blockSize;
    }
 
+   public void setChange1(int change1) {
+      this.change1 = change1;
+   }
+
+   public void setChange2(int change2) {
+      this.change2 = change2;
+   }
+
    public void setDataBlockSizeCode(int dataBlockSizeCode) {
       this.dataBlockSizeCode = dataBlockSizeCode;
    }
@@ -387,6 +438,10 @@ public class DBTableHeader {
 
    public void setModified1(int modified1) {
       this.modified1 = modified1;
+   }
+
+   public void setModified2(int modified2) {
+      this.modified2 = modified2;
    }
 
    public void setNumberFields(int numberFields) {
