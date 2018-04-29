@@ -107,6 +107,10 @@ public class DBTableFile {
              */
             final int recordsPerBlock = dbTableHeader.calculateRecordsPerBlock();
             /*
+             * total records remaining to read
+             */
+            long recordsremaining = dbTableHeader.getNumberRecords();
+            /*
              * walk blocks
              */
             final int blocksInUse = dbTableHeader.getBlocksInUse();
@@ -122,7 +126,15 @@ public class DBTableFile {
                /*
                 * read the block data
                 */
-               pdxTableBlock.read(pdxReaderListener, bufferedInputStream);
+               long recordsToRead = recordsPerBlock;
+               if (recordsremaining < recordsPerBlock) {
+                  recordsToRead = recordsremaining;
+               }
+               pdxTableBlock.read(pdxReaderListener, bufferedInputStream, recordsToRead);
+               /*
+                * fewer records
+                */
+               recordsremaining -= recordsToRead;
                /*
                 * store it. blocks are numbered from 1, not from 0.
                 */
