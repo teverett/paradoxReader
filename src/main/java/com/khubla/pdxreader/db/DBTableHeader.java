@@ -36,7 +36,8 @@ public class DBTableHeader {
     * table type
     */
    public static enum TableType {
-      keyed(0), unkeyed(2);
+      indexedDB(0), indexPX(1), nonindexedDB(2), noincrementingsecondaryindexXnn(3), secondaryindexYnn(4), incrementingsecondaryindexXnn(5), nonincrementingsecondaryindexXGn(6), secondaryindexYGn(
+            7), incrementingsecondaryindexXGn(8);
       private int value;
 
       private TableType(int value) {
@@ -319,9 +320,23 @@ public class DBTableHeader {
           */
          final int tableType = littleEndianDataInputStream.readUnsignedByte();
          if (0 == tableType) {
-            this.tableType = TableType.keyed;
+            this.tableType = TableType.indexedDB;
+         } else if (1 == tableType) {
+            this.tableType = TableType.indexPX;
          } else if (2 == tableType) {
-            this.tableType = TableType.unkeyed;
+            this.tableType = TableType.nonindexedDB;
+         } else if (3 == tableType) {
+            this.tableType = TableType.noincrementingsecondaryindexXnn;
+         } else if (4 == tableType) {
+            this.tableType = TableType.secondaryindexYnn;
+         } else if (5 == tableType) {
+            this.tableType = TableType.incrementingsecondaryindexXnn;
+         } else if (6 == tableType) {
+            this.tableType = TableType.nonincrementingsecondaryindexXGn;
+         } else if (7 == tableType) {
+            this.tableType = TableType.secondaryindexYGn;
+         } else if (8 == tableType) {
+            this.tableType = TableType.incrementingsecondaryindexXGn;
          } else {
             throw new Exception("Unknown table type '" + tableType + "'");
          }
@@ -436,7 +451,7 @@ public class DBTableHeader {
          /*
           * if file version >= 40 then we need to be at index 0x78, otherwise at index 0x58
           */
-         if (this.fileVersion >= 40) {
+         if (fileVersion >= 40) {
             littleEndianDataInputStream.skipBytes(0x23);
          } else {
             littleEndianDataInputStream.skipBytes(0x03);
