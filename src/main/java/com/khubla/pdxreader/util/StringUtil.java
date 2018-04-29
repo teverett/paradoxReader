@@ -14,6 +14,9 @@ public class StringUtil {
    /*
     * String encoding
     */
+   /*
+    * https://en.wikipedia.org/wiki/Code_page_437
+    */
    private final static String DEFAULT_ENCODING = "IBM-437";
    /*
     * max String length. Technically the max paradox string is 256
