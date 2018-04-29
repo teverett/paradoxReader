@@ -25,6 +25,7 @@ public class PDXReaderCSVListenerImpl implements PDXReaderListener {
    @Override
    public void header(DBTableHeader pdxTableHeader) {
       boolean first = true;
+      // System.out.println("Embedded Name: " + pdxTableHeader.getEmbeddedFilename());
       for (final DBTableField pdxTableField : pdxTableHeader.getFields()) {
          if (first) {
             first = false;
