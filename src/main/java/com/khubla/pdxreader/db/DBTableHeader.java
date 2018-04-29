@@ -456,16 +456,29 @@ public class DBTableHeader {
          } else {
             littleEndianDataInputStream.skipBytes(0x03);
          }
-         // byte 0x78
+         // byte 0x78 (for v40).
          readFieldTypesAndSizes(littleEndianDataInputStream);
-         littleEndianDataInputStream.skipBytes(20);
-         // name
-         embeddedFilename = StringUtil.readString(littleEndianDataInputStream);
+         // there are two bytes per field. so we are now at 0x78 + (numFields*2).
          /*
-          * skip forward 250 bytes
+          * well i dunno what's going on. but the data b/t here and the filename is 4 bytes per field, plus an extra 4 bytes
           */
-         final int skipBytes = 250;
-         littleEndianDataInputStream.skipBytes(skipBytes);
+         final int skip = (numberFields * 4) + 4;
+         littleEndianDataInputStream.skipBytes(skip);
+         /*
+          * read the name it has different sizes for different versions and is null padded
+          */
+         if (fileVersionID == 0x0c) {
+            final byte[] fn = new byte[261];
+            littleEndianDataInputStream.read(fn);
+            embeddedFilename = StringUtil.readString(fn);
+         } else {
+            final byte[] fn = new byte[79];
+            littleEndianDataInputStream.read(fn);
+            embeddedFilename = StringUtil.readString(fn);
+         }
+         /*
+          * now read the field names
+          */
          readFieldNames(littleEndianDataInputStream);
       } catch (final Exception e) {
          throw new Exception("Exception in read", e);
