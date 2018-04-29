@@ -116,20 +116,25 @@ public class DBTableHeader {
    private int fileVersionID;
    private int maxBlocks;
    private int auxPasswords;
-
-   public int getAuxPasswords() {
-      return auxPasswords;
-   }
-
-   public void setAuxPasswords(int auxPasswords) {
-      this.auxPasswords = auxPasswords;
-   }
+   private int cryptInfoStartPtr;
+   private int cryptInfoEndPtr;
+   private int autoInc;
+   private int indexUpdateRequired;
+   private int refIntegrity;
 
    /**
     * figure out the total records in a block
     */
    public int calculateRecordsPerBlock() {
       return (blockSize.value * 1024) / recordBufferSize;
+   }
+
+   public int getAutoInc() {
+      return autoInc;
+   }
+
+   public int getAuxPasswords() {
+      return auxPasswords;
    }
 
    public int getBlocksInUse() {
@@ -146,6 +151,14 @@ public class DBTableHeader {
 
    public int getChange2() {
       return change2;
+   }
+
+   public int getCryptInfoEndPtr() {
+      return cryptInfoEndPtr;
+   }
+
+   public int getCryptInfoStartPtr() {
+      return cryptInfoStartPtr;
    }
 
    public int getDataBlockSizeCode() {
@@ -192,6 +205,10 @@ public class DBTableHeader {
       return indexRoot;
    }
 
+   public int getIndexUpdateRequired() {
+      return indexUpdateRequired;
+   }
+
    public int getLastDataBlock() {
       return lastDataBlock;
    }
@@ -230,6 +247,10 @@ public class DBTableHeader {
 
    public int getRecordBufferSize() {
       return recordBufferSize;
+   }
+
+   public int getRefIntegrity() {
+      return refIntegrity;
    }
 
    public int getSortOrder() {
@@ -366,30 +387,37 @@ public class DBTableHeader {
          auxPasswords = littleEndianDataInputStream.readByte();
          // byte 3e
          littleEndianDataInputStream.skipBytes(2);
-         // byte 0x3f
-         littleEndianDataInputStream.skipBytes(0x38);
+         // byte 0x40
+         cryptInfoStartPtr = readPointer(littleEndianDataInputStream);
+         // byte 0x44
+         cryptInfoEndPtr = readPointer(littleEndianDataInputStream);
+         // byte 0x48
+         littleEndianDataInputStream.skipBytes(1);
+         // byte 0x49
+         autoInc = littleEndianDataInputStream.readInt();
+         // byte 0x4d
+         littleEndianDataInputStream.skipBytes(2);
+         // byte 0x4f
+         indexUpdateRequired = littleEndianDataInputStream.readByte();
+         // byte 0x50
+         littleEndianDataInputStream.skipBytes(4);
+         // byte 0x55
+         refIntegrity = littleEndianDataInputStream.readByte();
+         littleEndianDataInputStream.skipBytes(0x23);
          // byte 0x78
          readFieldTypesAndSizes(littleEndianDataInputStream);
          // name
          littleEndianDataInputStream.skipBytes(20);
-         // int ptrptr = littleEndianDataInputStream.readhort();
          embeddedFilename = StringUtil.readString(littleEndianDataInputStream);
          /*
           * skip forward 250 bytes
           */
          final int skipBytes = 250;
-         // dumpBytes(skipBytes, littleEndianDataInputStream);
          littleEndianDataInputStream.skipBytes(skipBytes);
          readFieldNames(littleEndianDataInputStream);
       } catch (final Exception e) {
          throw new Exception("Exception in read", e);
       }
-   }
-
-   private int readPointer(LittleEndianDataInputStream littleEndianDataInputStream) throws IOException {
-      byte[] ptr = new byte[4];
-      littleEndianDataInputStream.read(ptr);
-      return 0;
    }
 
    /**
@@ -422,10 +450,24 @@ public class DBTableHeader {
       }
    }
 
+   private int readPointer(LittleEndianDataInputStream littleEndianDataInputStream) throws IOException {
+      final byte[] ptr = new byte[4];
+      littleEndianDataInputStream.read(ptr);
+      return 0;
+   }
+
    public void report() {
       for (final DBTableField pdxTableField : fields) {
          System.out.println("Field '" + pdxTableField.getName() + "' type '" + pdxTableField.getFieldType().toString() + "'");
       }
+   }
+
+   public void setAutoInc(int autoInc) {
+      this.autoInc = autoInc;
+   }
+
+   public void setAuxPasswords(int auxPasswords) {
+      this.auxPasswords = auxPasswords;
    }
 
    public void setBlocksInUse(int blocksInUse) {
@@ -442,6 +484,14 @@ public class DBTableHeader {
 
    public void setChange2(int change2) {
       this.change2 = change2;
+   }
+
+   public void setCryptInfoEndPtr(int cryptInfoEndPtr) {
+      this.cryptInfoEndPtr = cryptInfoEndPtr;
+   }
+
+   public void setCryptInfoStartPtr(int cryptInfoStartPtr) {
+      this.cryptInfoStartPtr = cryptInfoStartPtr;
    }
 
    public void setDataBlockSizeCode(int dataBlockSizeCode) {
@@ -488,6 +538,10 @@ public class DBTableHeader {
       this.indexRoot = indexRoot;
    }
 
+   public void setIndexUpdateRequired(int indexUpdateRequired) {
+      this.indexUpdateRequired = indexUpdateRequired;
+   }
+
    public void setLastDataBlock(int lastDataBlock) {
       this.lastDataBlock = lastDataBlock;
    }
@@ -526,6 +580,10 @@ public class DBTableHeader {
 
    public void setRecordBufferSize(int recordBufferSize) {
       this.recordBufferSize = recordBufferSize;
+   }
+
+   public void setRefIntegrity(int refIntegrity) {
+      this.refIntegrity = refIntegrity;
    }
 
    public void setSortOrder(int sortOrder) {
