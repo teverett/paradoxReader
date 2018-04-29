@@ -33,13 +33,6 @@ public class DBTableHeader {
    };
 
    /**
-    * file version
-    */
-   public static enum FileVersion {
-      v3, v35, v4, v5, v7;
-   };
-
-   /**
     * table type
     */
    public static enum TableType {
@@ -128,7 +121,7 @@ public class DBTableHeader {
    private int fldInfoPtr;
    private boolean writeProtected;
    private int fileVersionID;
-   private FileVersion fileVersion;
+   private int fileVersion;
    private int maxBlocks;
    private int auxPasswords;
    private int cryptInfoStartPtr;
@@ -192,21 +185,21 @@ public class DBTableHeader {
       return fields;
    }
 
-   public FileVersion getFileVersion() {
+   public int getFileVersion() {
       return fileVersion;
    }
 
-   private FileVersion getFileVersion(int i) throws Exception {
+   private int getFileVersion(int i) throws Exception {
       if (i == 0x03) {
-         return FileVersion.v3;
+         return 30;
       } else if (i == 0x04) {
-         return FileVersion.v35;
+         return 35;
       } else if ((i >= 0x05) && (i <= 0x09)) {
-         return FileVersion.v4;
+         return 40;
       } else if ((i == 0x0a) || (i == 0x0b)) {
-         return FileVersion.v5;
+         return 50;
       } else if (i == 0x0c) {
-         return FileVersion.v7;
+         return 70;
       } else {
          throw new Exception("Unknown file version " + Integer.toHexString(i) + "");
       }
@@ -439,7 +432,15 @@ public class DBTableHeader {
          littleEndianDataInputStream.skipBytes(4);
          // byte 0x55
          refIntegrity = byteToBool(littleEndianDataInputStream.readByte());
-         littleEndianDataInputStream.skipBytes(0x23);
+         // byte 0x56
+         /*
+          * if file version >= 40 then we need to be at index 0x78, otherwise at index 0x58
+          */
+         if (fileVersion >= 40) {
+            littleEndianDataInputStream.skipBytes(0x23);
+         } else {
+            littleEndianDataInputStream.skipBytes(0x03);
+         }
          // byte 0x78
          readFieldTypesAndSizes(littleEndianDataInputStream);
          // name
@@ -546,7 +547,7 @@ public class DBTableHeader {
       this.fields = fields;
    }
 
-   public void setFileVersion(FileVersion fileVersion) {
+   public void setFileVersion(int fileVersion) {
       this.fileVersion = fileVersion;
    }
 
