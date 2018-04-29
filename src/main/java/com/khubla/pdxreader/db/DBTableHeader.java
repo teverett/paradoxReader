@@ -130,6 +130,10 @@ public class DBTableHeader {
    private int autoInc;
    private boolean indexUpdateRequired;
    private boolean refIntegrity;
+   private int unk1;
+   private int unk2;
+   private int unk3;
+   private int unk4;
 
    /**
     * figure out the total records in a block
@@ -298,6 +302,22 @@ public class DBTableHeader {
       return totalBlocksInFile;
    }
 
+   public int getUnk1() {
+      return unk1;
+   }
+
+   public int getUnk2() {
+      return unk2;
+   }
+
+   public int getUnk3() {
+      return unk3;
+   }
+
+   public int getUnk4() {
+      return unk4;
+   }
+
    public boolean getWriteProtected() {
       return writeProtected;
    }
@@ -462,8 +482,12 @@ public class DBTableHeader {
          /*
           * well i dunno what's going on. but the data b/t here and the filename is 4 bytes per field, plus an extra 4 bytes
           */
-         final int skip = (numberFields * 4) + 4;
-         littleEndianDataInputStream.skipBytes(skip);
+         unk1 = littleEndianDataInputStream.readUnsignedByte();
+         unk2 = littleEndianDataInputStream.readUnsignedByte();
+         unk3 = littleEndianDataInputStream.readUnsignedByte();
+         unk4 = littleEndianDataInputStream.readUnsignedByte();
+         // 4 bytes per field
+         readUnknownFieldBytes(littleEndianDataInputStream);
          /*
           * read the name it has different sizes for different versions and is null padded
           */
@@ -519,6 +543,21 @@ public class DBTableHeader {
       final byte[] ptr = new byte[4];
       littleEndianDataInputStream.read(ptr);
       return 0;
+   }
+
+   /**
+    * read the unknown field bytes. 4 bytes per field. no idea what they mean.
+    */
+   private void readUnknownFieldBytes(LittleEndianDataInputStream littleEndianDataInputStream) throws PDXReaderException {
+      try {
+         for (final DBTableField pdxTableField : fields) {
+            final byte[] unknownFieldBytes = new byte[4];
+            littleEndianDataInputStream.read(unknownFieldBytes);
+            pdxTableField.setUnknownFieldBytes(unknownFieldBytes);
+         }
+      } catch (final Exception e) {
+         throw new PDXReaderException("Exception in readUnknownFieldBytes", e);
+      }
    }
 
    public void report() {
@@ -669,6 +708,22 @@ public class DBTableHeader {
 
    public void setTotalBlocksInFile(int totalBlocksInFile) {
       this.totalBlocksInFile = totalBlocksInFile;
+   }
+
+   public void setUnk1(int unk1) {
+      this.unk1 = unk1;
+   }
+
+   public void setUnk2(int unk2) {
+      this.unk2 = unk2;
+   }
+
+   public void setUnk3(int unk3) {
+      this.unk3 = unk3;
+   }
+
+   public void setUnk4(int unk4) {
+      this.unk4 = unk4;
    }
 
    public void setWriteProtected(boolean writeProtected) {

@@ -65,6 +65,10 @@ public class DBTableField {
     * name
     */
    private String name;
+   /**
+    * unknown bytes
+    */
+   private byte[] unknownFieldBytes;
 
    public FieldType getFieldType() {
       return fieldType;
@@ -80,6 +84,10 @@ public class DBTableField {
 
    public int getType() {
       return type;
+   }
+
+   public byte[] getUnknownFieldBytes() {
+      return unknownFieldBytes;
    }
 
    /**
@@ -204,5 +212,9 @@ public class DBTableField {
 
    public void setType(int type) {
       this.type = type;
+   }
+
+   public void setUnknownFieldBytes(byte[] unknownFieldBytes) {
+      this.unknownFieldBytes = unknownFieldBytes;
    }
 }
