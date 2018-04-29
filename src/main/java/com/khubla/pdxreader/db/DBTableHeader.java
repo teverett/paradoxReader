@@ -33,6 +33,13 @@ public class DBTableHeader {
    };
 
    /**
+    * file version
+    */
+   public static enum FileVersion {
+      v3, v35, v4, v5, v7;
+   };
+
+   /**
     * table type
     */
    public static enum TableType {
@@ -51,6 +58,13 @@ public class DBTableHeader {
          this.value = value;
       }
    };
+
+   private static boolean byteToBool(byte input) throws Exception {
+      if ((input < 0) || (input > 1)) {
+         throw new Exception("Illegal boolean value " + Byte.toString(input) + "''");
+      }
+      return input == 1;
+   }
 
    /**
     * Block size
@@ -112,15 +126,16 @@ public class DBTableHeader {
    private int change2;
    private int tableNamePtrPtr;
    private int fldInfoPtr;
-   private int writeProtected;
+   private boolean writeProtected;
    private int fileVersionID;
+   private FileVersion fileVersion;
    private int maxBlocks;
    private int auxPasswords;
    private int cryptInfoStartPtr;
    private int cryptInfoEndPtr;
    private int autoInc;
-   private int indexUpdateRequired;
-   private int refIntegrity;
+   private boolean indexUpdateRequired;
+   private boolean refIntegrity;
 
    /**
     * figure out the total records in a block
@@ -177,6 +192,26 @@ public class DBTableHeader {
       return fields;
    }
 
+   public FileVersion getFileVersion() {
+      return fileVersion;
+   }
+
+   private FileVersion getFileVersion(int i) throws Exception {
+      if (i == 0x03) {
+         return FileVersion.v3;
+      } else if (i == 0x04) {
+         return FileVersion.v35;
+      } else if ((i >= 0x05) && (i <= 0x09)) {
+         return FileVersion.v4;
+      } else if ((i == 0x0a) || (i == 0x0b)) {
+         return FileVersion.v5;
+      } else if (i == 0x0c) {
+         return FileVersion.v7;
+      } else {
+         throw new Exception("Unknown file version " + Integer.toHexString(i) + "");
+      }
+   }
+
    public int getFileVersionID() {
       return fileVersionID;
    }
@@ -205,7 +240,7 @@ public class DBTableHeader {
       return indexRoot;
    }
 
-   public int getIndexUpdateRequired() {
+   public boolean getIndexUpdateRequired() {
       return indexUpdateRequired;
    }
 
@@ -249,7 +284,7 @@ public class DBTableHeader {
       return recordBufferSize;
    }
 
-   public int getRefIntegrity() {
+   public boolean getRefIntegrity() {
       return refIntegrity;
    }
 
@@ -269,7 +304,7 @@ public class DBTableHeader {
       return totalBlocksInFile;
    }
 
-   public int getWriteProtected() {
+   public boolean getWriteProtected() {
       return writeProtected;
    }
 
@@ -376,9 +411,10 @@ public class DBTableHeader {
          // byte 0x34
          fldInfoPtr = readPointer(littleEndianDataInputStream);
          // byte 0x38
-         writeProtected = littleEndianDataInputStream.readByte();
+         writeProtected = byteToBool(littleEndianDataInputStream.readByte());
          // byte 0x39
          fileVersionID = littleEndianDataInputStream.readByte();
+         fileVersion = this.getFileVersion(fileVersionID);
          // byte 0x3a
          maxBlocks = littleEndianDataInputStream.readUnsignedShort();
          // byte 3c
@@ -398,11 +434,11 @@ public class DBTableHeader {
          // byte 0x4d
          littleEndianDataInputStream.skipBytes(2);
          // byte 0x4f
-         indexUpdateRequired = littleEndianDataInputStream.readByte();
+         indexUpdateRequired = byteToBool(littleEndianDataInputStream.readByte());
          // byte 0x50
          littleEndianDataInputStream.skipBytes(4);
          // byte 0x55
-         refIntegrity = littleEndianDataInputStream.readByte();
+         refIntegrity = byteToBool(littleEndianDataInputStream.readByte());
          littleEndianDataInputStream.skipBytes(0x23);
          // byte 0x78
          readFieldTypesAndSizes(littleEndianDataInputStream);
@@ -510,6 +546,10 @@ public class DBTableHeader {
       this.fields = fields;
    }
 
+   public void setFileVersion(FileVersion fileVersion) {
+      this.fileVersion = fileVersion;
+   }
+
    public void setFileVersionID(int fileVersionID) {
       this.fileVersionID = fileVersionID;
    }
@@ -538,7 +578,7 @@ public class DBTableHeader {
       this.indexRoot = indexRoot;
    }
 
-   public void setIndexUpdateRequired(int indexUpdateRequired) {
+   public void setIndexUpdateRequired(boolean indexUpdateRequired) {
       this.indexUpdateRequired = indexUpdateRequired;
    }
 
@@ -582,7 +622,7 @@ public class DBTableHeader {
       this.recordBufferSize = recordBufferSize;
    }
 
-   public void setRefIntegrity(int refIntegrity) {
+   public void setRefIntegrity(boolean refIntegrity) {
       this.refIntegrity = refIntegrity;
    }
 
@@ -602,7 +642,7 @@ public class DBTableHeader {
       this.totalBlocksInFile = totalBlocksInFile;
    }
 
-   public void setWriteProtected(int writeProtected) {
+   public void setWriteProtected(boolean writeProtected) {
       this.writeProtected = writeProtected;
    }
 }
