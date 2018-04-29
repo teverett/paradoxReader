@@ -1,5 +1,6 @@
 package com.khubla.pdxreader.db;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -99,8 +100,8 @@ public class DBTableHeader {
    /**
     * encryption
     */
-   private byte[] encryption = new byte[8];
-   private byte sortOrder;
+   private byte[] encryption = new byte[4];
+   private int sortOrder;
    private int modified1;
    private int modified2;
    private int indexFieldNumber;
@@ -114,6 +115,15 @@ public class DBTableHeader {
    private int writeProtected;
    private int fileVersionID;
    private int maxBlocks;
+   private int auxPasswords;
+
+   public int getAuxPasswords() {
+      return auxPasswords;
+   }
+
+   public void setAuxPasswords(int auxPasswords) {
+      this.auxPasswords = auxPasswords;
+   }
 
    /**
     * figure out the total records in a block
@@ -222,7 +232,7 @@ public class DBTableHeader {
       return recordBufferSize;
    }
 
-   public byte getSortOrder() {
+   public int getSortOrder() {
       return sortOrder;
    }
 
@@ -301,41 +311,63 @@ public class DBTableHeader {
          totalBlocksInFile = littleEndianDataInputStream.readUnsignedShort();
          firstDataBlock = littleEndianDataInputStream.readUnsignedShort();
          lastDataBlock = littleEndianDataInputStream.readUnsignedShort();
+         /*
+          * unknown bytes 0x12, 0x13
+          */
          littleEndianDataInputStream.skipBytes(2);
+         /*
+          * modified
+          */
          modified1 = littleEndianDataInputStream.readUnsignedByte();
          indexFieldNumber = littleEndianDataInputStream.readUnsignedByte();
          primaryIndexWorkspace = littleEndianDataInputStream.readInt();
+         /*
+          * unknown pointer
+          */
          littleEndianDataInputStream.skipBytes(4);
          indexRoot = littleEndianDataInputStream.readUnsignedShort();
          numIndexLevels = littleEndianDataInputStream.readUnsignedByte();
          // byte 0x21
-         numberFields = littleEndianDataInputStream.readUnsignedByte();
+         numberFields = littleEndianDataInputStream.readUnsignedShort();
          // byte 0x22
-         littleEndianDataInputStream.skipBytes(1);
+         // littleEndianDataInputStream.skipBytes(1);
          // byte 0x23
-         numberKeyFields = littleEndianDataInputStream.readUnsignedByte();
+         numberKeyFields = littleEndianDataInputStream.readUnsignedShort();
          // byte 0x24
          littleEndianDataInputStream.read(encryption);
-         // byte 0x2c
-         sortOrder = littleEndianDataInputStream.readByte();
-         // byte 0x2d
+         // byte 0x29
+         sortOrder = littleEndianDataInputStream.readUnsignedByte();
+         // byte 0x2a
          modified2 = littleEndianDataInputStream.readUnsignedByte();
+         // byte 0x2b
          littleEndianDataInputStream.skipBytes(2);
+         // byte 0x2d
          change1 = littleEndianDataInputStream.readUnsignedByte();
+         // byte 0x2e
          change2 = littleEndianDataInputStream.readUnsignedByte();
+         /*
+          * unknown
+          */
+         // byte 0x2f
          littleEndianDataInputStream.skipBytes(1);
-         // byte 0x33
-         tableNamePtrPtr = littleEndianDataInputStream.readInt();
-         // byte 0x37
-         fldInfoPtr = littleEndianDataInputStream.readInt();
-         // byte 0x3b
+         // byte 0x30
+         tableNamePtrPtr = readPointer(littleEndianDataInputStream);
+         // byte 0x34
+         fldInfoPtr = readPointer(littleEndianDataInputStream);
+         // byte 0x38
          writeProtected = littleEndianDataInputStream.readByte();
-         // byte 0x3c
+         // byte 0x39
          fileVersionID = littleEndianDataInputStream.readByte();
-         // byte 0x3d
+         // byte 0x3a
          maxBlocks = littleEndianDataInputStream.readUnsignedShort();
+         // byte 3c
+         littleEndianDataInputStream.skipBytes(1);
+         // byte 3d
+         auxPasswords = littleEndianDataInputStream.readByte();
+         // byte 3e
+         littleEndianDataInputStream.skipBytes(2);
          // byte 0x3f
-         littleEndianDataInputStream.skipBytes(0x39);
+         littleEndianDataInputStream.skipBytes(0x38);
          // byte 0x78
          readFieldTypesAndSizes(littleEndianDataInputStream);
          // name
@@ -352,6 +384,12 @@ public class DBTableHeader {
       } catch (final Exception e) {
          throw new Exception("Exception in read", e);
       }
+   }
+
+   private int readPointer(LittleEndianDataInputStream littleEndianDataInputStream) throws IOException {
+      byte[] ptr = new byte[4];
+      littleEndianDataInputStream.read(ptr);
+      return 0;
    }
 
    /**
@@ -490,7 +528,7 @@ public class DBTableHeader {
       this.recordBufferSize = recordBufferSize;
    }
 
-   public void setSortOrder(byte sortOrder) {
+   public void setSortOrder(int sortOrder) {
       this.sortOrder = sortOrder;
    }
 
