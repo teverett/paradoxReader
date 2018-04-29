@@ -436,15 +436,15 @@ public class DBTableHeader {
          /*
           * if file version >= 40 then we need to be at index 0x78, otherwise at index 0x58
           */
-         if (fileVersion >= 40) {
+         if (this.fileVersion >= 40) {
             littleEndianDataInputStream.skipBytes(0x23);
          } else {
             littleEndianDataInputStream.skipBytes(0x03);
          }
          // byte 0x78
          readFieldTypesAndSizes(littleEndianDataInputStream);
-         // name
          littleEndianDataInputStream.skipBytes(20);
+         // name
          embeddedFilename = StringUtil.readString(littleEndianDataInputStream);
          /*
           * skip forward 250 bytes
