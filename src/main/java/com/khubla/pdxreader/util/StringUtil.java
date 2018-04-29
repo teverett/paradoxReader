@@ -4,10 +4,6 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.commons.lang3.ArrayUtils;
 
 import com.google.common.io.LittleEndianDataInputStream;
 
@@ -15,8 +11,14 @@ import com.google.common.io.LittleEndianDataInputStream;
  * @author tom
  */
 public class StringUtil {
-   // Windows Latin-1
+   /*
+    * String encoding
+    */
    private final static String DEFAULT_ENCODING = "IBM-437";
+   /*
+    * max String length. Technically the max paradox string is 256
+    */
+   private final static int MAX_STRING = 1024;
 
    public static String byteArrayToString(byte[] bytes) {
       final StringBuilder builder = new StringBuilder();
@@ -26,9 +28,15 @@ public class StringUtil {
       return builder.toString();
    }
 
-   public static String bytesToString(byte[] bytes, String encoding) {
-      final Charset charset = Charset.forName(encoding);
-      return new String(bytes, charset);
+   public static String readString(byte[] data) throws IOException {
+      return readString(data, DEFAULT_ENCODING);
+   }
+
+   public static String readString(byte[] data, String encoding) throws IOException {
+      final StringBuilder stringBuilder = new StringBuilder();
+      final CharBuffer charBuffer = Charset.forName(encoding).decode(ByteBuffer.wrap(data));
+      stringBuilder.append(charBuffer);
+      return stringBuilder.toString().trim();
    }
 
    /**
@@ -42,25 +50,12 @@ public class StringUtil {
     * read a null terminated string from a LittleEndianDataInputStream
     */
    public static String readString(LittleEndianDataInputStream littleEndianDataInputStream, String encoding) throws IOException {
-      final List<Byte> chars = new ArrayList<Byte>();
+      final ByteBuffer byteBuffer = ByteBuffer.allocate(MAX_STRING);
       Byte c = littleEndianDataInputStream.readByte();
       while (c != 0) {
-         chars.add(c);
+         byteBuffer.put(c);
          c = littleEndianDataInputStream.readByte();
       }
-      final Byte[] buffer = new Byte[chars.size()];
-      chars.toArray(buffer);
-      return readString(ArrayUtils.toPrimitive(buffer), encoding);
-   }
-
-   public static String readString(byte[] data, String encoding) throws IOException {
-      final StringBuilder stringBuilder = new StringBuilder();
-      CharBuffer charBuffer = Charset.forName(encoding).decode(ByteBuffer.wrap(data));
-      stringBuilder.append(charBuffer);
-      return stringBuilder.toString().trim();
-   }
-
-   public static String readString(byte[] data) throws IOException {
-      return readString(data, DEFAULT_ENCODING);
+      return readString(byteBuffer.array(), encoding);
    }
 }
