@@ -6,6 +6,7 @@ import java.nio.ByteOrder;
 
 import com.khubla.pdxreader.api.PDXReaderException;
 import com.khubla.pdxreader.db.DBTableField.FieldType;
+import com.khubla.pdxreader.util.ParadoxTime;
 import com.khubla.pdxreader.util.StringUtil;
 
 /**
@@ -104,17 +105,7 @@ public class DBTableValue {
                   value = StringUtil.byteArrayToString(data);
                   break;
                case TS:
-                  // milliseconds since Jan 1, 1 AD, convert to UTC time
-                  data[0] = (byte) (data[0] & 0x7f); // handle unsigned number
-                  final double dt = ByteBuffer.wrap(data).order(ByteOrder.BIG_ENDIAN).getDouble();
-                  long dateTime = (long) dt;
-                  if (dateTime == 0) {
-                     value = null;
-                  } else {
-                     dateTime -= 86400000; // millis in 1 day
-                     dateTime -= 62135607600000l; // millis from 01.01.1970
-                     value = Long.toString(dateTime);
-                  }
+                  value = ParadoxTime.getTimeFromParadoxTime(data);
                   break;
                case Auto:
                   final short auto = ByteBuffer.wrap(data).order(ByteOrder.LITTLE_ENDIAN).getShort();
