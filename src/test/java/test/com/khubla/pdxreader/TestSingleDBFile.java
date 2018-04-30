@@ -5,9 +5,9 @@ import java.io.File;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import com.khubla.pdxreader.PDXReaderCSVListenerImpl;
 import com.khubla.pdxreader.api.PDXTableListener;
 import com.khubla.pdxreader.db.DBTableFile;
+import com.khubla.pdxreader.listener.PDXTableReaderConsoleListenerImpl;
 
 @Test(enabled = false)
 public class TestSingleDBFile {
@@ -16,7 +16,7 @@ public class TestSingleDBFile {
          File inputFile = new File("src/test/resources/PCLDATA/LPI.DB");
          // File inputFile = new File("src/test/resources/MEMBRE.DB");
          final DBTableFile pdxFile = new DBTableFile();
-         final PDXTableListener pdxReaderListener = new PDXReaderCSVListenerImpl();
+         final PDXTableListener pdxReaderListener = new PDXTableReaderConsoleListenerImpl();
          pdxFile.read(inputFile, pdxReaderListener);
       } catch (final Exception e) {
          e.printStackTrace();

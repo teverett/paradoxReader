@@ -11,6 +11,7 @@ import org.apache.commons.cli.Options;
 
 import com.khubla.pdxreader.api.PDXTableListener;
 import com.khubla.pdxreader.db.DBTableFile;
+import com.khubla.pdxreader.listener.PDXTableReaderConsoleListenerImpl;
 
 /**
  * @author tom
@@ -51,7 +52,7 @@ public class PDXReader {
             final File inputFile = new File(filename);
             if (inputFile.exists()) {
                final DBTableFile pdxFile = new DBTableFile();
-               final PDXTableListener pdxReaderListener = new PDXReaderCSVListenerImpl();
+               final PDXTableListener pdxReaderListener = new PDXTableReaderConsoleListenerImpl();
                pdxFile.read(inputFile, pdxReaderListener);
                System.out.println("done");
             }

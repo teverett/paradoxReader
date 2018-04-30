@@ -1,4 +1,4 @@
-package com.khubla.pdxreader;
+package com.khubla.pdxreader.listener;
 
 import java.util.Date;
 import java.util.List;
@@ -11,7 +11,7 @@ import com.khubla.pdxreader.db.DBTableValue;
 /**
  * @author tom
  */
-public class PDXReaderCSVListenerImpl implements PDXTableListener {
+public class PDXTableReaderConsoleListenerImpl implements PDXTableListener {
    /**
     * total records
     */

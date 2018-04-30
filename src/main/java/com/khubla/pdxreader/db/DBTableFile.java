@@ -41,8 +41,11 @@ public class DBTableFile {
 
    /**
     * read
+    *
+    * @throws PDXReaderException
+    * @throws FileNotFoundException
     */
-   public void read(File file, PDXTableListener pdxReaderListener) throws Exception {
+   public void read(File file, PDXTableListener pdxReaderListener) throws PDXReaderException, FileNotFoundException {
       /*
        * check if the file exists
        */
@@ -81,7 +84,7 @@ public class DBTableFile {
                bufferedInputStream.close();
             }
          } catch (final Exception e) {
-            throw new Exception("Exception in read", e);
+            throw new PDXReaderException("Exception in read", e);
          }
       } else {
          throw new FileNotFoundException();

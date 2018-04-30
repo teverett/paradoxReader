@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.io.LittleEndianDataInputStream;
+import com.khubla.pdxreader.api.PDXIndexListener;
 import com.khubla.pdxreader.api.PDXReaderException;
 
 /**
@@ -23,7 +24,7 @@ public class PXIndexBlock {
    /**
     * read data. This assumes that the inputStream is on byte 0 from the start of the block
     */
-   public void read(InputStream inputStream) throws PDXReaderException {
+   public void read(PDXIndexListener pdxIndexListener, InputStream inputStream) throws PDXReaderException {
       try {
          /*
           * read the header
@@ -37,6 +38,7 @@ public class PXIndexBlock {
          final PXIndexBlockRecord pxFileIndexRecord = new PXIndexBlockRecord();
          pxFileIndexRecord.read(littleEndianDataInputStream);
          indexRecords.add(pxFileIndexRecord);
+         pdxIndexListener.record(pxFileIndexRecord);
       } catch (final Exception e) {
          throw new PDXReaderException("Exception in read", e);
       }
