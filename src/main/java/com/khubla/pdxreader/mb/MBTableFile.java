@@ -3,6 +3,7 @@ package com.khubla.pdxreader.mb;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -87,19 +88,28 @@ public class MBTableFile {
 
    /**
     * read
+    * 
+    * @throws FileNotFoundException
     */
-   public void read(File file) throws PDXReaderException {
-      try {
-         /*
-          * pre-read
-          */
-         preReadBlocks(file);
-         /*
-          * read
-          */
-         readBlocks(file);
-      } catch (final Exception e) {
-         throw new PDXReaderException("Exception in read", e);
+   public void read(File file) throws PDXReaderException, FileNotFoundException {
+      /*
+       * check if the file exists
+       */
+      if (file.exists()) {
+         try {
+            /*
+             * pre-read
+             */
+            preReadBlocks(file);
+            /*
+             * read
+             */
+            readBlocks(file);
+         } catch (final Exception e) {
+            throw new PDXReaderException("Exception in read", e);
+         }
+      } else {
+         throw new FileNotFoundException();
       }
    }
 
