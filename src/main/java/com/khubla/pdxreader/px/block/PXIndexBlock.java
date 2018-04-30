@@ -21,6 +21,14 @@ public class PXIndexBlock {
     */
    private List<PXIndexBlockRecord> indexRecords;
 
+   public List<PXIndexBlockRecord> getIndexRecords() {
+      return indexRecords;
+   }
+
+   public PXIndexBlockHeader getPxFileBlockHeader() {
+      return pxFileBlockHeader;
+   }
+
    /**
     * read data. This assumes that the inputStream is on byte 0 from the start of the block
     */
@@ -54,5 +62,13 @@ public class PXIndexBlock {
       } catch (final Exception e) {
          throw new PDXReaderException("Exception in readHeader", e);
       }
+   }
+
+   public void setIndexRecords(List<PXIndexBlockRecord> indexRecords) {
+      this.indexRecords = indexRecords;
+   }
+
+   public void setPxFileBlockHeader(PXIndexBlockHeader pxFileBlockHeader) {
+      this.pxFileBlockHeader = pxFileBlockHeader;
    }
 }

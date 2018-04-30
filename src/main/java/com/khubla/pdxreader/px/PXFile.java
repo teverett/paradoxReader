@@ -33,6 +33,14 @@ public class PXFile {
     */
    private List<PXIndexBlock> blocks;
 
+   public List<PXIndexBlock> getBlocks() {
+      return blocks;
+   }
+
+   public PXFileHeader getPxFileHeader() {
+      return pxFileHeader;
+   }
+
    /**
     * read
     *
@@ -149,5 +157,13 @@ public class PXFile {
       } catch (final Exception e) {
          throw new PDXReaderException("Exception in readHeaders", e);
       }
+   }
+
+   public void setBlocks(List<PXIndexBlock> blocks) {
+      this.blocks = blocks;
+   }
+
+   public void setPxFileHeader(PXFileHeader pxFileHeader) {
+      this.pxFileHeader = pxFileHeader;
    }
 }
