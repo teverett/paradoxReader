@@ -8,7 +8,7 @@ import org.testng.annotations.Test;
 import com.khubla.pdxreader.listener.PDXIndexReaderConsoleListenerImpl;
 import com.khubla.pdxreader.px.PXFile;
 
-@Test(enabled = true)
+@Test(enabled = false)
 public class TestSinglePXFile {
    public void testRead() {
       try {

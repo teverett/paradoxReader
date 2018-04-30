@@ -88,7 +88,7 @@ public class MBTableFile {
 
    /**
     * read
-    * 
+    *
     * @throws FileNotFoundException
     */
    public void read(File file) throws PDXReaderException, FileNotFoundException {
