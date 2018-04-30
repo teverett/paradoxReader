@@ -18,4 +18,4 @@ public enum BlockSize {
    public void setValue(int value) {
       this.value = value;
    }
-};
+}

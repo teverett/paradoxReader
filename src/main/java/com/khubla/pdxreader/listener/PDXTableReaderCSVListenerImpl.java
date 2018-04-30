@@ -28,7 +28,6 @@ public class PDXTableReaderCSVListenerImpl implements PDXTableListener {
        * show the table fields
        */
       boolean first = true;
-      ;
       for (final DBTableField pdxTableField : pdxTableHeader.getFields()) {
          if (first) {
             first = false;
