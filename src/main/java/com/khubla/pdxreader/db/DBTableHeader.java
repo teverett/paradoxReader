@@ -12,47 +12,6 @@ import com.khubla.pdxreader.util.StringUtil;
  * @author tom
  */
 public class DBTableHeader {
-   /**
-    * block size
-    */
-   public static enum BlockSize {
-      oneK(1), twoK(2), threeK(3), fourK(4), eightK(8), sixteenK(16), thirtytwoK(32);
-      private int value;
-
-      private BlockSize(int value) {
-         this.value = value;
-      }
-
-      public int getValue() {
-         return value;
-      }
-
-      public void setValue(int value) {
-         this.value = value;
-      }
-   };
-
-   /**
-    * table type
-    */
-   public static enum TableType {
-      indexedDB(0), indexPX(1), nonindexedDB(2), noincrementingsecondaryindexXnn(3), secondaryindexYnn(4), incrementingsecondaryindexXnn(5), nonincrementingsecondaryindexXGn(6), secondaryindexYGn(
-            7), incrementingsecondaryindexXGn(8);
-      private int value;
-
-      private TableType(int value) {
-         this.value = value;
-      }
-
-      public int getValue() {
-         return value;
-      }
-
-      public void setValue(int value) {
-         this.value = value;
-      }
-   };
-
    private static boolean byteToBool(byte input) throws Exception {
       if ((input < 0) || (input > 1)) {
          throw new Exception("Illegal boolean value " + Byte.toString(input) + "''");
