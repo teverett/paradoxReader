@@ -27,12 +27,12 @@ The command-line interface produces CSV from .DB files.  An example invocation o
 Using the paradoxReader in code
 --------------
 
-To use the paradoxReader in code, supply an InputStream to a .DB file, and an implementation of PDXReaderListener to the class DBTableFile.  An example from the unit tests:
+To use the paradoxReader in code, supply an InputStream to a .DB file, and an implementation of PDXTableListener to the class DBTableFile.  An example from the unit tests:
 
 ```java
 final InputStream inputStream = TestDBFile.class.getResourceAsStream(filename);
 final DBTableFile pdxFile = new DBTableFile();
-final PDXTableListener pdxTableListener = new PDXTableListener();
+final PDXTableListener pdxTableListener = new MyPDXTableListener();
 pdxFile.read(inputStream, pdxTableListener);
 ```
 
