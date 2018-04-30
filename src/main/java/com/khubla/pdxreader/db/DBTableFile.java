@@ -8,7 +8,7 @@ import java.util.Hashtable;
 
 import com.google.common.io.LittleEndianDataInputStream;
 import com.khubla.pdxreader.api.PDXReaderException;
-import com.khubla.pdxreader.api.PDXReaderListener;
+import com.khubla.pdxreader.api.PDXTableListener;
 
 /**
  * @author tom
@@ -42,7 +42,7 @@ public class DBTableFile {
    /**
     * read
     */
-   public void read(File file, PDXReaderListener pdxReaderListener) throws Exception {
+   public void read(File file, PDXTableListener pdxReaderListener) throws Exception {
       /*
        * check if the file exists
        */
@@ -91,7 +91,7 @@ public class DBTableFile {
    /**
     * read block data
     */
-   private void readBlocks(BufferedInputStream bufferedInputStream, PDXReaderListener pdxReaderListener) throws PDXReaderException {
+   private void readBlocks(BufferedInputStream bufferedInputStream, PDXTableListener pdxReaderListener) throws PDXReaderException {
       try {
          /*
           * init the array

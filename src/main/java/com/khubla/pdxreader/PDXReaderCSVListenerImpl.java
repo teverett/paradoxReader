@@ -3,7 +3,7 @@ package com.khubla.pdxreader;
 import java.util.Date;
 import java.util.List;
 
-import com.khubla.pdxreader.api.PDXReaderListener;
+import com.khubla.pdxreader.api.PDXTableListener;
 import com.khubla.pdxreader.db.DBTableField;
 import com.khubla.pdxreader.db.DBTableHeader;
 import com.khubla.pdxreader.db.DBTableValue;
@@ -11,7 +11,7 @@ import com.khubla.pdxreader.db.DBTableValue;
 /**
  * @author tom
  */
-public class PDXReaderCSVListenerImpl implements PDXReaderListener {
+public class PDXReaderCSVListenerImpl implements PDXTableListener {
    /**
     * total records
     */

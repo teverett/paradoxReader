@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.khubla.pdxreader.api.PDXReaderException;
-import com.khubla.pdxreader.api.PDXReaderListener;
+import com.khubla.pdxreader.api.PDXTableListener;
 
 /**
  * @author tom
@@ -14,7 +14,7 @@ public class DBTableRecord {
    /**
     * read one record
     */
-   public void read(PDXReaderListener pdxReaderListener, List<DBTableField> fields, InputStream inputStream) throws PDXReaderException {
+   public void read(PDXTableListener pdxReaderListener, List<DBTableField> fields, InputStream inputStream) throws PDXReaderException {
       try {
          final List<DBTableValue> values = new ArrayList<DBTableValue>();
          for (final DBTableField pdxTableField : fields) {

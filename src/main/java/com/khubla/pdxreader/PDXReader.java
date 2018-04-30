@@ -9,7 +9,7 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 
-import com.khubla.pdxreader.api.PDXReaderListener;
+import com.khubla.pdxreader.api.PDXTableListener;
 import com.khubla.pdxreader.db.DBTableFile;
 
 /**
@@ -51,7 +51,7 @@ public class PDXReader {
             final File inputFile = new File(filename);
             if (inputFile.exists()) {
                final DBTableFile pdxFile = new DBTableFile();
-               final PDXReaderListener pdxReaderListener = new PDXReaderCSVListenerImpl();
+               final PDXTableListener pdxReaderListener = new PDXReaderCSVListenerImpl();
                pdxFile.read(inputFile, pdxReaderListener);
                System.out.println("done");
             }

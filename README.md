@@ -32,14 +32,14 @@ To use the paradoxReader in code, supply an InputStream to a .DB file, and an im
 ```java
 final InputStream inputStream = TestDBFile.class.getResourceAsStream(filename);
 final DBTableFile pdxFile = new DBTableFile();
-final PDXReaderListener pdxReaderListener = new PDXReaderCSVListenerImpl();
-pdxFile.read(inputStream, pdxReaderListener);
+final PDXTableListener pdxTableListener = new PDXTableListener();
+pdxFile.read(inputStream, pdxTableListener);
 ```
 
-The interface PDXReaderListener looks like this:
+The interface PDXTableListener looks like this:
 
 ```java
-public interface PDXReaderListener {
+public interface PDXTableListener {
    void finish();
 
    void header(DBTableHeader pdxTableHeader);

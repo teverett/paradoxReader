@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.google.common.io.LittleEndianDataInputStream;
 import com.khubla.pdxreader.api.PDXReaderException;
-import com.khubla.pdxreader.api.PDXReaderListener;
+import com.khubla.pdxreader.api.PDXTableListener;
 
 /**
  * @author tom
@@ -66,7 +66,7 @@ public class DBTableBlock {
    /**
     * read data. This assumes that the inputStream is on byte 0 from the start of the block
     */
-   public void read(PDXReaderListener pdxReaderListener, InputStream inputStream, long numrecords) throws PDXReaderException {
+   public void read(PDXTableListener pdxReaderListener, InputStream inputStream, long numrecords) throws PDXReaderException {
       try {
          records = new ArrayList<DBTableRecord>();
          /*

@@ -7,7 +7,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import com.khubla.pdxreader.PDXReaderCSVListenerImpl;
-import com.khubla.pdxreader.api.PDXReaderListener;
+import com.khubla.pdxreader.api.PDXTableListener;
 import com.khubla.pdxreader.db.DBTableFile;
 import com.khubla.pdxreader.util.TestUtil;
 
@@ -21,7 +21,7 @@ public class TestDBFile {
             Assert.assertTrue(inputFile.exists());
             System.out.println(filename);
             final DBTableFile pdxFile = new DBTableFile();
-            final PDXReaderListener pdxReaderListener = new PDXReaderCSVListenerImpl();
+            final PDXTableListener pdxReaderListener = new PDXReaderCSVListenerImpl();
             pdxFile.read(inputFile, pdxReaderListener);
          }
       } catch (final Exception e) {

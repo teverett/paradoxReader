@@ -8,7 +8,7 @@ import com.khubla.pdxreader.db.DBTableValue;
 /**
  * @author tom
  */
-public interface PDXReaderListener {
+public interface PDXTableListener {
    void finish();
 
    void header(DBTableHeader pdxTableHeader);
