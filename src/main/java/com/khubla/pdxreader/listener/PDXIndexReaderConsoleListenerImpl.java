@@ -9,7 +9,7 @@ import com.khubla.pdxreader.px.block.PXIndexBlockRecord;
 /**
  * @author tom
  */
-public class PDXIndexReaderCSVListenerImpl implements PDXIndexListener {
+public class PDXIndexReaderConsoleListenerImpl implements PDXIndexListener {
    /**
     * total records
     */

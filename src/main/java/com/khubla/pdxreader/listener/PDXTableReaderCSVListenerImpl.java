@@ -11,7 +11,7 @@ import com.khubla.pdxreader.db.DBTableValue;
 /**
  * @author tom
  */
-public class PDXTableReaderConsoleListenerImpl implements PDXTableListener {
+public class PDXTableReaderCSVListenerImpl implements PDXTableListener {
    /**
     * total records
     */
@@ -24,8 +24,11 @@ public class PDXTableReaderConsoleListenerImpl implements PDXTableListener {
 
    @Override
    public void header(DBTableHeader pdxTableHeader) {
+      /*
+       * show the table fields
+       */
       boolean first = true;
-      // System.out.println("Embedded Name: " + pdxTableHeader.getEmbeddedFilename());
+      ;
       for (final DBTableField pdxTableField : pdxTableHeader.getFields()) {
          if (first) {
             first = false;
