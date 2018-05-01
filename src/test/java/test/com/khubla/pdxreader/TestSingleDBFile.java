@@ -7,7 +7,7 @@ import org.testng.annotations.Test;
 
 import com.khubla.pdxreader.api.PDXTableListener;
 import com.khubla.pdxreader.db.DBTableFile;
-import com.khubla.pdxreader.listener.PDXTableReaderCSVListenerImpl;
+import com.khubla.pdxreader.listener.PDXTableReaderDebugListener;
 
 @Test(enabled = true)
 public class TestSingleDBFile {
@@ -15,7 +15,7 @@ public class TestSingleDBFile {
       try {
          File inputFile = new File("src/test/resources/examples/HERCULES.DB");
          final DBTableFile pdxFile = new DBTableFile();
-         final PDXTableListener pdxReaderListener = new PDXTableReaderCSVListenerImpl();
+         final PDXTableListener pdxReaderListener = new PDXTableReaderDebugListener();
          pdxFile.read(inputFile, pdxReaderListener);
       } catch (final Exception e) {
          e.printStackTrace();

@@ -93,6 +93,39 @@ public class DBTableHeader {
    private int unk2;
    private int unk3;
    private int unk4;
+   /**
+    * unknown bytes 0x12, 0x13
+    */
+   private int unk5;
+   private int unk6;
+   /**
+    * byte 0x2b
+    */
+   private int unk7;
+   /**
+    * byte 0x2f
+    */
+   private int unk8;
+   /**
+    * byte 0x3c
+    */
+   private int unk9;
+   /**
+    * byte 0x3e
+    */
+   private int unk10;
+   /**
+    * byte 0x48
+    */
+   private int unk11;
+   /**
+    * byte 0x4d
+    */
+   private int unk12;
+   /**
+    * byte 0x50
+    */
+   private int unk13;
 
    /**
     * figure out the total records in a block
@@ -265,6 +298,22 @@ public class DBTableHeader {
       return unk1;
    }
 
+   public int getUnk10() {
+      return unk10;
+   }
+
+   public int getUnk11() {
+      return unk11;
+   }
+
+   public int getUnk12() {
+      return unk12;
+   }
+
+   public int getUnk13() {
+      return unk13;
+   }
+
    public int getUnk2() {
       return unk2;
    }
@@ -275,6 +324,26 @@ public class DBTableHeader {
 
    public int getUnk4() {
       return unk4;
+   }
+
+   public int getUnk5() {
+      return unk5;
+   }
+
+   public int getUnk6() {
+      return unk6;
+   }
+
+   public int getUnk7() {
+      return unk7;
+   }
+
+   public int getUnk8() {
+      return unk8;
+   }
+
+   public int getUnk9() {
+      return unk9;
    }
 
    public boolean getWriteProtected() {
@@ -357,7 +426,7 @@ public class DBTableHeader {
          /*
           * unknown bytes 0x12, 0x13
           */
-         littleEndianDataInputStream.skipBytes(2);
+         unk5 = littleEndianDataInputStream.readUnsignedShort();
          /*
           * modified
           */
@@ -367,13 +436,11 @@ public class DBTableHeader {
          /*
           * unknown pointer
           */
-         littleEndianDataInputStream.skipBytes(4);
+         unk6 = readPointer(littleEndianDataInputStream);
          indexRoot = littleEndianDataInputStream.readUnsignedShort();
          numIndexLevels = littleEndianDataInputStream.readUnsignedByte();
          // byte 0x21
          numberFields = littleEndianDataInputStream.readUnsignedShort();
-         // byte 0x22
-         // littleEndianDataInputStream.skipBytes(1);
          // byte 0x23
          numberKeyFields = littleEndianDataInputStream.readUnsignedShort();
          // byte 0x24
@@ -383,7 +450,7 @@ public class DBTableHeader {
          // byte 0x2a
          modified2 = littleEndianDataInputStream.readUnsignedByte();
          // byte 0x2b
-         littleEndianDataInputStream.skipBytes(2);
+         unk7 = littleEndianDataInputStream.readUnsignedShort();
          // byte 0x2d
          change1 = littleEndianDataInputStream.readUnsignedByte();
          // byte 0x2e
@@ -392,7 +459,7 @@ public class DBTableHeader {
           * unknown
           */
          // byte 0x2f
-         littleEndianDataInputStream.skipBytes(1);
+         unk8 = littleEndianDataInputStream.readUnsignedByte();
          // byte 0x30
          tableNamePtrPtr = readPointer(littleEndianDataInputStream);
          // byte 0x34
@@ -405,25 +472,25 @@ public class DBTableHeader {
          // byte 0x3a
          maxBlocks = littleEndianDataInputStream.readUnsignedShort();
          // byte 3c
-         littleEndianDataInputStream.skipBytes(1);
+         unk9 = littleEndianDataInputStream.readUnsignedByte();
          // byte 3d
          auxPasswords = littleEndianDataInputStream.readByte();
          // byte 3e
-         littleEndianDataInputStream.skipBytes(2);
+         unk10 = littleEndianDataInputStream.readUnsignedShort();
          // byte 0x40
          cryptInfoStartPtr = readPointer(littleEndianDataInputStream);
          // byte 0x44
          cryptInfoEndPtr = readPointer(littleEndianDataInputStream);
          // byte 0x48
-         littleEndianDataInputStream.skipBytes(1);
+         unk11 = littleEndianDataInputStream.readUnsignedByte();
          // byte 0x49
          autoInc = littleEndianDataInputStream.readInt();
          // byte 0x4d
-         littleEndianDataInputStream.skipBytes(2);
+         unk12 = littleEndianDataInputStream.readUnsignedShort();
          // byte 0x4f
          indexUpdateRequired = byteToBool(littleEndianDataInputStream.readByte());
          // byte 0x50
-         littleEndianDataInputStream.skipBytes(4);
+         unk13 = readPointer(littleEndianDataInputStream);
          // byte 0x55
          refIntegrity = byteToBool(littleEndianDataInputStream.readByte());
          // byte 0x56
@@ -673,6 +740,22 @@ public class DBTableHeader {
       this.unk1 = unk1;
    }
 
+   public void setUnk10(int unk10) {
+      this.unk10 = unk10;
+   }
+
+   public void setUnk11(int unk11) {
+      this.unk11 = unk11;
+   }
+
+   public void setUnk12(int unk12) {
+      this.unk12 = unk12;
+   }
+
+   public void setUnk13(int unk13) {
+      this.unk13 = unk13;
+   }
+
    public void setUnk2(int unk2) {
       this.unk2 = unk2;
    }
@@ -683,6 +766,26 @@ public class DBTableHeader {
 
    public void setUnk4(int unk4) {
       this.unk4 = unk4;
+   }
+
+   public void setUnk5(int unk5) {
+      this.unk5 = unk5;
+   }
+
+   public void setUnk6(int unk6) {
+      this.unk6 = unk6;
+   }
+
+   public void setUnk7(int unk7) {
+      this.unk7 = unk7;
+   }
+
+   public void setUnk8(int unk8) {
+      this.unk8 = unk8;
+   }
+
+   public void setUnk9(int unk9) {
+      this.unk9 = unk9;
    }
 
    public void setWriteProtected(boolean writeProtected) {

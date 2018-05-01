@@ -47,6 +47,19 @@ public class PDXTableReaderDebugListener implements PDXTableListener {
       System.out.println("indexUpdateRequired: " + pdxTableHeader.getIndexUpdateRequired());
       System.out.println("refIntegrity: " + pdxTableHeader.getRefIntegrity());
       System.out.println("embeddedFilename: " + pdxTableHeader.getEmbeddedFilename());
+      System.out.println("unk1: " + pdxTableHeader.getUnk1());
+      System.out.println("unk2: " + pdxTableHeader.getUnk2());
+      System.out.println("unk3: " + pdxTableHeader.getUnk3());
+      System.out.println("unk4: " + pdxTableHeader.getUnk4());
+      System.out.println("unk5: " + pdxTableHeader.getUnk5());
+      System.out.println("unk6: " + pdxTableHeader.getUnk6());
+      System.out.println("unk7: " + pdxTableHeader.getUnk7());
+      System.out.println("unk8: " + pdxTableHeader.getUnk8());
+      System.out.println("unk9: " + pdxTableHeader.getUnk9());
+      System.out.println("unk10: " + pdxTableHeader.getUnk10());
+      System.out.println("unk11: " + pdxTableHeader.getUnk11());
+      System.out.println("unk12: " + pdxTableHeader.getUnk12());
+      System.out.println("unk13: " + pdxTableHeader.getUnk13());
    }
 
    @Override
