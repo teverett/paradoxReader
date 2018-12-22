@@ -38,23 +38,23 @@ public class PDXReader {
          CommandLine cmd = null;
          try {
             cmd = parser.parse(options, args);
+            /*
+             * get file
+             */
+            final String filename = cmd.getOptionValue(FILE_OPTION);
+            if (null != filename) {
+               final File inputFile = new File(filename);
+               if (inputFile.exists()) {
+                  final DBTableFile pdxFile = new DBTableFile();
+                  final PDXTableListener pdxReaderListener = new PDXTableReaderCSVListenerImpl();
+                  pdxFile.read(inputFile, pdxReaderListener);
+                  System.out.println("done");
+               }
+            }
          } catch (final Exception e) {
             e.printStackTrace();
             final HelpFormatter formatter = new HelpFormatter();
             formatter.printHelp("posix", options);
-         }
-         /*
-          * get file
-          */
-         final String filename = cmd.getOptionValue(FILE_OPTION);
-         if (null != filename) {
-            final File inputFile = new File(filename);
-            if (inputFile.exists()) {
-               final DBTableFile pdxFile = new DBTableFile();
-               final PDXTableListener pdxReaderListener = new PDXTableReaderCSVListenerImpl();
-               pdxFile.read(inputFile, pdxReaderListener);
-               System.out.println("done");
-            }
          }
       } catch (final Exception e) {
          e.printStackTrace();
