@@ -6,9 +6,12 @@
 	<name>khubla.com Paradox DB file reader</name>
 	<version>1.6-SNAPSHOT</version>
 	<description>A reader for Paradox database files</description>
-	<prerequisites>
-		<maven>3.1.0</maven>
-	</prerequisites>
+	<properties>
+		<target.jvm>1.7</target.jvm>
+		<spotless.version>1.16.0</spotless.version>
+		<required-maven-version>3.3.1</required-maven-version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
 	<developers>
 		<developer>
 			<id>teverett</id>
@@ -26,8 +29,8 @@
 	</licenses>
 	<scm>
 		<connection>scm:git:https://github.com/teverett/paradoxReader.git</connection>
-	  <tag>HEAD</tag>
-  </scm>
+		<tag>HEAD</tag>
+	</scm>
 	<organization>
 		<name>khubla.com</name>
 		<url>http://www.khubla.com</url>
@@ -54,9 +57,10 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.0</version>
 				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
+					<source>${target.jvm}</source>
+					<target>${target.jvm}</target>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -75,6 +79,45 @@
 									<mainClass>com.khubla.pdxreader.PDXReader</mainClass>
 								</transformer>
 							</transformers>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>com.diffplug.spotless</groupId>
+				<artifactId>spotless-maven-plugin</artifactId>
+				<version>${spotless.version}</version>
+				<configuration>
+					<lineEndings>UNIX</lineEndings>
+					<encoding>UTF-8</encoding>
+					<java>
+						<eclipse>
+							<file>${maven.multiModuleProjectDirectory}/format.eclipse.xml</file>
+							<version>4.7.1</version>
+						</eclipse>
+						<removeUnusedImports />
+						<importOrder>
+							<file>${maven.multiModuleProjectDirectory}/format.importorder</file>
+						</importOrder>
+					</java>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-enforcer-plugin</artifactId>
+				<version>3.0.0-M2</version>
+				<executions>
+					<execution>
+						<id>enforce-maven</id>
+						<goals>
+							<goal>enforce</goal>
+						</goals>
+						<configuration>
+							<rules>
+								<requireMavenVersion>
+									<version>${required-maven-version}</version>
+								</requireMavenVersion>
+							</rules>
 						</configuration>
 					</execution>
 				</executions>
