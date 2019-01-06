@@ -18,7 +18,7 @@ public class SQLRowDesc {
    /**
     * time format for SQL
     */
-   private static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+   private static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
    /**
     * generate SQLRowDesc from DBTableField
@@ -57,7 +57,7 @@ public class SQLRowDesc {
                ret = "VARCHAR(255)";
                break;
             case D:
-               ret = "DATETIME";
+               ret = "DATE";
                break;
             case S:
                ret = "INTEGER";
