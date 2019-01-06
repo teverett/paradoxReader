@@ -54,7 +54,7 @@ public class DBTableFile {
             /*
              * start
              */
-            pdxReaderListener.start();
+            pdxReaderListener.start(file.getName());
             /*
              * set up streams
              */

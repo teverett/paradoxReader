@@ -61,7 +61,7 @@ public class PDXTableReaderCSVListenerImpl implements PDXTableListener {
    }
 
    @Override
-   public void start() {
-      System.out.println("# generated " + new Date().toString());
+   public void start(String filename) {
+      System.out.println("# '" + filename + "' generated " + new Date().toString());
    }
 }

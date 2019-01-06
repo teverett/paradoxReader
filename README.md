@@ -47,7 +47,7 @@ public interface PDXTableListener {
 
    void record(List<DBTableValue> values);
 
-   void start();
+   void start(String filename);
 }
 ```
 
