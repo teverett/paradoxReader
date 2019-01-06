@@ -31,15 +31,19 @@ public class PDXTableReaderSQLListenerImpl implements PDXTableListener {
 
    @Override
    public void header(DBTableHeader pdxTableHeader) {
-      /*
-       * build SQL schema
-       */
-      sqlTableDesc = SQLTableDesc.generateSQLTableDesc(filename, pdxTableHeader);
-      /*
-       * get the CREATE
-       */
-      final String sqlCreate = sqlTableDesc.renderSQLCreate();
-      System.out.println(sqlCreate);
+      try {
+         /*
+          * build SQL schema
+          */
+         sqlTableDesc = SQLTableDesc.generateSQLTableDesc(filename, pdxTableHeader);
+         /*
+          * get the CREATE
+          */
+         final String sqlCreate = sqlTableDesc.renderSQLCreate();
+         System.out.println(sqlCreate);
+      } catch (final Exception e) {
+         e.printStackTrace();
+      }
    }
 
    @Override
