@@ -50,7 +50,9 @@ public class DBTableValue {
                   value = StringUtil.readString(data);
                   break;
                case D:
-                  // date
+                  /*
+                   * date. number days since jan 1, 1 AD
+                   */
                   final long d = ByteBuffer.wrap(data).order(ByteOrder.LITTLE_ENDIAN).getShort();
                   value = Long.toString(d);
                   break;
@@ -64,12 +66,16 @@ public class DBTableValue {
                   value = Long.toString(i);
                   break;
                case C:
-                  // currency
+                  /*
+                   * currency
+                   */
                   final double dollars = ByteBuffer.wrap(data).order(ByteOrder.BIG_ENDIAN).getDouble();
                   value = Double.toString(dollars);
                   break;
                case M:
-                  // Memo
+                  /*
+                   * Memo
+                   */
                   value = StringUtil.byteArrayToString(data);
                   break;
                case N:
@@ -77,31 +83,45 @@ public class DBTableValue {
                   value = Double.toString(n);
                   break;
                case L:
-                  // Logical
+                  /*
+                   * Logical
+                   */
                   value = StringUtil.byteArrayToString(data);
                   break;
                case B:
-                  // Binary
+                  /*
+                   * Binary
+                   */
                   value = StringUtil.byteArrayToString(data);
                   break;
                case O:
-                  // OLE
+                  /*
+                   * OLE
+                   */
                   value = StringUtil.byteArrayToString(data);
                   break;
                case E:
-                  // formatted memo
+                  /*
+                   * formatted memo
+                   */
                   value = StringUtil.byteArrayToString(data);
                   break;
                case G:
-                  // Graphic
+                  /*
+                   * Graphic
+                   */
                   value = StringUtil.byteArrayToString(data);
                   break;
                case BCD:
-                  // BCD
+                  /*
+                   * BCD
+                   */
                   value = StringUtil.byteArrayToString(data);
                   break;
                case Bytes:
-                  // Bytes
+                  /*
+                   * Bytes
+                   */
                   value = StringUtil.byteArrayToString(data);
                   break;
                case TS:
