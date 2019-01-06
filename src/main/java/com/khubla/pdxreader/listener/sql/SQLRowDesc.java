@@ -1,8 +1,13 @@
 package com.khubla.pdxreader.listener.sql;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import com.khubla.pdxreader.api.PDXReaderException;
 import com.khubla.pdxreader.db.DBTableField;
 import com.khubla.pdxreader.db.DBTableField.FieldType;
+import com.khubla.pdxreader.util.ParadoxDate;
+import com.khubla.pdxreader.util.ParadoxTime;
 
 /**
  * SQL Row
@@ -11,12 +16,32 @@ import com.khubla.pdxreader.db.DBTableField.FieldType;
  */
 public class SQLRowDesc {
    /**
+    * time format for SQL
+    */
+   private static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+   /**
     * generate SQLRowDesc from DBTableField
     *
     * @throws PDXReaderException
     */
    public static SQLRowDesc generateSQLRowDesc(DBTableField pdxTableField) throws PDXReaderException {
-      return new SQLRowDesc(SQLSanitize.sanitize(pdxTableField.getName()), mapTypes(pdxTableField.getFieldType()));
+      return new SQLRowDesc(SQLSanitize.sanitize(pdxTableField.getName()), mapTypes(pdxTableField.getFieldType()), pdxTableField.getFieldType());
+   }
+
+   /**
+    * get the SQL value for a given Paradox value
+    */
+   public static String getSQLValue(FieldType fieldType, String paradoxValue) {
+      if (fieldType == FieldType.D) {
+         final Date date = ParadoxDate.getDateFromParadoxDate(Integer.parseInt(paradoxValue));
+         return SIMPLE_DATE_FORMAT.format(date);
+      } else if (fieldType == FieldType.T) {
+         final Date date = new Date(Integer.parseInt(ParadoxTime.getTimeFromParadoxTime(paradoxValue.getBytes())));
+         return SIMPLE_DATE_FORMAT.format(date);
+      } else {
+         return paradoxValue;
+      }
    }
 
    /**
@@ -65,7 +90,7 @@ public class SQLRowDesc {
                ret = "BLOB";
                break;
             case T:
-               ret = "INTEGER";
+               ret = "DATETIME";
                break;
             case TS:
                ret = "INTEGER";
@@ -90,11 +115,17 @@ public class SQLRowDesc {
 
    private final String name;
    private final String type;
+   private final FieldType fieldType;
 
-   public SQLRowDesc(String name, String type) {
+   public SQLRowDesc(String name, String type, FieldType fieldType) {
       super();
       this.name = name;
       this.type = type;
+      this.fieldType = fieldType;
+   }
+
+   public FieldType getFieldType() {
+      return fieldType;
    }
 
    public String getName() {

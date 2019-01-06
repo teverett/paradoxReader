@@ -107,11 +107,19 @@ public class SQLTableDesc {
        * values
        */
       String fields = "";
+      int i = 0;
       for (final DBTableValue pdxTableValue : values) {
          if (fields.length() != 0) {
             fields += ",";
          }
-         fields += "\"" + pdxTableValue.getValue() + "\"";
+         /*
+          * get value
+          */
+         final String value = SQLRowDesc.getSQLValue(rows.get(i++).getFieldType(), pdxTableValue.getValue());
+         /*
+          * append
+          */
+         fields += "\"" + value + "\"";
       }
       /*
        * insert
