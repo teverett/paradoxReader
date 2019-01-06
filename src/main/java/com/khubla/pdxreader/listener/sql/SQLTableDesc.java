@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.khubla.pdxreader.api.PDXReaderException;
 import com.khubla.pdxreader.db.DBTableField;
-import com.khubla.pdxreader.db.DBTableField.FieldType;
 import com.khubla.pdxreader.db.DBTableHeader;
 import com.khubla.pdxreader.db.DBTableValue;
 
@@ -16,23 +15,17 @@ import com.khubla.pdxreader.db.DBTableValue;
  */
 public class SQLTableDesc {
    /**
-    * illegal chars
-    */
-   public static final String ILLEGAL_CHARS = "\\\"/ -";
-
-   /**
     * generate SQLTableDesc from DBTableHeader
     *
     * @throws PDXReaderException
     */
    public static SQLTableDesc generateSQLTableDesc(String filename, DBTableHeader pdxTableHeader) throws PDXReaderException {
-      final SQLTableDesc ret = new SQLTableDesc(sanitize(generateTableName(filename)));
+      final SQLTableDesc ret = new SQLTableDesc(generateTableName(filename));
       /*
        * build the table fields
        */
       for (final DBTableField pdxTableField : pdxTableHeader.getFields()) {
-         final SQLRowDesc sqlRowDesc = new SQLRowDesc(sanitize(pdxTableField.getName()), mapTypes(pdxTableField.getFieldType()));
-         ret.add(sqlRowDesc);
+         ret.add(SQLRowDesc.generateSQLRowDesc(pdxTableField));
       }
       return ret;
    }
@@ -41,94 +34,7 @@ public class SQLTableDesc {
     * create table name from file name
     */
    private static String generateTableName(String filename) {
-      return sanitize(filename.substring(0, filename.indexOf('.')));
-   }
-
-   /**
-    * map Paradocx types to SQL types
-    *
-    * @throws PDXReaderException
-    */
-   private static String mapTypes(FieldType fieldType) throws PDXReaderException {
-      try {
-         String ret = "";
-         switch (fieldType) {
-            case A:
-               ret = "VARCHAR(255)";
-               break;
-            case D:
-               ret = "DATETIME";
-               break;
-            case S:
-               ret = "INTEGER";
-               break;
-            case I:
-               ret = "INTEGER";
-               break;
-            case C:
-               ret = "INTEGER";
-               break;
-            case N:
-               ret = "DOUBLE";
-               break;
-            case L:
-               ret = "INTEGER";
-               break;
-            case M:
-               ret = "BLOB";
-               break;
-            case B:
-               ret = "BLOB";
-               break;
-            case E:
-               ret = "BLOB";
-               break;
-            case O:
-               ret = "BLOB";
-               break;
-            case G:
-               ret = "BLOB";
-               break;
-            case T:
-               ret = "INTEGER";
-               break;
-            case TS:
-               ret = "INTEGER";
-               break;
-            case Auto:
-               ret = "INTEGER";
-               break;
-            case BCD:
-               ret = "INTEGER";
-               break;
-            case Bytes:
-               ret = "BLOB";
-               break;
-            default:
-               throw new PDXReaderException("Unable to map type '" + fieldType + "'");
-         }
-         return ret;
-      } catch (final Exception e) {
-         throw new PDXReaderException("Exception in mapTypes", e);
-      }
-   }
-
-   /**
-    * replace illegal chars with underscores
-    */
-   public static String sanitize(String str) {
-      String ret = "";
-      for (int i = 0; i < str.length(); i++) {
-         char c = str.charAt(i);
-         for (int j = 0; j < ILLEGAL_CHARS.length(); j++) {
-            if (str.charAt(i) == ILLEGAL_CHARS.charAt(j)) {
-               c = '_';
-               break;
-            }
-         }
-         ret += c;
-      }
-      return ret;
+      return SQLSanitize.sanitize(filename.substring(0, filename.indexOf('.')));
    }
 
    /**
