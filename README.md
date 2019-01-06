@@ -56,7 +56,7 @@ The `record` method will be called once per record in the table file.
 SQL Output
 --------------
 
-Versions 1.6+ contain the class `PDXTableReaderSQLListenerImpl`, a class which produces SQL `CREATE` and `INSERT` SQL.
+Versions 1.6+ contain the class `PDXTableReaderSQLListenerImpl`, a class which produces `CREATE` and `INSERT` SQL.
  
 
 
