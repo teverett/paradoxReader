@@ -21,6 +21,10 @@ public class PDXReader {
     * file option
     */
    private static final String FILE_OPTION = "file";
+   /**
+    * dir option
+    */
+   private static final String DIR_OPTION = "dir";
 
    public static void main(String[] args) {
       try {
@@ -29,7 +33,9 @@ public class PDXReader {
           * options
           */
          final Options options = new Options();
-         final Option oo = Option.builder().argName(FILE_OPTION).longOpt(FILE_OPTION).type(String.class).hasArg().required(true).desc("file to read").build();
+         Option oo = Option.builder().argName(FILE_OPTION).longOpt(FILE_OPTION).type(String.class).hasArg().required(false).desc("file to read").build();
+         options.addOption(oo);
+         oo = Option.builder().argName(DIR_OPTION).longOpt(DIR_OPTION).type(String.class).hasArg().required(false).desc("dir to read").build();
          options.addOption(oo);
          /*
           * parse
@@ -48,9 +54,18 @@ public class PDXReader {
                   final DBTableFile pdxFile = new DBTableFile();
                   final PDXTableListener pdxReaderListener = new PDXTableReaderCSVListenerImpl();
                   pdxFile.read(inputFile, pdxReaderListener);
-                  System.out.println("done");
                }
             }
+            /*
+             * get dir
+             */
+            final String dirname = cmd.getOptionValue(DIR_OPTION);
+            if (null != dirname) {
+               final Database database = new Database(dirname);
+               final PDXTableListener pdxReaderListener = new PDXTableReaderCSVListenerImpl();
+               database.readTables(pdxReaderListener);
+            }
+            System.out.println("done");
          } catch (final Exception e) {
             e.printStackTrace();
             final HelpFormatter formatter = new HelpFormatter();
