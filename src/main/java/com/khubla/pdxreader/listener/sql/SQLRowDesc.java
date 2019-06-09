@@ -1,5 +1,6 @@
 package com.khubla.pdxreader.listener.sql;
 
+import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -33,14 +34,18 @@ public class SQLRowDesc {
     * get the SQL value for a given Paradox value
     */
    public static String getSQLValue(FieldType fieldType, String paradoxValue) {
-      if (fieldType == FieldType.D) {
-         final Date date = ParadoxDate.getDateFromParadoxDate(Integer.parseInt(paradoxValue));
-         return SIMPLE_DATE_FORMAT.format(date);
-      } else if (fieldType == FieldType.T) {
-         final Date date = new Date(Integer.parseInt(ParadoxTime.getTimeFromParadoxTime(paradoxValue.getBytes())));
-         return SIMPLE_DATE_FORMAT.format(date);
+      if (null != paradoxValue) {
+         if (fieldType == FieldType.D) {
+            final Date date = ParadoxDate.getDateFromParadoxDate(Integer.parseInt(paradoxValue));
+            return SIMPLE_DATE_FORMAT.format(date);
+         } else if (fieldType == FieldType.T) {
+            final Date date = new Date(Integer.parseInt(ParadoxTime.getTimeFromParadoxTime(paradoxValue.getBytes(Charset.forName("UTF-8")))));
+            return SIMPLE_DATE_FORMAT.format(date);
+         } else {
+            return paradoxValue;
+         }
       } else {
-         return paradoxValue;
+         return null;
       }
    }
 
