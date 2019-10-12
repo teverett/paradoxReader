@@ -8,7 +8,7 @@
 	<description>A reader for Paradox database files</description>
 	<properties>
 		<target.jvm>1.7</target.jvm>
-		<spotless.version>1.17.0</spotless.version>
+		<spotless.version>1.25.1</spotless.version>
 		<required-maven-version>3.3.1</required-maven-version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
@@ -30,6 +30,7 @@
 	<scm>
 		<connection>scm:git:https://github.com/teverett/paradoxReader.git</connection>
 		<tag>HEAD</tag>
+		<url>https://github.com/teverett/paradoxReader</url>
 	</scm>
 	<organization>
 		<name>khubla.com</name>
@@ -49,7 +50,7 @@
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
-			<version>27.1-jre</version>
+			<version>28.1-jre</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-io</groupId>
@@ -62,7 +63,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.8.0</version>
+				<version>3.8.1</version>
 				<configuration>
 					<source>${target.jvm}</source>
 					<target>${target.jvm}</target>
@@ -130,7 +131,7 @@
 			<plugin>
 				<groupId>org.owasp</groupId>
 				<artifactId>dependency-check-maven</artifactId>
-				<version>5.0.0-M2</version>
+				<version>5.2.2</version>
 				<executions>
 					<execution>
 						<goals>
@@ -160,7 +161,7 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-source-plugin</artifactId>
-						<version>3.0.1</version>
+						<version>3.1.0</version>
 						<executions>
 							<execution>
 								<id>attach-sources</id>
@@ -173,7 +174,7 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-javadoc-plugin</artifactId>
-						<version>3.0.1</version>
+						<version>3.1.1</version>
 						<executions>
 							<execution>
 								<id>attach-javadocs</id>
