@@ -50,20 +50,14 @@ public class DBTableValue {
                   value = StringUtil.readString(data);
                   break;
                case D:
-                  /*
-                   * date. number days since jan 1, 1 AD
-                   */
-                  final long d = ByteBuffer.wrap(data).order(ByteOrder.LITTLE_ENDIAN).getShort();
+               case I:
+                  data[0] = (byte) (data[0] & 0x7f); // handle unsigned integers
+                  final long d = ByteBuffer.wrap(data).order(ByteOrder.BIG_ENDIAN).getInt();
                   value = Long.toString(d);
                   break;
                case S:
                   final long s = ByteBuffer.wrap(data).order(ByteOrder.LITTLE_ENDIAN).getShort();
                   value = Long.toString(s);
-                  break;
-               case I:
-                  data[0] = (byte) (data[0] & 0x7f); // handle unsigned integers
-                  final long i = ByteBuffer.wrap(data).order(ByteOrder.BIG_ENDIAN).getInt();
-                  value = Long.toString(i);
                   break;
                case C:
                   /*

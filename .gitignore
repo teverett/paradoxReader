@@ -7,3 +7,5 @@
 /**/test-output
 dependency-reduced-pom.xml
 *.versionsBackup
+/.idea
+/pdxreader.iml
