@@ -1,23 +1,23 @@
 package test.com.khubla.pdxreader;
 
-import java.io.File;
+import java.io.*;
 
-import org.testng.Assert;
-import org.testng.annotations.Test;
+import org.junit.*;
 
-import com.khubla.pdxreader.listener.PDXIndexReaderConsoleListenerImpl;
-import com.khubla.pdxreader.px.PXFile;
+import com.khubla.pdxreader.listener.*;
+import com.khubla.pdxreader.px.*;
 
-@Test(enabled = false)
 public class TestSinglePXFile {
-   public void testRead() {
-      try {
-         File inputFile = new File("src/test/resources/examples/MTDEMO/VIDORDER.PX");
-         final PXFile pxFile = new PXFile();
-         pxFile.read(inputFile, new PDXIndexReaderConsoleListenerImpl());
-      } catch (final Exception e) {
-         e.printStackTrace();
-         Assert.fail();
-      }
-   }
+	@Ignore
+	@Test
+	public void testRead() {
+		try {
+			final File inputFile = new File("src/test/resources/examples/MTDEMO/VIDORDER.PX");
+			final PXFile pxFile = new PXFile();
+			pxFile.read(inputFile, new PDXIndexReaderConsoleListenerImpl());
+		} catch (final Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+	}
 }

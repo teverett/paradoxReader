@@ -1,25 +1,24 @@
 package test.com.khubla.pdxreader;
 
-import java.io.File;
+import java.io.*;
 
-import org.testng.Assert;
-import org.testng.annotations.Test;
+import org.junit.*;
 
-import com.khubla.pdxreader.api.PDXTableListener;
-import com.khubla.pdxreader.db.DBTableFile;
-import com.khubla.pdxreader.listener.PDXTableReaderDebugListener;
+import com.khubla.pdxreader.api.*;
+import com.khubla.pdxreader.db.*;
+import com.khubla.pdxreader.listener.*;
 
-@Test(enabled = true)
 public class TestSingleDBFile {
-   public void testRead() {
-      try {
-         File inputFile = new File("src/test/resources/examples/HERCULES.DB");
-         final DBTableFile pdxFile = new DBTableFile();
-         final PDXTableListener pdxReaderListener = new PDXTableReaderDebugListener();
-         pdxFile.read(inputFile, pdxReaderListener);
-      } catch (final Exception e) {
-         e.printStackTrace();
-         Assert.fail();
-      }
-   }
+	@Test
+	public void testRead() {
+		try {
+			final File inputFile = new File("src/test/resources/examples/HERCULES.DB");
+			final DBTableFile pdxFile = new DBTableFile();
+			final PDXTableListener pdxReaderListener = new PDXTableReaderDebugListener();
+			pdxFile.read(inputFile, pdxReaderListener);
+		} catch (final Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+	}
 }
