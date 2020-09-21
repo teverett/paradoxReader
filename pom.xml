@@ -8,7 +8,7 @@
 	<description>A reader for Paradox database files</description>
 	<properties>
 		<target.jvm>1.7</target.jvm>
-		<spotless.version>2.4.0</spotless.version>
+		<spotless.version>2.4.1</spotless.version>
 		<required-maven-version>3.3.1</required-maven-version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<junit.version>4.13</junit.version>
