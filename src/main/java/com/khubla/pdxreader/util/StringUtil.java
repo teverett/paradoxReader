@@ -39,7 +39,7 @@ public class StringUtil {
       final StringBuilder stringBuilder = new StringBuilder();
       final CharBuffer charBuffer = Charset.forName(encoding).decode(ByteBuffer.wrap(data));
       stringBuilder.append(charBuffer);
-      return stringBuilder.toString().trim();
+      return stringBuilder.toString();
    }
 
    /**
@@ -55,10 +55,15 @@ public class StringUtil {
    public static String readString(LittleEndianDataInputStream littleEndianDataInputStream, String encoding) throws IOException {
       final ByteBuffer byteBuffer = ByteBuffer.allocate(MAX_STRING);
       Byte c = littleEndianDataInputStream.readByte();
+      int len = 0;
       while (c != 0) {
          byteBuffer.put(c);
          c = littleEndianDataInputStream.readByte();
+         len++;
       }
-      return readString(byteBuffer.array(), encoding);
+      byteBuffer.position(0);
+      byte[] data = new byte[len];
+      byteBuffer.get(data,0,len);
+      return readString(data, encoding);
    }
 }
