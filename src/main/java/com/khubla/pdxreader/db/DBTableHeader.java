@@ -520,11 +520,11 @@ public class DBTableHeader {
          if (fileVersionID == 0x0c) {
             final byte[] fn = new byte[261];
             littleEndianDataInputStream.read(fn);
-            embeddedFilename = StringUtil.readString(fn);
+            embeddedFilename = StringUtil.readString(fn).trim();
          } else {
             final byte[] fn = new byte[79];
             littleEndianDataInputStream.read(fn);
-            embeddedFilename = StringUtil.readString(fn);
+            embeddedFilename = StringUtil.readString(fn).trim();
          }
          /*
           * now read the field names
