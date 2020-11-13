@@ -8,14 +8,12 @@
 	<description>A reader for Paradox database files</description>
 	<properties>
 		<target.jvm>1.7</target.jvm>
-		<spotless.version>2.6.0</spotless.version>
 		<required-maven-version>3.3.1</required-maven-version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<junit.version>4.13.1</junit.version>
 		<commons-cli.version>1.4</commons-cli.version>
 		<commons-io.version>2.8.0</commons-io.version>
 		<guava.version>30.0-jre</guava.version>
-		<dependency-check-maven.version>6.0.3</dependency-check-maven.version>
 	</properties>
 	<developers>
 		<developer>
@@ -96,25 +94,6 @@
 				</executions>
 			</plugin>
 			<plugin>
-				<groupId>com.diffplug.spotless</groupId>
-				<artifactId>spotless-maven-plugin</artifactId>
-				<version>${spotless.version}</version>
-				<configuration>
-					<lineEndings>UNIX</lineEndings>
-					<encoding>UTF-8</encoding>
-					<java>
-						<eclipse>
-							<file>${maven.multiModuleProjectDirectory}/format.eclipse.xml</file>
-							<version>4.7.1</version>
-						</eclipse>
-						<removeUnusedImports />
-						<importOrder>
-							<file>${maven.multiModuleProjectDirectory}/format.importorder</file>
-						</importOrder>
-					</java>
-				</configuration>
-			</plugin>
-			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-enforcer-plugin</artifactId>
 				<version>3.0.0-M3</version>
@@ -131,18 +110,6 @@
 								</requireMavenVersion>
 							</rules>
 						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.owasp</groupId>
-				<artifactId>dependency-check-maven</artifactId>
-				<version>6.0.3</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>check</goal>
-						</goals>
 					</execution>
 				</executions>
 			</plugin>

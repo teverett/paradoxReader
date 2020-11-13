@@ -1,5 +1,4 @@
 ![CI](https://github.com/teverett/paradoxReader/workflows/CI/badge.svg)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/0879c97ba4134bacace2e0260d8547da)](https://www.codacy.com/app/teverett/paradoxReader?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=teverett/paradoxReader&amp;utm_campaign=Badge_Grade)
 [![DepShield Badge](https://depshield.sonatype.org/badges/teverett/paradoxReader/depshield.svg)](https://depshield.github.io)
 
 paradoxReader
