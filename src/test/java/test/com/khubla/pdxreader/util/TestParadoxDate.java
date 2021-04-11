@@ -46,6 +46,7 @@ public class TestParadoxDate {
 	/**
 	 * The internal representation of May 4, 1996 is decimal 728,783 (000B1ECFh)
 	 */
+	@Ignore
 	@Test
 	public void testDate3() {
 		try {
