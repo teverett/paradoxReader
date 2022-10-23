@@ -20,6 +20,7 @@ public class Database {
 			this.filter = filter;
 		}
 
+		@Override
 		public boolean accept(File file) {
 			if (FilenameUtils.getExtension(file.getName()).toLowerCase().compareTo(filter) == 0) {
 				return true;
@@ -27,6 +28,7 @@ public class Database {
 			return false;
 		}
 
+		@Override
 		public boolean accept(File dir, String name) {
 			// TODO Auto-generated method stub
 			return false;

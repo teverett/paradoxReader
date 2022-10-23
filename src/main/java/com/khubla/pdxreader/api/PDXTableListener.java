@@ -1,19 +1,18 @@
 package com.khubla.pdxreader.api;
 
-import java.util.List;
+import java.util.*;
 
-import com.khubla.pdxreader.db.DBTableHeader;
-import com.khubla.pdxreader.db.DBTableValue;
+import com.khubla.pdxreader.db.*;
 
 /**
  * @author tom
  */
 public interface PDXTableListener {
-   void finish();
+	void finish();
 
-   void header(DBTableHeader pdxTableHeader);
+	void header(DBTableHeader pdxTableHeader);
 
-   void record(List<DBTableValue> values);
+	void record(List<DBTableValue> values);
 
-   void start(String filename);
+	void start(String filename);
 }

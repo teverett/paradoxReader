@@ -1,17 +1,17 @@
 package com.khubla.pdxreader.api;
 
-import com.khubla.pdxreader.px.PXFileHeader;
-import com.khubla.pdxreader.px.block.PXIndexBlockRecord;
+import com.khubla.pdxreader.px.*;
+import com.khubla.pdxreader.px.block.*;
 
 /**
  * @author tom
  */
 public interface PDXIndexListener {
-   void finish();
+	void finish();
 
-   void header(PXFileHeader pxFileHeader);
+	void header(PXFileHeader pxFileHeader);
 
-   void record(PXIndexBlockRecord pxIndexBlockRecord);
+	void record(PXIndexBlockRecord pxIndexBlockRecord);
 
-   void start();
+	void start();
 }

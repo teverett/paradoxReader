@@ -1,92 +1,93 @@
 package com.khubla.pdxreader.mb;
 
-import java.io.IOException;
+import java.io.*;
 
-import com.google.common.io.LittleEndianDataInputStream;
-import com.khubla.pdxreader.api.PDXReaderException;
+import com.google.common.io.*;
+import com.khubla.pdxreader.api.*;
 
 public abstract class MBTableBlock {
-   /**
-    * record type
-    */
-   public static enum RecordType {
-      header(0), single(2), suballocated(3), free(4);
-      private int value;
+	/**
+	 * record type
+	 */
+	public static enum RecordType {
+		header(0), single(2), suballocated(3), free(4);
 
-      private RecordType(int value) {
-         this.value = value;
-      }
+		private int value;
 
-      public int getValue() {
-         return value;
-      }
+		private RecordType(int value) {
+			this.value = value;
+		}
 
-      public void setValue(int value) {
-         this.value = value;
-      }
-   }
+		public int getValue() {
+			return value;
+		}
 
-   protected static final int BLOCK_SIZE_MULTIPLIER = 4096;
+		public void setValue(int value) {
+			this.value = value;
+		}
+	}
 
-   public static RecordType getRecordType(int type) throws Exception {
-      switch (type) {
-         case -1:
-            // no idea what a -1 record type is...
-            return null;
-         case 0:
-            return RecordType.header;
-         case 2:
-            return RecordType.single;
-         case 3:
-            return RecordType.suballocated;
-         case 4:
-            return RecordType.free;
-         default:
-            throw new Exception("Unknown record type '" + type + "'");
-      }
-   }
+	protected static final int BLOCK_SIZE_MULTIPLIER = 4096;
 
-   /**
-    * offset of this block from the start of the file
-    */
-   protected int fileOffset;
-   /**
-    * record type
-    */
-   protected final RecordType recordType;
-   /**
-    * sizeofBlock
-    */
-   protected int sizeofBlock; // Size of block divided by 4k (1 because the header is 4k)
+	public static RecordType getRecordType(int type) throws Exception {
+		switch (type) {
+			case -1:
+				// no idea what a -1 record type is...
+				return null;
+			case 0:
+				return RecordType.header;
+			case 2:
+				return RecordType.single;
+			case 3:
+				return RecordType.suballocated;
+			case 4:
+				return RecordType.free;
+			default:
+				throw new Exception("Unknown record type '" + type + "'");
+		}
+	}
 
-   public MBTableBlock(RecordType recordType) {
-      this.recordType = recordType;
-   }
+	/**
+	 * offset of this block from the start of the file
+	 */
+	protected int fileOffset;
+	/**
+	 * record type
+	 */
+	protected final RecordType recordType;
+	/**
+	 * sizeofBlock
+	 */
+	protected int sizeofBlock; // Size of block divided by 4k (1 because the header is 4k)
 
-   public int getFileOffset() {
-      return fileOffset;
-   }
+	public MBTableBlock(RecordType recordType) {
+		this.recordType = recordType;
+	}
 
-   public RecordType getRecordType() {
-      return recordType;
-   }
+	public int getFileOffset() {
+		return fileOffset;
+	}
 
-   public int getSizeofBlock() {
-      return sizeofBlock;
-   }
+	public RecordType getRecordType() {
+		return recordType;
+	}
 
-   public int preRead(LittleEndianDataInputStream littleEndianDataInputStream) throws IOException {
-      sizeofBlock = BLOCK_SIZE_MULTIPLIER * littleEndianDataInputStream.readUnsignedShort();
-      return 2;
-   }
+	public int getSizeofBlock() {
+		return sizeofBlock;
+	}
 
-   public abstract void read(LittleEndianDataInputStream littleEndianDataInputStream) throws PDXReaderException;
+	public int preRead(LittleEndianDataInputStream littleEndianDataInputStream) throws IOException {
+		sizeofBlock = BLOCK_SIZE_MULTIPLIER * littleEndianDataInputStream.readUnsignedShort();
+		return 2;
+	}
 
-   public void setFileOffset(int fileOffset) {
-      this.fileOffset = fileOffset;
-   }
+	public abstract void read(LittleEndianDataInputStream littleEndianDataInputStream) throws PDXReaderException;
 
-   public void setSizeofBlock(int sizeofBlock) {
-      this.sizeofBlock = sizeofBlock;
-   }
+	public void setFileOffset(int fileOffset) {
+		this.fileOffset = fileOffset;
+	}
+
+	public void setSizeofBlock(int sizeofBlock) {
+		this.sizeofBlock = sizeofBlock;
+	}
 }
