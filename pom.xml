@@ -13,7 +13,7 @@
 		<junit.version>4.13.2</junit.version>
 		<commons-cli.version>1.6.0</commons-cli.version>
 		<commons-io.version>2.15.1</commons-io.version>
-		<guava.version>33.0.0-jre</guava.version>
+		<guava.version>33.2.0-jre</guava.version>
 	</properties>
 	<developers>
 		<developer>
