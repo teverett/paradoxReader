@@ -12,7 +12,7 @@ import com.khubla.pdxreader.db.*;
  * Asserts decoded values from the example tables, which are Borland's DBDEMOS sample data.
  */
 public class TestNumericFields {
-	private static List<Map<String, String>> read(String filename) throws Exception {
+	static List<Map<String, String>> read(String filename) throws Exception {
 		final List<Map<String, String>> rows = new ArrayList<Map<String, String>>();
 		new DBTableFile().read(new File(filename), new PDXTableListener() {
 			private List<DBTableField> fields;

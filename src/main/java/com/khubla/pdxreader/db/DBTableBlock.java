@@ -62,9 +62,12 @@ public class DBTableBlock {
 	}
 
 	/**
-	 * read data. This assumes that the inputStream is on byte 0 from the start of the block
+	 * read data. This assumes that the inputStream is on byte 0 from the start of the block.
+	 * <p>
+	 * Read the block's records. A block need not be full, and blocks before the last are often not: Paradox leaves room after deletes and splits. The block header says how many records it holds, as the
+	 * offset of the last one; anything after that is free space, which may still contain the bytes of a deleted record.
 	 */
-	public void read(PDXTableListener pdxReaderListener, InputStream inputStream, long numrecords) throws PDXReaderException {
+	public void read(PDXTableListener pdxReaderListener, InputStream inputStream, int recordSize) throws PDXReaderException {
 		try {
 			records = new ArrayList<DBTableRecord>();
 			/*
@@ -73,8 +76,9 @@ public class DBTableBlock {
 			final LittleEndianDataInputStream littleEndianDataInputStream = new LittleEndianDataInputStream(inputStream);
 			readHeader(littleEndianDataInputStream);
 			/*
-			 * read the records
+			 * read the records the block holds
 			 */
+			final int numrecords = recordsInBlock(dbTableBlockHeader.getOffsetLastRecord(), recordSize);
 			for (int i = 0; i < numrecords; i++) {
 				final DBTableRecord pdxTableRecord = new DBTableRecord();
 				pdxTableRecord.read(pdxReaderListener, fields, inputStream);
@@ -83,6 +87,14 @@ public class DBTableBlock {
 		} catch (final Exception e) {
 			throw new PDXReaderException("Exception in read", e);
 		}
+	}
+
+	/**
+	 * The offset of the last record is a signed short: an empty block holds minus the record size.
+	 */
+	public static int recordsInBlock(int offsetLastRecord, int recordSize) {
+		final int offset = (short) offsetLastRecord;
+		return offset < 0 ? 0 : (offset / recordSize) + 1;
 	}
 
 	/**
