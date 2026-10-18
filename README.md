@@ -1,5 +1,4 @@
 ![CI](https://github.com/teverett/paradoxReader/workflows/CI/badge.svg)
-[![DepShield Badge](https://depshield.sonatype.org/badges/teverett/paradoxReader/depshield.svg)](https://depshield.github.io)
 
 paradoxReader
 =============
