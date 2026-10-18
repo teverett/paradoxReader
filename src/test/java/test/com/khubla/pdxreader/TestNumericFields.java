@@ -19,6 +19,9 @@ public class TestNumericFields {
 
 			@Override
 			public void finish() {
+				/*
+				 * nothing to close: rows are collected as they arrive
+				 */
 			}
 
 			@Override
@@ -37,6 +40,9 @@ public class TestNumericFields {
 
 			@Override
 			public void start(String filename) {
+				/*
+				 * the filename is already known to the caller
+				 */
 			}
 		});
 		return rows;
