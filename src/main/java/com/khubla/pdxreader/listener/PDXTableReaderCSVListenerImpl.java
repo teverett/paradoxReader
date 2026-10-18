@@ -52,7 +52,12 @@ public class PDXTableReaderCSVListenerImpl implements PDXTableListener {
 			} else {
 				System.out.print(",");
 			}
-			System.out.print(pdxTableValue.getValue());
+			/*
+			 * a null field is an empty cell, not the word null
+			 */
+			if (null != pdxTableValue.getValue()) {
+				System.out.print(pdxTableValue.getValue());
+			}
 		}
 		System.out.println();
 	}

@@ -1,7 +1,6 @@
 package com.khubla.pdxreader.db;
 
 import java.io.*;
-import java.nio.*;
 
 import com.khubla.pdxreader.api.*;
 import com.khubla.pdxreader.db.DBTableField.*;
@@ -49,30 +48,22 @@ public class DBTableValue {
 						break;
 					case D:
 					case I:
-						data[0] = (byte) (data[0] & 0x7f); // handle unsigned integers
-						final long d = ByteBuffer.wrap(data).order(ByteOrder.BIG_ENDIAN).getInt();
-						value = Long.toString(d);
-						break;
 					case S:
-						final long s = ByteBuffer.wrap(data).order(ByteOrder.LITTLE_ENDIAN).getShort();
-						value = Long.toString(s);
+					case Auto:
+						value = toString(ParadoxNumber.decodeInteger(data));
 						break;
 					case C:
+					case N:
 						/*
-						 * currency
+						 * currency is stored exactly as a number is
 						 */
-						final double dollars = ByteBuffer.wrap(data).order(ByteOrder.BIG_ENDIAN).getDouble();
-						value = Double.toString(dollars);
+						value = toString(ParadoxNumber.decodeDouble(data));
 						break;
 					case M:
 						/*
 						 * Memo
 						 */
 						value = StringUtil.byteArrayToString(data);
-						break;
-					case N:
-						final long n = ByteBuffer.wrap(data).order(ByteOrder.LITTLE_ENDIAN).getLong();
-						value = Double.toString(n);
 						break;
 					case L:
 						/*
@@ -122,10 +113,6 @@ public class DBTableValue {
 					case TS:
 						value = ParadoxTime.getTimeFromParadoxTime(data);
 						break;
-					case Auto:
-						final short auto = ByteBuffer.wrap(data).order(ByteOrder.LITTLE_ENDIAN).getShort();
-						value = Short.toString(auto);
-						break;
 					default:
 						throw new Exception("Unknown field type '" + fieldType.name() + "'");
 				}
@@ -133,6 +120,10 @@ public class DBTableValue {
 		} catch (final Exception e) {
 			throw new PDXReaderException("Exception in read", e);
 		}
+	}
+
+	private static String toString(Object number) {
+		return null == number ? null : number.toString();
 	}
 
 	public void setType(DBTableField.FieldType type) {
