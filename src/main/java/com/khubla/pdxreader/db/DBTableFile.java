@@ -106,14 +106,10 @@ public class DBTableFile {
 				 */
 				final int recordsPerBlock = dbTableHeader.calculateRecordsPerBlock();
 				/*
-				 * total records remaining to read
+				 * walk every block in the file. blocksInUse is a count, not a range: a free block can sit between used ones, and a used block after it would be missed. A free block reads as empty.
 				 */
-				long recordsremaining = dbTableHeader.getNumberRecords();
-				/*
-				 * walk blocks
-				 */
-				final int blocksInUse = dbTableHeader.getBlocksInUse();
-				for (int i = 0; i < blocksInUse; i++) {
+				final int totalBlocks = dbTableHeader.getTotalBlocksInFile();
+				for (int i = 0; i < totalBlocks; i++) {
 					/*
 					 * block
 					 */
@@ -123,17 +119,9 @@ public class DBTableFile {
 					 */
 					bufferedInputStream.mark(MAX_BLOCK_SIZE);
 					/*
-					 * read the block data
+					 * read the block data; the block's own header says how many records it holds
 					 */
-					long recordsToRead = recordsPerBlock;
-					if (recordsremaining < recordsPerBlock) {
-						recordsToRead = recordsremaining;
-					}
-					pdxTableBlock.read(pdxReaderListener, bufferedInputStream, recordsToRead);
-					/*
-					 * fewer records
-					 */
-					recordsremaining -= recordsToRead;
+					pdxTableBlock.read(pdxReaderListener, bufferedInputStream, dbTableHeader.getRecordBufferSize());
 					/*
 					 * store it. blocks are numbered from 1, not from 0.
 					 */
